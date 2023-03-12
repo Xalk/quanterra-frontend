@@ -1,0 +1,45 @@
+.root :global {
+
+  .MuiDrawer-paper {
+    background-color: #080B16;
+  }
+
+  .MuiListItem-root {
+    padding: 0 20px;
+    margin-bottom: 10px;
+
+  }
+
+  .MuiListItemButton-root {
+    padding: 5px;
+    border-radius: 5px;
+    border-color: hsla(0,0%,100%,.05);
+    &.Mui-selected {
+      color: #4fc3f7;
+      background-color: #17233D;
+    }
+  }
+
+
+  .MuiListItemIcon-root {
+    color: inherit;
+    min-width: auto;
+    margin-right: 20px;
+
+    svg {
+      font-size: 20px
+    }
+  }
+}
+
+
+.MuiListItem {
+
+}
+
+
+
+
+
+
+
