@@ -2,17 +2,18 @@ import React from "react";
 import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
-import PersonalTable from "@/components/PersonalTable";
-import ShipBarChart from "@/components/BarChart";
+import PersonalTable from "@/components/screens/ships/PersonalTable";
+import ShipBarChart from "@/components/charts/BarChart";
 
 import dynamic from "next/dynamic";
 
 const ShipPieChartWithoutSSR = dynamic(
-    import("@/components/PieChart"),
+    import("@/components/charts/PieChart"),
     {ssr: false}
 );
 
-import s from '@/styles/ships.module.scss'
+import s from '@/components/screens/ships/ships.module.scss'
+import Dashboard from "@/components/layout/Dashboard";
 
 interface ShipProps {
 
@@ -24,19 +25,17 @@ const Ship: NextPage<ShipProps> = () => {
 
 
     return (
-        <Box>
-            ShID: {router.query.id}
+        <Dashboard>
+            <Box>
+                ShID: {router.query.id}
+                <Box className={s.charts}>
+                    <ShipBarChart/>
 
-            <Box className={s.charts}>
-                <ShipBarChart/>
-
-                <ShipPieChartWithoutSSR/>
+                    <ShipPieChartWithoutSSR/>
+                </Box>
+                <PersonalTable/>
             </Box>
-
-            <PersonalTable/>
-
-
-        </Box>
+        </Dashboard>
     );
 };
 

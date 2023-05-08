@@ -1,8 +1,12 @@
+import Dashboard from "@/components/layout/Dashboard";
+
 const Personal = () => {
     return (
-        <>
-            PERSONAL
-        </>
+        <Dashboard>
+            <>
+                PERSONAL
+            </>
+        </Dashboard>
     );
 };
 

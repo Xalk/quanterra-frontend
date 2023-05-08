@@ -11,14 +11,15 @@ import PeopleIcon from '@mui/icons-material/People';
 import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
 import PublicIcon from '@mui/icons-material/Public';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import Link from "next/link";
-import s from '../styles/nav.module.scss'
+import s from './navigator.module.scss'
 import {useRouter} from "next/router";
+import Image from "next/image";
+import logo from '@/assets/logo.svg'
+import Typography from "@mui/material/Typography";
 
 
 let categories = [
@@ -41,9 +42,9 @@ let categories = [
     {
         id: 'Quality',
         children: [
-            { id: 'Analytics', icon: <SettingsIcon /> , targetUrl: '/personal'},
-            { id: 'Performance', icon: <TimerIcon /> , targetUrl: '/personal'},
-            { id: 'Test Lab', icon: <PhonelinkSetupIcon />, targetUrl: '/personal' },
+            {id: 'Analytics', icon: <SettingsIcon/>, targetUrl: '/personal'},
+            {id: 'Performance', icon: <TimerIcon/>, targetUrl: '/personal'},
+            {id: 'Test Lab', icon: <PhonelinkSetupIcon/>, targetUrl: '/personal'},
         ],
     },
 ];
@@ -64,20 +65,31 @@ const itemCategory = {
 };
 
 
-
 const isActive = (route: string) => {
     return route === useRouter().pathname
 }
 
-function Navigator(props: DrawerProps) {
+function Index(props: DrawerProps) {
     const {...other} = props;
 
 
     return (
         <Drawer variant="permanent" {...other} className={s.root}>
             <List disablePadding>
-                <ListItem sx={{...item, ...itemCategory, fontSize: 22, color: '#fff'}}>
-                    Quanterra
+                <ListItem sx={{...item, ...itemCategory, fontSize: 22, color: '#fff', px: '20px'}}>
+                    <Box sx={{
+                        display: 'flex',
+                        width: "100%",
+                        justifyContent: 'start',
+                        alignItems: 'end',
+                        // gap: '5px',
+                        py: '10px'
+                    }}>
+                        <Image src={logo} alt={'logo'} width={48}/>
+                        <Typography sx={{fontSize: '26px', fontWeight: '400'}}>
+                            uanterra
+                        </Typography>
+                    </Box>
                 </ListItem>
                 {categories.map(({id, children}) => (
                     <Box key={id} sx={{bgcolor: '#080B16'}}>
@@ -85,9 +97,10 @@ function Navigator(props: DrawerProps) {
                             <ListItemText sx={{color: '#fff'}}>{id}</ListItemText>
                         </ListItem>
                         {children.map(({id: childId, icon, targetUrl}) => (
-                            <Link href={targetUrl}>
+                            <Link key={id} href={targetUrl}>
                                 <ListItem disablePadding key={childId}>
-                                    <ListItemButton sx={item} className={s.MuiListItemButton} selected={isActive(targetUrl)}>
+                                    <ListItemButton sx={item} className={s.MuiListItemButton}
+                                                    selected={isActive(targetUrl)}>
                                         <ListItemIcon>{icon}</ListItemIcon>
                                         <ListItemText>{childId}</ListItemText>
                                     </ListItemButton>
@@ -102,4 +115,4 @@ function Navigator(props: DrawerProps) {
     );
 }
 
-export default Navigator;
+export default Index;

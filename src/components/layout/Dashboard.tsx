@@ -4,9 +4,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Navigator from '../components/Navigator'
-import Content from '../components/Content'
-import Header from '../components/Header'
+import Navigator from './Navigator'
+import Content from '../Content'
+import Header from './Header'
 import Link from "next/link";
 import {NextPage} from "next";
 
