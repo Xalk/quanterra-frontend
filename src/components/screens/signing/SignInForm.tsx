@@ -19,7 +19,8 @@ import {Alert} from "@mui/material";
 import Image from "next/image";
 import {loginSchema} from "@/validations/auth.validation";
 import {yupResolver} from '@hookform/resolvers/yup';
-
+import {IEmailPassword} from "@/types/user.interface";
+import {useActions} from "@/hooks/useActions";
 
 
 function Copyright(props: any) {
@@ -36,93 +37,95 @@ function Copyright(props: any) {
 }
 
 
-
 interface SignInFormProps {
     onOpenSignUp: () => void
 }
 
 
 const SignInForm: React.FC<SignInFormProps> = ({onOpenSignUp}) => {
+
+    const {login} = useActions()
     const [responseError, setResponseError] = useState('')
 
     const {register, handleSubmit, formState: {errors}} = useForm<any>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit: SubmitHandler<any> = async formData => {
 
+    const onSubmit: SubmitHandler<IEmailPassword> = async formData => {
+        login(formData)
     };
 
 
     return (
-            <Container component="main" maxWidth="xs">
-                <CssBaseline/>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline/>
 
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
 
-                >
-                    <Avatar sx={{m: 1, bgcolor: "transparent", width: "60px", height: "60px"}}>
-                        <Image src={logo} alt="logo" width={50}/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            autoComplete="email"
-                            autoFocus
-                            {...register("email", {required: "This field is required"})}
-                            error={Boolean(errors.email)}
-                            // helperText={errors.email ? errors.email.message : " "}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            {...register("password", {required: "This field is required"})}
-                            error={Boolean(errors.password)}
-                            // helperText={errors.password ? errors.password.message : " "}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox color="primary"/>}
-                            label="Remember me"
-                            {...register("rememberMe")}
-                        />
-                        {responseError && <Alert severity="error">{responseError}</Alert>}
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{mt: 3, mb: 2, color: 'white'}}
-                        >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link href="#" variant="body2" onClick={onOpenSignUp}>
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
+            >
+                <Avatar sx={{m: 1, bgcolor: "transparent", width: "60px", height: "60px"}}>
+                    <Image src={logo} alt="logo" width={50}/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        autoComplete="email"
+                        autoFocus
+                        {...register("email", {required: "This field is required"})}
+                        error={Boolean(errors.email)}
+                        // helperText={errors.email ? errors.email.message : " "}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        {...register("password", {required: "This field is required"})}
+                        error={Boolean(errors.password)}
+                        // helperText={errors.password ? errors.password.message : " "}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox color="primary"/>}
+                        label="Remember me"
+                        {...register("rememberMe")}
+                    />
+                    {responseError && <Alert severity="error">{responseError}</Alert>}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2, color: 'white'}}
+                    >
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item>
+                            <Link href="#" variant="body2" onClick={onOpenSignUp}>
+                                {"Don't have an account? Sign Up"}
+                            </Link>
                         </Grid>
-                    </Box>
+                    </Grid>
                 </Box>
-                <Copyright sx={{mt: 8, mb: 4}}/>
-            </Container>
+            </Box>
+            <Copyright sx={{mt: 8, mb: 4}}/>
+        </Container>
     );
 }
 

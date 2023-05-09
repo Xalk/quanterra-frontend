@@ -8,7 +8,7 @@ import {
 import { AuthService } from '@/services/auth/auth.service'
 
 const axiosOptions = {
-    baseURL: process.env.SERVER_URL,
+    baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
     headers: {
         "Content-Type": "application/json",
     }

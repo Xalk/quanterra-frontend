@@ -20,7 +20,7 @@ export interface IEmailPassword {
     password: string
 }
 
-export interface IFullUser extends IUser {
+export interface IReqUser extends IUser {
     firstName: string,
     lastName: string,
 }

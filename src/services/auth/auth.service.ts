@@ -1,7 +1,6 @@
 import {saveToken} from "./auth.helper";
 import { instanceClassic } from "@/api/api.interceptor";
-import {IEmailPassword, IFullUser, IAuthResponse} from "@/types/user.interface";
-
+import {IEmailPassword, IReqUser, IAuthResponse} from "@/types/user.interface";
 
 export const AuthService = {
     async login(
@@ -21,7 +20,7 @@ export const AuthService = {
     },
 
     async register(
-        data: IFullUser
+        data: IReqUser
     ) {
         const response = await instanceClassic<IAuthResponse>({
             url: `auth/register`,
