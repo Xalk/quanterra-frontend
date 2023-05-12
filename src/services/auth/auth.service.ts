@@ -1,6 +1,7 @@
-import {saveToken} from "./auth.helper";
+import {saveToStorage} from "./auth.helper";
 import { instanceClassic } from "@/api/api.interceptor";
 import {IEmailPassword, IReqUser, IAuthResponse} from "@/types/user.interface";
+import Cookies from "js-cookie";
 
 export const AuthService = {
     async login(
@@ -13,7 +14,7 @@ export const AuthService = {
         })
 
         if (response.data.accessToken) {
-            saveToken(response.data.accessToken)
+            saveToStorage(response.data)
         }
 
         return response.data
@@ -29,19 +30,22 @@ export const AuthService = {
         })
 
         if (response.data.accessToken) {
-            saveToken(response.data.accessToken)
+            saveToStorage(response.data)
         }
 
         return response.data
     },
 
-    async getNewToken() {
-        const response = await instanceClassic.post<string, {data: { refresh: string }}>(
-            `auth/refresh`
+    async getNewTokens() {
+        const refreshToken = Cookies.get("refreshToken")
+
+        const response = await instanceClassic.post<string, {data: IAuthResponse}>(
+            `auth/refresh`,
+            {refreshToken},
         )
 
-        if (response.data.refresh) {
-            saveToken(response.data.refresh)
+        if (response.data.accessToken) {
+            saveToStorage(response.data)
         }
 
         return response

@@ -1,13 +1,43 @@
-import {configureStore} from '@reduxjs/toolkit'
-import {userSlice} from "@/store/user/user.slice";
+import {configureStore, combineReducers} from '@reduxjs/toolkit'
+import {
+    FLUSH,
+    PAUSE,
+    PERSIST,
+    persistReducer,
+    persistStore,
+    PURGE,
+    REGISTER,
+    REHYDRATE
+} from "redux-persist"
+import storage from "redux-persist/lib/storage"
 
 
-export const store = configureStore({
-    reducer: {
-        user: userSlice.reducer
-    },
+import {userSlice} from './user/user.slice'
+
+const persistConfig = {
+    key: "quanterra",
+    storage,
+    // whitelist: []
+}
+
+const rootReducer = combineReducers({
+    auth: userSlice.reducer
 })
 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [
+                    FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE
+
+                ]
+            }
+        })
+})
+
+export const persistor = persistStore(store)
+export type RootState = ReturnType<typeof rootReducer>

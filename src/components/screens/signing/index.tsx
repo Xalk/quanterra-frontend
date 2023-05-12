@@ -2,10 +2,11 @@ import {useState} from "react";
 import Box from "@mui/material/Box";
 import SignInForm from "@/components/screens/signing/SignInForm";
 import SignUpForm from "@/components/screens/signing/SignUpForm";
+import {useAuthRedirect} from "@/components/screens/signing/useAuthRedirect";
 
 
 const Signing = () => {
-
+    useAuthRedirect()
 
     const [formType, setFormType] = useState<"signIn" | "signUp">("signIn");
 

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IInitialState } from './user.interface';
-import { register, login, logout } from './user.actions';
+import {register, login, logout, checkAuth} from './user.actions';
 
 
 const initialState: IInitialState = {
     user: null,
-    isLoading: false
+    isLoading: false,
+    error: ''
 }
 
 export const userSlice = createSlice({
@@ -30,22 +31,24 @@ export const userSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.user = action.payload.user
+                state.error = ''
             })
-            .addCase(login.rejected, (state) => {
+            .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
                 state.user = null
+                state.error = action.payload
             })
             .addCase(logout.fulfilled, (state) => {
                 state.isLoading = false
                 state.user = null
             })
-            // .addCase(checkAuth.fulfilled, (state, action) => {
-            //     state.isLoading = false
-            //     state.user = action.payload.user
-            // })
-            // .addCase(checkAuth.rejected, (state) => {
-            //     state.isLoading = false
-            //     state.user = null
-            // })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload.user
+            })
+            .addCase(checkAuth.rejected, (state) => {
+                state.isLoading = false
+                state.user = null
+            })
     }
 })

@@ -21,6 +21,7 @@ import {loginSchema} from "@/validations/auth.validation";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {IEmailPassword} from "@/types/user.interface";
 import {useActions} from "@/hooks/useActions";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
 
 
 function Copyright(props: any) {
@@ -45,15 +46,15 @@ interface SignInFormProps {
 const SignInForm: React.FC<SignInFormProps> = ({onOpenSignUp}) => {
 
     const {login} = useActions()
-    const [responseError, setResponseError] = useState('')
+    const {error} = useTypedSelector(state => state.auth)
 
-    const {register, handleSubmit, formState: {errors}} = useForm<any>({
+    const {register, handleSubmit, formState: {errors}} = useForm<IEmailPassword>({
         resolver: yupResolver(loginSchema),
     });
 
 
     const onSubmit: SubmitHandler<IEmailPassword> = async formData => {
-        login(formData)
+       login(formData);
     };
 
 
@@ -87,7 +88,7 @@ const SignInForm: React.FC<SignInFormProps> = ({onOpenSignUp}) => {
                         autoFocus
                         {...register("email", {required: "This field is required"})}
                         error={Boolean(errors.email)}
-                        // helperText={errors.email ? errors.email.message : " "}
+                        helperText={errors.email ? errors.email.message : " "}
                     />
                     <TextField
                         margin="normal"
@@ -99,14 +100,9 @@ const SignInForm: React.FC<SignInFormProps> = ({onOpenSignUp}) => {
                         autoComplete="current-password"
                         {...register("password", {required: "This field is required"})}
                         error={Boolean(errors.password)}
-                        // helperText={errors.password ? errors.password.message : " "}
+                        helperText={errors.password ? errors.password.message : " "}
                     />
-                    <FormControlLabel
-                        control={<Checkbox color="primary"/>}
-                        label="Remember me"
-                        {...register("rememberMe")}
-                    />
-                    {responseError && <Alert severity="error">{responseError}</Alert>}
+                    {error && <Alert severity="error">{error}</Alert>}
                     <Button
                         type="submit"
                         fullWidth

@@ -10,9 +10,13 @@ export interface IUser {
     updatedAt: Date
 }
 
-export interface IAuthResponse {
+export interface ITokens {
+    accessToken: string
+    refreshToken: string
+}
+
+export interface IAuthResponse extends ITokens {
     user: IUser
-    accessToken: string,
 }
 
 export interface IEmailPassword {
