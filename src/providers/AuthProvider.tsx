@@ -11,7 +11,7 @@ import Cookies from 'js-cookie'
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
 const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
-                                                                          Component: { isOnlyUser },
+                                                                          Component: { roles },
                                                                           children
                                                                       }) => {
     const { user } = useAuth()
@@ -33,8 +33,8 @@ const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
     }, [pathname])
 
 
-    return isOnlyUser ? (
-        <DynamicCheckRole Component={{ isOnlyUser }} children={children}/>
+    return roles && roles.length > 0 ? (
+        <DynamicCheckRole Component={{ roles }} children={children}/>
     ) : (
         <>{children}</>
     )

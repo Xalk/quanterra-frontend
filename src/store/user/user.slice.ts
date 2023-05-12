@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { IInitialState } from './user.interface';
+import {createSlice} from '@reduxjs/toolkit';
+import {IInitialState} from './user.interface';
 import {register, login, logout, checkAuth} from './user.actions';
 
 
@@ -12,7 +12,11 @@ const initialState: IInitialState = {
 export const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setError: (state, action) => {
+            state.error = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(register.pending, (state) => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import {NextPage} from "next";
 import Content from "@/components/Content";
 import Dashboard from "@/components/layout/Dashboard";
+import {Role} from "@/enums/role.enum";
 
 
 const Home = () => {
@@ -12,6 +12,6 @@ const Home = () => {
     );
 };
 
-Home.isOnlyUser = true
+Home.roles = [Role.ADMIN, Role.OPERATOR];
 
 export default Home
