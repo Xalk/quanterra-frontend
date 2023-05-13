@@ -1,13 +1,14 @@
 import React from 'react';
-import Content from "@/components/Content";
+import Main from "@/components/screens/main";
 import Dashboard from "@/components/layout/Dashboard";
 import {Role} from "@/enums/role.enum";
+import {NextPageAuth} from "@/providers/auth-pages.type";
 
 
-const Home = () => {
+const Home: NextPageAuth = () => {
     return (
         <Dashboard>
-            <Content/>
+            <Main/>
         </Dashboard>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import s from './MoreButton.module.scss'
+import s from '@/components/screens/ships/ships.module.scss'
 
 interface MoreButtonProps {
     content: string
@@ -15,7 +15,7 @@ const MoreButton: React.FC<MoreButtonProps> = ({content}) => {
                     <span className={s.circle} aria-hidden="true">
                         <span className={`${s.icon} ${s.arrow}`}></span>
                     </span>
-                    <span className={s.buttonText}>{content}</span>
+                    <span className={s.buttonText}>Details</span>
                 </button>
             </div>
         </div>

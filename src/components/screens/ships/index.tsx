@@ -1,64 +1,52 @@
 import React, {useState} from "react";
 import Grid from "@mui/material/Grid";
-import {Card, CardActionArea, CardActions, CardContent} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import shipImgSVG from '@/assets/cargo-ship.svg'
 import Image from "next/image";
 import s from '@/components/screens/ships/ships.module.scss'
 import Link from "next/link";
-
-
-const colors = ['#466D5A', '#81A593', '#7A9C8A', '#B8B2A3', '#C36D60']
+import {useQuery} from "@tanstack/react-query";
+import {ShipService} from "@/services/ship/ship.service";
+import ShipCard from "@/components/screens/ships/ShipCard";
+import Button from "@mui/material/Button";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import {useRouter} from "next/router";
+import CreateShip from "@/components/screens/ships/forms/CreateShip";
 
 
 const Ships = () => {
+    const router = useRouter()
 
-    const [ships, setShips] = useState([...Array(10)])
+    const [createOpen, setCreateOpen] = useState(false);
+    const handleCreateClose = () => {
+        setCreateOpen(false)
+    }
 
 
+    const {data} = useQuery(
+        ['ships'],
+        () => ShipService.getAll(),
+        {
+            select: ({data}) => data,
+        }
+    )
 
-    const renderShips = ships.map((sh, index) => (
-        <Grid key={index} item xs={12} sm={12} md={3}>
-           <Link href='ships/1'>
-               <Card sx={{backgroundColor: 'rgba(31,24,164,0.38)'}}
-                     className={`${s.card}`}
-               >
-                   <CardContent>
-                       <Typography>
-                           SHIP 1
-                       </Typography>
-                       <Typography>
-                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur
-                           consequatur debitis deleniti magnam necessitatibus nostrum nulla, quas reprehenderit
+    const handleAddShip = () => {
+        setCreateOpen(true)
+    }
 
-                       </Typography>
-                   </CardContent>
-                   <CardActions sx={{justifyContent: 'flex-end'}}>
-                       {/*<Button size="small"*/}
-                       {/*        endIcon={<EastRoundedIcon/>}*/}
-                       {/*       className={s.detailsBtn}>*/}
-                       {/*    Details*/}
-                       {/*</Button>*/}
-                       <div className={s.main}>
-                           <div id={s.container}>
-                               <button className={s.learnMore}>
-                                <span className={s.circle} aria-hidden="true">
-                                    <span className={`${s.icon} ${s.arrow}`}></span>
-                                </span>
-                                   <span className={s.buttonText}>Details</span>
-                               </button>
-                           </div>
-                       </div>
-                   </CardActions>
-               </Card>
-           </Link>
+
+    const renderShips = data?.map(sh => (
+        <Grid key={sh.id} item xs={12} sm={12} md={3}>
+            <Link href={`ships/${sh.id}`}>
+                <ShipCard ship={sh}/>
+            </Link>
         </Grid>
     ))
 
-
     return (
-        <>
+        <Box>
             <Box className={s.top}>
                 <Typography>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias beatae doloremque expedita
@@ -71,10 +59,19 @@ const Ships = () => {
                 </Box>
 
             </Box>
-            <Grid container spacing={3}>
+            <Box>
+                <Button variant="contained"
+                        endIcon={<AddCircleOutlineRoundedIcon/>}
+                        onClick={handleAddShip}
+                >
+                    Add ship
+                </Button>
+            </Box>
+            <Grid container spacing={3} mt={1}>
                 {renderShips}
             </Grid>
-        </>
+            <CreateShip createOpen={createOpen} handleClose={handleCreateClose}/>
+        </Box>
     )
         ;
 };

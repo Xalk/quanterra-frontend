@@ -2,7 +2,7 @@ import React from "react";
 import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
-import PersonalTable from "@/components/screens/ships/PersonalTable";
+import PersonalTable from "@/components/ui/PersonalTable";
 import ShipBarChart from "@/components/charts/BarChart";
 
 import dynamic from "next/dynamic";

@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Navigator from './Navigator'
-import Content from '../Content'
+import Index from '../screens/main'
 import Header from './Header'
 import Link from "next/link";
 import {NextPage} from "next";
