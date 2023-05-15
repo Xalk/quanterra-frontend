@@ -24,9 +24,14 @@ $black: #282936;
 .card {
   cursor: pointer;
 
+  .content {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+  }
 
-  .main{
-    button{
+  .main {
+    button {
       position: relative;
       display: inline-block;
       cursor: pointer;
@@ -122,12 +127,11 @@ $black: #282936;
   text-transform: uppercase;
 }
 
-.charts{
+.charts {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 
 
 @media (max-width: 900px) {
@@ -140,7 +144,17 @@ $black: #282936;
     }
   }
 
-  .charts{
+  .charts {
     flex-direction: column;
+  }
+
+
+}
+
+@media (max-width: 1800px) {
+  .card {
+    .content {
+      flex-direction: column;
+    }
   }
 }

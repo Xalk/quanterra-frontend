@@ -23,6 +23,10 @@ const Ships = () => {
         setCreateOpen(false)
     }
 
+    const handleAddShip = () => {
+        setCreateOpen(true)
+    }
+
 
     const {data} = useQuery(
         ['ships'],
@@ -31,10 +35,6 @@ const Ships = () => {
             select: ({data}) => data,
         }
     )
-
-    const handleAddShip = () => {
-        setCreateOpen(true)
-    }
 
 
     const renderShips = data?.map(sh => (

@@ -13,3 +13,11 @@ export interface IStorageTank {
     sensor?: ISensor
     collectionRecords: ICollectionRecord[]
 }
+
+export interface IReqStorageTank {
+    unit: string,
+    capacity: number,
+    occupancyPercentage: number,
+    shipId: number,
+    wasteId: number
+}

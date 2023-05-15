@@ -103,12 +103,12 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             label="Type"
                             {...register("shipType", {required: "This field is required"})}
                             error={Boolean(errors.shipType)}
+                            helperText={errors.shipType ? errors.shipType.message : " "}
                         >
                             {shipTypes.map((type, index) => (
                                 <MenuItem key={index} value={type}>{type}</MenuItem>
                             ))}
                         </TextField>
-                        <FormHelperText>{errors.shipType ? errors.shipType.message : " "}</FormHelperText>
                         <TextField
                             margin="normal"
                             required

@@ -1,5 +1,8 @@
 import * as yup from "yup";
 
+
+const currentYear = new Date().getFullYear();
+
 export const createShipSchema = yup.object().shape({
     shipName: yup
         .string()
@@ -13,4 +16,5 @@ export const createShipSchema = yup.object().shape({
         .number()
         .required("Build year is required")
         .moreThan(1800, "Build year must be more than 1800")
+        .max(currentYear + 1)
 });

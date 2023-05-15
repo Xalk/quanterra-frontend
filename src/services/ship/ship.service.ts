@@ -1,6 +1,7 @@
 import {instance} from "@/api/api.interceptor";
 import {IReqShip, IShip} from "@/types/ship.interface";
 import {IReqUser} from "@/types/user.interface";
+import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
 
 const SHIPS = 'ships'
 
@@ -49,8 +50,8 @@ export const ShipService = {
         })
     },
 
-    async assign(id: string | number, data: Partial<IReqUser>) {
-        return instance<IShip>({
+    async assign({id, data}: {id: string | number, data: IReqCrew}) {
+        return instance<ICrewMember>({
             url: `${SHIPS}/${id}/assign`,
             method: 'POST',
             data
