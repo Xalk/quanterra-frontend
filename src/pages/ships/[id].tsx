@@ -65,6 +65,7 @@ const Ship: NextPage<ShipProps> = () => {
         () => CollectionRecordService.avgAmountsByMonth(`${id}`),
         {
             select: ({data}) => data,
+            enabled: !!id
         }
     )
 
@@ -94,7 +95,7 @@ const Ship: NextPage<ShipProps> = () => {
         <Dashboard>
             <Box>
                 <Box className={s.charts}>
-                    <ShipBarChartWithoutSSR amounts={avgAmountRes.data}/>
+                    <ShipBarChartWithoutSSR amounts={avgAmountRes?.data}/>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',

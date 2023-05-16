@@ -7,6 +7,8 @@ import {Role} from "@/enums/role.enum";
 import {IUser} from "@/types/user.interface";
 import SaveMemberAction from "@/components/ui/CrewTable/SaveMemberAction";
 import DeleteMemberAction from "@/components/ui/CrewTable/DeleteMemberAction";
+import Link from "next/link";
+import {Typography} from "@mui/material";
 
 
 interface CrewProps {
@@ -27,7 +29,7 @@ const Crew: FC<CrewProps> = ({members}) => {
             filterable: false,
 
         },
-        {field: 'firstName', headerName: 'First name', width: 170},
+        {field: 'firstName', headerName: 'First name', width: 120},
         {field: 'lastName', headerName: 'Last name', width: 170},
         {field: 'email', headerName: 'Email', width: 200},
         {
@@ -73,6 +75,16 @@ const Crew: FC<CrewProps> = ({members}) => {
                 <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}/>
             )
         },
+        {
+            field: 'profile',
+            headerName: 'Profile',
+            type: 'actions',
+            renderCell: (params: GridRenderCellParams<IUser>) => (
+                <Link href={`/profile/${params.row.crewId}`}>
+                    <Typography sx={{textDecoration: 'underline'}}>profile →</Typography>
+                </Link>
+            )
+        },
     ]
 
     const modifiedMembers = members?.map((member) => {
@@ -91,7 +103,7 @@ const Crew: FC<CrewProps> = ({members}) => {
     console.log(modifiedMembers)
 
     return (
-        <div style={{height: 500, width: '100%'}}>
+        <div style={{height: 400, width: '100%'}}>
             <DataGrid rows={modifiedMembers || []}
                       columns={columns}
                       getRowId={row => row.id}

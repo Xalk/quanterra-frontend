@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -12,6 +14,7 @@
 html,
 body {
   /*background-color: #080B16;*/
+  font-family: 'Poppins', sans-serif;
 }
 
 a {

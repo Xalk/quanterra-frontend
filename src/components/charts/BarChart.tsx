@@ -50,7 +50,7 @@ const data = [
 ];
 
 export interface AmountBarChartProps {
-    amounts: IAmountByMonth[]
+    amounts?: IAmountByMonth[]
 }
 
 export default function AmountBarChart({amounts}: AmountBarChartProps) {

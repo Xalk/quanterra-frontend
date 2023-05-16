@@ -40,6 +40,11 @@ let theme = createTheme({
             fontSize: 26,
             letterSpacing: 0.5,
         },
+        fontFamily: `'Poppins', sans-serif`,
+        fontSize: 14,
+        fontWeightLight: 300,
+        fontWeightRegular: 400,
+        fontWeightMedium: 500
     },
     shape: {
         borderRadius: 8,
@@ -192,6 +197,10 @@ const Dashboard: NextPage<DashboardProps> = ({children}) => {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+
+
+
 
     return (
         <ThemeProvider theme={theme}>

@@ -7,20 +7,11 @@ import React from "react";
 import AuthProvider from "@/providers/AuthProvider";
 import {TypeComponentAuthFields} from "@/providers/auth-pages.type";
 import {PersistGate} from "redux-persist/integration/react";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import queryClient from "@/config/query-client";
 
 export default function App({Component, pageProps}: AppProps & TypeComponentAuthFields) {
-
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                refetchOnWindowFocus: false,
-                staleTime: 10000
-            }
-        }
-    })
-
     return (
         <QueryClientProvider client={queryClient}>
             <StyledEngineProvider injectFirst>
