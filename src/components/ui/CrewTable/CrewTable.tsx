@@ -6,6 +6,7 @@ import {ICrewMember} from "@/types/crew-member.interface";
 import {Role} from "@/enums/role.enum";
 import {IUser} from "@/types/user.interface";
 import SaveMemberAction from "@/components/ui/CrewTable/SaveMemberAction";
+import DeleteMemberAction from "@/components/ui/CrewTable/DeleteMemberAction";
 
 
 interface CrewProps {
@@ -15,6 +16,7 @@ interface CrewProps {
 const Crew: FC<CrewProps> = ({members}) => {
 
     const [updatedRow, setUpdatedRow] = useState<null | IUser>(null);
+    const [deletedRow, setDeletedRow] = useState<null | IUser>(null);
 
     const columns: GridColDef[] = [
         {
@@ -68,7 +70,7 @@ const Crew: FC<CrewProps> = ({members}) => {
             headerName: 'Remove',
             type: 'actions',
             renderCell: (params: GridRenderCellParams<IUser>) => (
-                <div>remove</div>
+                <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}/>
             )
         },
     ]
@@ -89,7 +91,7 @@ const Crew: FC<CrewProps> = ({members}) => {
     console.log(modifiedMembers)
 
     return (
-        <div style={{height: 300, width: '100%'}}>
+        <div style={{height: 500, width: '100%'}}>
             <DataGrid rows={modifiedMembers || []}
                       columns={columns}
                       getRowId={row => row.id}
@@ -100,9 +102,8 @@ const Crew: FC<CrewProps> = ({members}) => {
                           },
                       }}
                       processRowUpdate={(newRow, oldRow) => setUpdatedRow(newRow)}
-                      onRowEditCommit={(id) => {
-                          console.log(id)
-                      }}
+                      onRowClick={(params) => setDeletedRow(params.row)}
+
             />
         </div>
     );

@@ -6,3 +6,9 @@ export interface ICollectionRecord {
     treatedAmount: number
     unit: string
 }
+
+export interface IAmountByMonth {
+    month: string
+    kg: number | string| null
+    liters: number | string| null
+}

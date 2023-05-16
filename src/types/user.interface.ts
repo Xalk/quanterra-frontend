@@ -7,7 +7,8 @@ export interface IUser {
     email: string,
     id: number,
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    crewId?: number
 }
 
 export interface ITokens {

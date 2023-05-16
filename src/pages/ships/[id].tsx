@@ -3,12 +3,15 @@ import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
-import ShipBarChart from "@/components/charts/BarChart";
-import { IconButton } from '@mui/material';
+import {IconButton} from '@mui/material';
 import dynamic from "next/dynamic";
 
 const ShipPieChartWithoutSSR = dynamic(
     import("@/components/charts/PieChart"),
+    {ssr: false}
+);
+const ShipBarChartWithoutSSR = dynamic(
+    import("@/components/charts/BarChart"),
     {ssr: false}
 );
 
@@ -25,6 +28,8 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import CreateCrewMember from "@/components/screens/storage-tanks/forms/CreateCrewMember";
 import CreateStorageTank from "@/components/screens/storage-tanks/forms/CreateStorageTank";
 import {WasteService} from "@/services/waste/waste.service";
+import {wasteTypeCount} from "@/utils/wasteTypeCount";
+import {CollectionRecordService} from "@/services/collection-record/collection-record.service";
 
 interface ShipProps {
 
@@ -55,6 +60,14 @@ const Ship: NextPage<ShipProps> = () => {
         }
     )
 
+    const avgAmountRes = useQuery(
+        ['avg amounts'],
+        () => CollectionRecordService.avgAmountsByMonth(`${id}`),
+        {
+            select: ({data}) => data,
+        }
+    )
+
 
     const renderStorageTanks = data?.storageTanks.map(st => (
         <Grid key={st.id} item xs={12} sm={12} md={3}>
@@ -71,13 +84,17 @@ const Ship: NextPage<ShipProps> = () => {
         setCreateTankModalOpen(true)
     }
 
-    if(isLoading) return <div>Loading...</div>
+    if (isLoading) return <div>Loading...</div>
+
+
+    const typesCount = wasteTypeCount(data?.storageTanks)
+
 
     return (
         <Dashboard>
             <Box>
                 <Box className={s.charts}>
-                    <ShipBarChart/>
+                    <ShipBarChartWithoutSSR amounts={avgAmountRes.data}/>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -95,7 +112,7 @@ const Ship: NextPage<ShipProps> = () => {
                             {data?.buildYear}
                         </Typography>
                     </Box>
-                    <ShipPieChartWithoutSSR/>
+                    <ShipPieChartWithoutSSR types={typesCount}/>
                 </Box>
                 <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
                     Crew members
@@ -116,12 +133,12 @@ const Ship: NextPage<ShipProps> = () => {
             </Box>
             <CreateCrewMember
                 createOpen={createCrewModalOpen}
-                handleClose={()=>setCreateCrewModalOpen(false)}
+                handleClose={() => setCreateCrewModalOpen(false)}
                 shipId={id}
             />
             <CreateStorageTank
                 createOpen={createTankModalOpen}
-                handleClose={()=> setCreateTankModalOpen(false)}
+                handleClose={() => setCreateTankModalOpen(false)}
                 wastes={wasteRes.data}
                 shipId={id}
             />
