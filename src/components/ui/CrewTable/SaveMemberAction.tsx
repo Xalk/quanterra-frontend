@@ -15,17 +15,16 @@ interface CrewProps {
 }
 
 const SaveMemberAction: FC<CrewProps> = ({params, updatedRow, setUpdatedRow}) => {
-        // const [loading, setLoading] = useState(false);
         const [success, setSuccess] = useState(false);
 
         const queryClient = useQueryClient();
         const {mutate, isLoading} = useMutation(UserService.update, {
             onSuccess: () => {
-                queryClient.invalidateQueries(['get ship'])
+                queryClient.invalidateQueries(['get ship']);
                 setSuccess(true);
                 setUpdatedRow(null);
             },
-            onError: (error: any | AxiosError) => error
+            onError: (error: any | AxiosError) => error,
         });
 
 
@@ -33,7 +32,7 @@ const SaveMemberAction: FC<CrewProps> = ({params, updatedRow, setUpdatedRow}) =>
 
             const {id} = params.row;
 
-            console.log(params)
+
             const role = updatedRow?.role
             mutate({id, data: {role}})
 

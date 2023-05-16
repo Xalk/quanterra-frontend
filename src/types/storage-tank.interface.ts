@@ -1,6 +1,7 @@
 import {ISensor} from "@/types/sensor.interface";
 import {IWaste} from "@/types/waste.interface";
 import {ICollectionRecord} from "@/types/collection-record.interface";
+import {IShip} from "@/types/ship.interface";
 
 export interface IStorageTank {
     id: number
@@ -11,7 +12,8 @@ export interface IStorageTank {
     occupancyPercentage: number
     waste: IWaste
     sensor?: ISensor
-    collectionRecords: ICollectionRecord[]
+    collectionRecords: ICollectionRecord[],
+    ship: IShip
 }
 
 export interface IReqStorageTank {

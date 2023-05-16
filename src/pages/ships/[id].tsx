@@ -38,7 +38,7 @@ const Ship: NextPage<ShipProps> = () => {
     const [createCrewModalOpen, setCreateCrewModalOpen] = React.useState(false);
     const [createTankModalOpen, setCreateTankModalOpen] = React.useState(false);
 
-    const {data} = useQuery(
+    const {data, isLoading} = useQuery(
         ['get ship', id],
         () => ShipService.getById(`${id}`),
         {
@@ -70,6 +70,8 @@ const Ship: NextPage<ShipProps> = () => {
     const handleAddStorageTank = () => {
         setCreateTankModalOpen(true)
     }
+
+    if(isLoading) return <div>Loading...</div>
 
     return (
         <Dashboard>

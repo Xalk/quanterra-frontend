@@ -15,7 +15,8 @@ export default function App({Component, pageProps}: AppProps & TypeComponentAuth
     const queryClient = new QueryClient({
         defaultOptions: {
             queries: {
-                refetchOnWindowFocus: false
+                refetchOnWindowFocus: false,
+                staleTime: 10000
             }
         }
     })
@@ -31,7 +32,7 @@ export default function App({Component, pageProps}: AppProps & TypeComponentAuth
                     </PersistGate>
                 </Provider>
             </StyledEngineProvider>
-            <ReactQueryDevtools initialIsOpen={false}/>
+            <ReactQueryDevtools initialIsOpen={true}/>
         </QueryClientProvider>
     )
 }
