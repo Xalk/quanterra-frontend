@@ -2,27 +2,26 @@ import {Box, CircularProgress, Fab} from '@mui/material';
 import {FC, useEffect, useState} from 'react';
 import {Check} from '@mui/icons-material';
 import {green} from '@mui/material/colors';
-import {IUser} from "@/types/user.interface";
-import {GridRenderCellParams, GridRowId} from "@mui/x-data-grid";
+import {GridRenderCellParams} from "@mui/x-data-grid";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-
 import {AxiosError} from "axios";
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import {CrewService} from "@/services/crew-member/crew-member.service";
+import {IWaste} from "@/types/waste.interface";
+import {WasteService} from "@/services/waste/waste.service";
 
-interface CrewProps {
-    params: GridRenderCellParams<IUser>,
-    deletedRow: IUser | null,
-    setDeletedRow: (id: IUser | null) => void
+interface DeleteWasteActionProps {
+    params: GridRenderCellParams<IWaste>,
+    deletedRow: IWaste | null,
+    setDeletedRow: (id: IWaste | null) => void
 }
 
-const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) => {
+const DeleteWasteAction: FC<DeleteWasteActionProps> = ({params, deletedRow, setDeletedRow}) => {
         const [success, setSuccess] = useState(false);
 
         const queryClient = useQueryClient();
-        const {mutate, isLoading} = useMutation(CrewService.delete, {
+        const {mutate, isLoading} = useMutation(WasteService.delete, {
             onSuccess: () => {
-                queryClient.invalidateQueries(['get ship']);
+                queryClient.invalidateQueries(['wastes']);
                 setSuccess(true);
                 setDeletedRow(null);
             },
@@ -32,8 +31,8 @@ const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) 
 
         const handleSubmit = async () => {
 
-            confirm('Are you sure you want to remove a member from this ship?') &&
-            mutate(`${deletedRow?.crewId}`)
+            confirm('Are you sure you want to delete this waste?') &&
+            mutate(`${deletedRow?.id}`)
 
 
         };
@@ -92,4 +91,4 @@ const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) 
     }
 ;
 
-export default DeleteMemberAction;
+export default DeleteWasteAction;

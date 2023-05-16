@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import {IShip} from "@/types/ship.interface";
 import MoreButton from "@/components/ui/MoreButton";
 import {Group, PropaneTank} from "@mui/icons-material";
+import tank from "@/assets/storagetank.svg";
+import Image from "next/image";
 
 interface ShipCardProps {
     ship: IShip
@@ -36,7 +38,7 @@ const ShipCard: React.FC<ShipCardProps> = ({ship}) => {
                             <Group/> {crewMember.length}
                         </Typography>
                         <Typography variant="body1" sx={{mb: 1}}>
-                            <PropaneTank/> {storageTanks.length}
+                            <Image src={tank} alt={'tank'} width={18}/> {storageTanks.length}
                         </Typography>
                     </div>
                 </Box>

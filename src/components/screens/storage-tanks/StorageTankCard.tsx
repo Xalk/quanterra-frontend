@@ -24,7 +24,7 @@ const StorageTankCard: React.FC<StorageTankCardProps> = ({storageTank}) => {
             <CardContent sx={{color: "#282936"}}>
 
                 <Box className={s.content}>
-                    <Image src={tankImg} alt={"tank image"} width={130}/>
+                    <Image src={tankImg} alt={"tank image"} width={130} className={s.tankImg}/>
                     <Box sx={{marginTop: '10px'}}>
                         <Typography>
                             <strong>Storage Tank:</strong> №{id}

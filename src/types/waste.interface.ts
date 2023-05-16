@@ -5,3 +5,8 @@ export interface IWaste {
     type: string
     description: string
 }
+
+export interface IReqWaste {
+    type: string,
+    description: string
+}

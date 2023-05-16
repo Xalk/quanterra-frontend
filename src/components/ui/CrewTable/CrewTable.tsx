@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, useMemo, useState} from 'react';
+import {FC, useState} from 'react';
 import {DataGrid, gridClasses, GridColDef, GridRenderCellParams, GridRowId, GridRowsProp} from '@mui/x-data-grid';
 import {grey} from "@mui/material/colors";
 import {ICrewMember} from "@/types/crew-member.interface";

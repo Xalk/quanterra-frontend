@@ -20,6 +20,9 @@ import {useRouter} from "next/router";
 import Image from "next/image";
 import logo from '@/assets/logo.svg'
 import Typography from "@mui/material/Typography";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
+import tank from "@/assets/storagetank.svg";
 
 
 let categories = [
@@ -28,14 +31,15 @@ let categories = [
         children: [
             {
                 id: 'Home',
-                icon: <PeopleIcon/>,
+                icon: <HomeRoundedIcon/>,
                 targetUrl: '/',
                 active: true
                 ,
             },
-            {id: 'Ships', icon: <DnsRoundedIcon/>, targetUrl: '/ships'},
-            {id: 'Tanks', icon: <PermMediaOutlinedIcon/>, targetUrl: '/tanks'},
-            {id: 'Personal', icon: <PublicIcon/>, targetUrl: '/personal'},
+            {id: 'Crew members', icon: <PeopleIcon/>, targetUrl: '/crew-members'},
+            {id: 'Ships', icon: <DirectionsBoatIcon/>, targetUrl: '/ships'},
+            {id: 'Storage tanks', icon: <Image src={tank} alt={'tank'} width={18}/>, targetUrl: '/tanks'},
+            {id: 'Wastes', icon: <PublicIcon/>, targetUrl: '/wastes'},
             {id: 'Logs', icon: <PublicIcon/>, targetUrl: '/logs'},
         ],
     },
