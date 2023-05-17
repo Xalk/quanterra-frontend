@@ -1,6 +1,7 @@
 import {instance} from "@/api/api.interceptor";
 import {IReqStorageTank, IStorageTank} from "@/types/storage-tank.interface";
 import {IShip} from "@/types/ship.interface";
+import {IWaste} from "@/types/waste.interface";
 
 const STORAGE_TANKS = 'storage-tank'
 
@@ -32,6 +33,13 @@ export const StorageTankService = {
         return instance<IStorageTank>({
             url: `${STORAGE_TANKS}/${id}`,
             method: 'DELETE'
+        })
+    },
+
+    async getAll() {
+        return instance<IStorageTank[]>({
+            url: STORAGE_TANKS,
+            method: 'GET'
         })
     },
 

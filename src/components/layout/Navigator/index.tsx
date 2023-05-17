@@ -23,6 +23,9 @@ import Typography from "@mui/material/Typography";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
 import tank from "@/assets/storagetank.svg";
+import waste from "@/assets/waste.svg";
+import logs from "@/assets/logs.svg";
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 
 let categories = [
@@ -39,8 +42,9 @@ let categories = [
             {id: 'Crew members', icon: <PeopleIcon/>, targetUrl: '/crew-members'},
             {id: 'Ships', icon: <DirectionsBoatIcon/>, targetUrl: '/ships'},
             {id: 'Storage tanks', icon: <Image src={tank} alt={'tank'} width={18}/>, targetUrl: '/tanks'},
-            {id: 'Wastes', icon: <PublicIcon/>, targetUrl: '/wastes'},
-            {id: 'Logs', icon: <PublicIcon/>, targetUrl: '/logs'},
+            {id: 'Collection records', icon: <ListAltIcon/>, targetUrl: '/collection-records'},
+            {id: 'Wastes', icon: <Image src={waste} alt={'waste'} width={18}/>, targetUrl: '/wastes'},
+            {id: 'Logs', icon: <Image src={logs} alt={'waste'} width={18}/>, targetUrl: '/logs'},
         ],
     },
     {

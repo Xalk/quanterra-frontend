@@ -1,3 +1,5 @@
+import {IStorageTank} from "@/types/storage-tank.interface";
+
 export interface ICollectionRecord {
     id: number
     createdAt: string
@@ -5,6 +7,7 @@ export interface ICollectionRecord {
     description: string
     treatedAmount: number
     unit: string
+    storageTank: IStorageTank
 }
 
 export interface IAmountByMonth {

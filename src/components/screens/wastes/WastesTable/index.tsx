@@ -29,7 +29,7 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
         {
             field: 'description',
             headerName: 'Description',
-            width: 500,
+            width: 300,
             editable: true
         },
         {

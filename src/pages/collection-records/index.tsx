@@ -1,13 +1,14 @@
 import React from "react";
 import Dashboard from "@/components/layout/Dashboard";
 import StorageTanks from "@/components/screens/storage-tanks";
+import CollectionRecords from "@/components/screens/collection-records";
 
-const Tanks = () => {
+const CollectionRecordsPage = () => {
     return (
         <Dashboard>
-            <StorageTanks/>
+            <CollectionRecords/>
         </Dashboard>
     );
 };
 
-export default Tanks;
+export default CollectionRecordsPage;
