@@ -5,7 +5,7 @@ import {NextPage} from "next";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {StorageTankService} from "@/services/storage-tank/storage-tank.service";
 import {Box, IconButton, Typography} from "@mui/material";
-import tankImg from "@/assets/storagetank.svg";
+import tankImg from "@/assets/storagetank_icon.svg";
 import sensorImg from "@/assets/sensor-img.svg";
 import Image from "next/image";
 import s from "@/components/screens/storage-tanks/storage-tank.module.scss"
@@ -16,7 +16,6 @@ import Button from "@mui/material/Button";
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditStorageTank from "@/components/screens/storage-tanks/forms/EditStorageTank";
 import {AxiosError} from "axios";
-import {config} from "react-transition-group";
 
 const StorageTank: NextPage = () => {
     const router = useRouter()

@@ -28,8 +28,14 @@ $black: #282936;
     display: flex;
     align-items: flex-start;
     gap: 30px;
-  }
 
+    .desc {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
 
 
   .main {

@@ -22,7 +22,7 @@ import logo from '@/assets/logo.svg'
 import Typography from "@mui/material/Typography";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
-import tank from "@/assets/storagetank.svg";
+import tank from "@/assets/storagetank_icon.svg";
 import waste from "@/assets/waste.svg";
 import logs from "@/assets/logs.svg";
 import ListAltIcon from '@mui/icons-material/ListAlt';

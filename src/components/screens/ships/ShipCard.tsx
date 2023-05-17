@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import {IShip} from "@/types/ship.interface";
 import MoreButton from "@/components/ui/MoreButton";
 import {Group, PropaneTank} from "@mui/icons-material";
-import tank from "@/assets/storagetank.svg";
+import tank from "@/assets/storagetank_icon.svg";
 import Image from "next/image";
 
 interface ShipCardProps {

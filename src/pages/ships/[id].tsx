@@ -17,12 +17,11 @@ const ShipBarChartWithoutSSR = dynamic(
 
 import s from '@/components/screens/ships/ships.module.scss'
 import Dashboard from "@/components/layout/Dashboard";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ShipService} from "@/services/ship/ship.service";
 import {Typography} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Link from "next/link";
-import ShipCard from "@/components/screens/ships/ShipCard";
 import StorageTankCard from "@/components/screens/storage-tanks/StorageTankCard";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import CreateCrewMember from "@/components/screens/storage-tanks/forms/CreateCrewMember";
@@ -30,6 +29,9 @@ import CreateStorageTank from "@/components/screens/storage-tanks/forms/CreateSt
 import {WasteService} from "@/services/waste/waste.service";
 import {wasteTypeCount} from "@/utils/wasteTypeCount";
 import {CollectionRecordService} from "@/services/collection-record/collection-record.service";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import Button from "@mui/material/Button";
+import {AxiosError} from "axios";
 
 interface ShipProps {
 
@@ -51,6 +53,14 @@ const Ship: NextPage<ShipProps> = () => {
             enabled: !!id // only run the query if id exists
         }
     )
+
+    const queryClient = useQueryClient();
+    const deleteShip = useMutation(ShipService.delete, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['ships']);
+        },
+        onError: (error: any | AxiosError) => error
+    });
 
     const wasteRes = useQuery(
         ['wastes'],
@@ -91,9 +101,15 @@ const Ship: NextPage<ShipProps> = () => {
     const typesCount = wasteTypeCount(data?.storageTanks)
 
 
+    const handleDelete = () => {
+        confirm('Are you sure you want to delete this ship?') &&
+        deleteShip.mutate(`${id}`)
+        router.replace(`/ships`)
+    }
+
     return (
         <Dashboard>
-            <Box>
+            <Box sx={{position: 'relative'}}>
                 <Box className={s.charts}>
                     <ShipBarChartWithoutSSR amounts={avgAmountRes?.data}/>
                     <Box sx={{
@@ -131,6 +147,16 @@ const Ship: NextPage<ShipProps> = () => {
                 <Grid container spacing={3} mt={1}>
                     {renderStorageTanks}
                 </Grid>
+                <Button variant="contained"
+                        endIcon={<DeleteForeverRoundedIcon/>}
+                        sx={{position: 'absolute', top: -10, right: 0}}
+                        style={{
+                            backgroundColor: "#F44336",
+                        }}
+                        onClick={handleDelete}
+                >
+                    Delete
+                </Button>
             </Box>
             <CreateCrewMember
                 createOpen={createCrewModalOpen}
@@ -143,6 +169,7 @@ const Ship: NextPage<ShipProps> = () => {
                 wastes={wasteRes.data}
                 shipId={id}
             />
+
         </Dashboard>
     );
 };

@@ -2,12 +2,10 @@ import React from 'react';
 import s from "@/components/screens/ships/ships.module.scss";
 import {Box, Card, CardActions, CardContent} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {IShip} from "@/types/ship.interface";
 import MoreButton from "@/components/ui/MoreButton";
-import {Group, PropaneTank} from "@mui/icons-material";
 import {IStorageTank} from "@/types/storage-tank.interface";
 import Image from "next/image";
-import tankImg from "@/assets/storagetank.svg";
+import tankImg from "@/assets/storagetank_img.svg";
 
 interface StorageTankCardProps {
     storageTank: IStorageTank
@@ -38,7 +36,7 @@ const StorageTankCard: React.FC<StorageTankCardProps> = ({storageTank}) => {
                         <Typography>
                             <strong>Waste type:</strong> {waste.type}
                         </Typography>
-                        <Typography>
+                        <Typography className={s.desc}>
                             <strong>Description:</strong> {waste.description}
                         </Typography>
                     </Box>
