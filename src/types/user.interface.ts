@@ -29,3 +29,12 @@ export interface IReqUser extends IEmailPassword {
     firstName: string,
     lastName: string,
 }
+
+export interface IUserLogs {
+    id: string,
+    createdAt: Date,
+    updatedAt: Date,
+    method: string,
+    route: string,
+    user: IUser
+}

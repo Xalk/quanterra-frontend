@@ -1,5 +1,6 @@
 import {instance} from "@/api/api.interceptor";
-import {IUser} from "@/types/user.interface";
+import {IUser, IUserLogs} from "@/types/user.interface";
+
 
 const SHIPS = 'users'
 
@@ -21,5 +22,11 @@ export const UserService = {
         })
     },
 
+    async getAllLogs() {
+        return instance<IUserLogs[]>({
+            url: "user-logs",
+            method: 'GET'
+        })
+    },
 
 }

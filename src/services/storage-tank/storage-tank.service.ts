@@ -1,7 +1,5 @@
 import {instance} from "@/api/api.interceptor";
 import {IReqStorageTank, IStorageTank} from "@/types/storage-tank.interface";
-import {IShip} from "@/types/ship.interface";
-import {IWaste} from "@/types/waste.interface";
 
 const STORAGE_TANKS = 'storage-tank'
 
