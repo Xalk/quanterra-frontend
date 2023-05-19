@@ -53,12 +53,16 @@ const Profile: NextPage<ProfileProps> = () => {
                 </Box>
                 <Box sx={{flex: "2 1 0", padding: 2}}>
                     <Typography mb={2} align='center' fontSize={22}><strong>Ship Work Assignment</strong></Typography>
-                    <Typography><strong>Ship ID: </strong>{data?.ship.id}</Typography>
-                    <Typography><strong>Ship name: </strong>{data?.ship.shipName}</Typography>
-                    <Typography><strong>Type: </strong>{data?.ship.shipType}</Typography>
-                    <Typography><strong>Build year: </strong>{data?.ship.buildYear}</Typography>
-                    <Typography><strong>Assigned From: </strong>{`${new Date(`${data?.updatedAt}`)}`.slice(0, 24)}
-                    </Typography>
+                    {
+                        data?.ship ? <>
+                            <Typography><strong>Ship ID: </strong>{data?.ship.id}</Typography>
+                            <Typography><strong>Ship name: </strong>{data?.ship.shipName}</Typography>
+                            <Typography><strong>Type: </strong>{data?.ship.shipType}</Typography>
+                            <Typography><strong>Build year: </strong>{data?.ship.buildYear}</Typography>
+                            <Typography><strong>Assigned From: </strong>{`${new Date(`${data?.updatedAt}`)}`.slice(0, 24)}
+                            </Typography>
+                        </>: <Typography>No ship assigned</Typography>
+                    }
                 </Box>
             </Box>
         </Dashboard>

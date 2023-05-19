@@ -14,7 +14,7 @@ const ShipBarChartWithoutSSR = dynamic(
     import("@/components/charts/BarChart"),
     {ssr: false}
 );
-
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import s from '@/components/screens/ships/ships.module.scss'
 import Dashboard from "@/components/layout/Dashboard";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
@@ -24,7 +24,7 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import StorageTankCard from "@/components/screens/storage-tanks/StorageTankCard";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import CreateCrewMember from "@/components/screens/storage-tanks/forms/CreateCrewMember";
+import CreateCrewMember from "@/components/screens/ships/forms/CreateCrewMember";
 import CreateStorageTank from "@/components/screens/storage-tanks/forms/CreateStorageTank";
 import {WasteService} from "@/services/waste/waste.service";
 import {wasteTypeCount} from "@/utils/wasteTypeCount";
@@ -32,18 +32,17 @@ import {CollectionRecordService} from "@/services/collection-record/collection-r
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import Button from "@mui/material/Button";
 import {AxiosError} from "axios";
+import Report from "@/components/ui/Report";
 
-interface ShipProps {
+const PDFViewer = dynamic(import('@/components/ui/PDFViewer'), {ssr: false});
 
-}
-
-
-const Ship: NextPage<ShipProps> = () => {
+const Ship: NextPage = () => {
     const router = useRouter()
     const {id} = router.query
 
     const [createCrewModalOpen, setCreateCrewModalOpen] = React.useState(false);
     const [createTankModalOpen, setCreateTankModalOpen] = React.useState(false);
+    const [isReportCreated, setIsReportCreated] = React.useState(false);
 
     const {data, isLoading} = useQuery(
         ['get ship', id],
@@ -102,75 +101,112 @@ const Ship: NextPage<ShipProps> = () => {
 
 
     const handleDelete = () => {
-        confirm('Are you sure you want to delete this ship?') &&
-        deleteShip.mutate(`${id}`)
-        router.replace(`/ships`)
+        const res = confirm('Are you sure you want to delete this ship?')
+        if (res) {
+            deleteShip.mutate(`${id}`)
+            router.replace(`/ships`)
+        }
+    }
+
+    const handleReport = () => {
+        setIsReportCreated(true)
+    }
+
+    const handleBack = () => {
+        setIsReportCreated(false)
     }
 
     return (
         <Dashboard>
-            <Box sx={{position: 'relative'}}>
-                <Box className={s.charts}>
-                    <ShipBarChartWithoutSSR amounts={avgAmountRes?.data}/>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        maxWidth: "120px",
-                        marginLeft: '35px'
-                    }}>
-                        <Typography variant="h6" sx={{textAlign: 'center'}}>
-                            {data?.shipName}
+            {
+                isReportCreated ? <>
+                    <Typography onClick={handleBack} sx={{
+                        cursor: 'pointer',
+                        width: '100px',
+                        textDecoration: 'underline'
+                    }} mb={2}>
+                        ← back
+                    </Typography>
+                    <PDFViewer>
+                        <Report/>
+                    </PDFViewer>
+                </> : <>
+                    <Box sx={{position: 'relative'}}>
+                        <Box className={s.charts}>
+                            <ShipBarChartWithoutSSR amounts={avgAmountRes?.data}/>
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                maxWidth: "120px",
+                                marginLeft: '35px'
+                            }}>
+                                <Typography variant="h6" sx={{textAlign: 'center'}}>
+                                    {data?.shipName}
+                                </Typography>
+                                <Typography variant="h6" sx={{textAlign: 'center'}}>
+                                    {data?.shipType}
+                                </Typography>
+                                <Typography variant="h6">
+                                    {data?.buildYear}
+                                </Typography>
+                            </Box>
+                            <ShipPieChartWithoutSSR types={typesCount}/>
+                        </Box>
+                        <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
+                            Crew members
+                            <IconButton onClick={handleAddCrewMember}>
+                                <AddCircleOutlineRoundedIcon/>
+                            </IconButton>
                         </Typography>
-                        <Typography variant="h6" sx={{textAlign: 'center'}}>
-                            {data?.shipType}
+                        <CrewTable members={data?.crewMember}/>
+                        <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
+                            Storage tanks
+                            <IconButton onClick={handleAddStorageTank}>
+                                <AddCircleOutlineRoundedIcon/>
+                            </IconButton>
                         </Typography>
-                        <Typography variant="h6">
-                            {data?.buildYear}
-                        </Typography>
+                        <Grid container spacing={3} mt={1}>
+                            {renderStorageTanks}
+                        </Grid>
+                        <Button variant="contained"
+                                endIcon={<SummarizeIcon/>}
+                                sx={{position: 'absolute', top: -20, left: 0}}
+                                style={{
+                                    backgroundColor: "#080B16",
+                                }}
+                                onClick={handleReport}
+                        >
+                            Generate report
+                        </Button>
+                        <Button variant="contained"
+                                endIcon={<DeleteForeverRoundedIcon/>}
+                                sx={{position: 'absolute', top: -20, right: 0}}
+                                style={{
+                                    backgroundColor: "#F44336",
+                                }}
+                                onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
                     </Box>
-                    <ShipPieChartWithoutSSR types={typesCount}/>
-                </Box>
-                <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
-                    Crew members
-                    <IconButton onClick={handleAddCrewMember}>
-                        <AddCircleOutlineRoundedIcon/>
-                    </IconButton>
-                </Typography>
-                <CrewTable members={data?.crewMember}/>
-                <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
-                    Storage tanks
-                    <IconButton onClick={handleAddStorageTank}>
-                        <AddCircleOutlineRoundedIcon/>
-                    </IconButton>
-                </Typography>
-                <Grid container spacing={3} mt={1}>
-                    {renderStorageTanks}
-                </Grid>
-                <Button variant="contained"
-                        endIcon={<DeleteForeverRoundedIcon/>}
-                        sx={{position: 'absolute', top: -10, right: 0}}
-                        style={{
-                            backgroundColor: "#F44336",
-                        }}
-                        onClick={handleDelete}
-                >
-                    Delete
-                </Button>
-            </Box>
-            <CreateCrewMember
-                createOpen={createCrewModalOpen}
-                handleClose={() => setCreateCrewModalOpen(false)}
-                shipId={id}
-            />
-            <CreateStorageTank
-                createOpen={createTankModalOpen}
-                handleClose={() => setCreateTankModalOpen(false)}
-                wastes={wasteRes.data}
-                shipId={id}
-            />
+                    <CreateCrewMember
+                        createOpen={createCrewModalOpen}
+                        handleClose={() => setCreateCrewModalOpen(false)}
+                        shipId={id}
+                    />
+                    <CreateStorageTank
+                        createOpen={createTankModalOpen}
+                        handleClose={() => setCreateTankModalOpen(false)}
+                        wastes={wasteRes.data}
+                        shipId={id}
+                    />
+                </>
+            }
+
 
         </Dashboard>
+
     );
 };
 

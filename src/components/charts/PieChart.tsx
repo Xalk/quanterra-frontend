@@ -86,7 +86,7 @@ export default function ShipPieChart({types}: ShipPieChartProps) {
     if(!types.length) types = [{type: " ", count: 1}];
 
     return (
-        <PieChart width={600} height={400}>
+        <PieChart width={600} height={400} id={'pie-chart'}>
             <Pie
                 data={types}
                 cx={250}

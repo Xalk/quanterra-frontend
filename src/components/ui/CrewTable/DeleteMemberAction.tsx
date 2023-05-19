@@ -20,9 +20,10 @@ const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) 
         const [success, setSuccess] = useState(false);
 
         const queryClient = useQueryClient();
-        const {mutate, isLoading} = useMutation(CrewService.delete, {
+        const {mutate, isLoading} = useMutation(CrewService.deleteFromShip, {
             onSuccess: () => {
                 queryClient.invalidateQueries(['get ship']);
+                queryClient.invalidateQueries(['crew-members']);
                 setSuccess(true);
                 setDeletedRow(null);
             },

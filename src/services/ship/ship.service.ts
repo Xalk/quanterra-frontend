@@ -43,6 +43,7 @@ export const ShipService = {
         })
     },
 
+
     async getByUserId() {
         return instance<IShip>({
             url: `${SHIPS}/by-user-id`,
