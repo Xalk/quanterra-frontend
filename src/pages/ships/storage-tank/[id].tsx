@@ -5,7 +5,7 @@ import {NextPage} from "next";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {StorageTankService} from "@/services/storage-tank/storage-tank.service";
 import {Box, IconButton, Typography} from "@mui/material";
-import tankImg from "@/assets/storagetank_icon.svg";
+import tankImg from "@/assets/storagetank_img.svg";
 import sensorImg from "@/assets/sensor-img.svg";
 import Image from "next/image";
 import s from "@/components/screens/storage-tanks/storage-tank.module.scss"
@@ -16,12 +16,17 @@ import Button from "@mui/material/Button";
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditStorageTank from "@/components/screens/storage-tanks/forms/EditStorageTank";
 import {AxiosError} from "axios";
+import CreateSensor from "@/components/screens/storage-tanks/forms/CreateSensor";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import EditSensor from "@/components/screens/storage-tanks/forms/EditSensor";
 
 const StorageTank: NextPage = () => {
     const router = useRouter()
     const {id} = router.query
 
     const [editStorageTankModalOpen, setEditStorageTankModalOpen] = React.useState(false);
+    const [createSensorModalOpen, setCreateSensorModalOpen] = React.useState(false);
+    const [editSensorModalOpen, setEditSensorModalOpen] = React.useState(false);
 
     const {data, isLoading} = useQuery(
         ['get tank', id],
@@ -47,6 +52,12 @@ const StorageTank: NextPage = () => {
         confirm('Are you sure you want to delete this tank?') &&
         deleteTank.mutate(`${id}`)
         router.replace(`/ships/${data?.ship.id}`)
+    }
+    const handleSensorCreate = () => {
+        setCreateSensorModalOpen(true)
+    }
+    const handleSensorEdit = () => {
+        setEditSensorModalOpen(true)
     }
 
     return (
@@ -98,6 +109,17 @@ const StorageTank: NextPage = () => {
                     </Box>
                     <Typography variant="h5" sx={{textAlign: 'center'}}>
                         Sensor
+                        {
+                            data?.sensor ? (
+                                <IconButton onClick={handleSensorEdit}>
+                                    <EditRoundedIcon/>
+                                </IconButton>
+                            ) : (
+                                <IconButton onClick={handleSensorCreate}>
+                                    <AddCircleOutlineRoundedIcon/>
+                                </IconButton>
+                            )
+                        }
                     </Typography>
                     <Box sx={{display: 'flex', gap: '20px', flexDirection: 'row'}}>
                         <Image src={sensorImg} alt={"tank image"} width={220}/>
@@ -150,6 +172,16 @@ const StorageTank: NextPage = () => {
             <EditStorageTank createOpen={editStorageTankModalOpen}
                              handleClose={() => setEditStorageTankModalOpen(false)}
                              storageTank={data}
+            />
+            <CreateSensor
+                createOpen={createSensorModalOpen}
+                handleClose={() => setCreateSensorModalOpen(false)}
+                storageTankId={data?.id}
+            />
+            <EditSensor
+                createOpen={editSensorModalOpen}
+                handleClose={() => setEditSensorModalOpen(false)}
+                sensor={data?.sensor}
             />
         </Dashboard>
     );

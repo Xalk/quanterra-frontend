@@ -1,6 +1,5 @@
 import {instance} from "@/api/api.interceptor";
 import {IReqWaste, IWaste} from "@/types/waste.interface";
-import {IStorageTank} from "@/types/storage-tank.interface";
 
 const WASTES = 'wastes'
 

@@ -6,3 +6,9 @@ export interface ISensor {
     connectionKey: string
     status: string
 }
+
+export interface IReqSensor {
+    name: string,
+    status?: string
+    storageTankId?: number| string
+}
