@@ -1,5 +1,5 @@
 import {instance} from "@/api/api.interceptor";
-import {IReqShip, IShip} from "@/types/ship.interface";
+import {IMain, IReqShip, IShip} from "@/types/ship.interface";
 import {IReqUser} from "@/types/user.interface";
 import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
 
@@ -56,6 +56,13 @@ export const ShipService = {
             url: `${SHIPS}/${id}/assign`,
             method: 'POST',
             data
+        })
+    },
+
+    async main() {
+        return instance<IMain>({
+            url: `${SHIPS}/main`,
+            method: 'GET'
         })
     },
 }

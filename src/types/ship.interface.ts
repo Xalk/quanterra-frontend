@@ -17,3 +17,15 @@ export interface IReqShip {
     shipType: string,
     buildYear: number
 }
+
+export interface IMain {
+    crewCount: number,
+    shipsCount: number,
+    totalTreatedAmount: ITotalTreatedAmount[]
+    last10Members: ICrewMember[]
+}
+
+export interface ITotalTreatedAmount {
+    month: string,
+    totalTreatedAmount: number
+}

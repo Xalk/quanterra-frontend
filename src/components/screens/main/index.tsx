@@ -12,8 +12,19 @@ import {
     Typography,
 } from '@mui/material';
 import AreaTreatedWaste from "@/components/screens/main/AreaTreatedWaste";
+import {useQuery} from "@tanstack/react-query";
+import {ShipService} from "@/services/ship/ship.service";
 
 export default function Main() {
+
+    const {data} = useQuery(
+        ['main'],
+        () => ShipService.main(),
+        {
+            select: ({data}) => data,
+        }
+    )
+
     return (
         <Box
             sx={{
@@ -35,7 +46,7 @@ export default function Main() {
                     }}
                 >
                     <Group sx={{height: 100, width: 100, opacity: 0.3, mr: 1}}/>
-                    <Typography variant="h4">22</Typography>
+                    <Typography variant="h4">{data?.crewCount}</Typography>
                 </Box>
             </Paper>
             <Paper elevation={3} sx={{p: 3}}>
@@ -48,35 +59,34 @@ export default function Main() {
                     }}
                 >
                     <DirectionsBoat sx={{height: 100, width: 100, opacity: 0.3, mr: 1}}/>
-                    <Typography variant="h4">5</Typography>
+                    <Typography variant="h4">{data?.shipsCount}</Typography>
                 </Box>
             </Paper>
             <Paper elevation={3} sx={{p: 2, gridColumn: 3, gridRow: '1/4'}}>
                 <Box>
-                    <Typography>Recently added Users</Typography>
+                    <Typography>Recently added crew members</Typography>
                     <List>
-                        {[{name: 'Alla'}, {name: 'Lofer'}, {name: 'Alla'}, {name: 'Lofer'}, {name: 'Alla'}, {name: 'Lofer'}].slice(0, 10).map((user, i) => (
-                            <Box key={user.name}>
-                                <ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar alt={user?.name}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={user?.name}
-                                        // secondary={`Time Created: ${moment(user?.createdAt).format(
-                                        //     'YYYY-MM-DD H:mm:ss'
-                                        // )}`}
-                                    />
-                                </ListItem>
-                                <Divider variant="inset"/>
-                            </Box>
-                        ))}
+                        {
+                            data?.last10Members.map((crew, i) => (
+                                <Box key={crew?.id}>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar alt={crew?.user.firstName}/>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={`${crew?.user.firstName} ${crew?.user.lastName}`}
+                                            secondary={`Time Created: ${new Date(crew?.createdAt).toString().slice(0, 24)}`}
+                                        />
+                                    </ListItem>
+                                    <Divider variant="inset"/>
+                                </Box>
+                            ))
+                        }
                     </List>
                 </Box>
             </Paper>
-            {/*<Divider sx={{mt: 3, mb: 3, opacity: 0.7}}/>*/}
-            <Paper elevation={3} sx={{ p: 2, gridColumn: '1/3' }}>
-                <AreaTreatedWaste />
+            <Paper elevation={3} sx={{p: 2, gridColumn: '1/3', height: '500px'}}>
+                <AreaTreatedWaste data={data?.totalTreatedAmount}/>
             </Paper>
         </Box>
     );

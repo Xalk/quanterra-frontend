@@ -95,7 +95,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         let field = {
             field: 'ship',
             headerName: 'Assigned',
-            width: 200,
+            width: 100,
             renderCell: (params: GridRenderCellParams<ICrewMember>) => {
                 return params.row.ship ? 'Yes' : 'No'
             }

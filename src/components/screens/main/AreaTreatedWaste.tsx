@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
     AreaChart,
     Area,
@@ -8,42 +7,21 @@ import {
     Tooltip,
     CartesianGrid
 } from 'recharts';
+import {Typography} from "@mui/material";
+import * as React from "react";
+import {ITotalTreatedAmount} from "@/types/ship.interface";
 
 
-const data = [
-    {
-        month: 'March',
-        totalCollectionRecords: 21,
-    },
-    {
-        month: 'April',
-        totalCollectionRecords: 12,
-    },
-    {
-        month: 'May',
-        totalCollectionRecords: 8,
-    },
-    {
-        month: 'June',
-        totalCollectionRecords: 45,
-    },
-    {
-        month: 'July',
-        totalCollectionRecords: 34,
-    },
-    {
-        month: 'August',
-        totalCollectionRecords: 29,
-    },
-];
+interface AreaTreatedWasteProps {
+    data?: ITotalTreatedAmount[]
+}
 
-export default function AreaTreatedWaste() {
-
-
+export default function AreaTreatedWaste({data}: AreaTreatedWasteProps) {
 
 
     return (
-        <div style={{ width: '100%', height: 300, minWidth: 250 }}>
+        <div style={{width: '100%', height: 400, minWidth: 250}}>
+            <Typography variant="h4" mb={2}>Total amount of treated waste</Typography>
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     width={500}
@@ -56,11 +34,11 @@ export default function AreaTreatedWaste() {
                         bottom: 0,
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="totalCollectionRecords" stroke="#8884d8" fill="#8884d8" />
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="month"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Area type="monotone" dataKey="totalTreatedAmount" stroke="#8884d8" fill="#8884d8"/>
                 </AreaChart>
             </ResponsiveContainer>
         </div>
