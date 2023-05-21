@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {IReqShip} from "@/types/ship.interface";
+import {IReqShip, IShip} from "@/types/ship.interface";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ShipService} from "@/services/ship/ship.service";
 import {AxiosError} from "axios";
@@ -35,13 +35,15 @@ const shipTypes = [
 interface CreateShipProps {
     createOpen: boolean,
     handleClose: () => void
+    ship?: IShip
 }
 
-const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
+const EditShip: React.FC<CreateShipProps> = ({createOpen, handleClose, ship}) => {
 
     const queryClient = useQueryClient();
-    const {error, isError, mutate} = useMutation(ShipService.create, {
+    const {error, isError, mutate} = useMutation(ShipService.update, {
         onSuccess: () => {
+            queryClient.invalidateQueries(['get ship']);
             queryClient.invalidateQueries(['ships']);
             handleClose()
         },
@@ -55,12 +57,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
 
     const onSubmit: SubmitHandler<IReqShip> = async formData => {
 
-        let {shipName, shipType, buildYear} = formData
-        mutate({
-            shipName,
-            shipType,
-            buildYear: Number(buildYear)
-        })
+        mutate({id: `${ship?.id}`, data: formData})
 
     };
 
@@ -79,7 +76,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
 
                 >
                     <Typography component="h1" variant="h5">
-                        Add new ship
+                        Edit ship
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -89,6 +86,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             id="shipName"
                             label="Name"
                             autoComplete="name"
+                            defaultValue={ship?.shipName}
                             autoFocus
                             {...register("shipName", {required: "This field is required"})}
                             error={Boolean(errors.shipName)}
@@ -98,7 +96,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             select
                             required
                             fullWidth
-                            defaultValue=''
+                            defaultValue={ship?.shipType}
                             id="shipType"
                             label="Type"
                             {...register("shipType", {required: "This field is required"})}
@@ -114,6 +112,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             required
                             fullWidth
                             type="number"
+                            defaultValue={ship?.buildYear}
                             InputProps={{
                                 inputProps: {
                                     min: 1800
@@ -145,4 +144,4 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
         ;
 };
 
-export default CreateShip;
+export default EditShip;

@@ -25,6 +25,8 @@ import Button from "@mui/material/Button";
 import {AxiosError} from "axios";
 import Report from "@/components/ui/Report";
 import {BlobProvider} from '@react-pdf/renderer';
+import EditShip from "@/components/screens/ships/forms/EditShip";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 const ShipPieChartWithoutSSR = dynamic(
     import("@/components/charts/PieChart"),
@@ -42,8 +44,10 @@ const Ship: NextPage = () => {
 
     const [createCrewModalOpen, setCreateCrewModalOpen] = React.useState(false);
     const [createTankModalOpen, setCreateTankModalOpen] = React.useState(false);
+    const [editShipModalOpen, setEditShipModalOpen] = React.useState(false);
     const [pieChartUrl, setPieChartUrl] = useState<string | null>(null);
     const [barChartUrl, setBarChartUrl] = useState<string | null>(null);
+
 
     const {data, isLoading} = useQuery(
         ['get ship', id],
@@ -116,6 +120,9 @@ const Ship: NextPage = () => {
         link.click();
     }
 
+    const handleShipEdit = () => {
+        setEditShipModalOpen(true)
+    }
 
     return (
         <Dashboard>
@@ -129,9 +136,14 @@ const Ship: NextPage = () => {
                         maxWidth: "120px",
                         marginLeft: '35px'
                     }}>
-                        <Typography variant="h6" sx={{textAlign: 'center'}}>
-                            {data?.shipName}
-                        </Typography>
+                        <Box sx={{display: 'flex', alignItems: 'center', pl: '30px'}}>
+                            <Typography variant="h6" sx={{textAlign: 'center'}}>
+                                {data?.shipName}
+                            </Typography>
+                            <IconButton onClick={handleShipEdit}>
+                                <EditRoundedIcon/>
+                            </IconButton>
+                        </Box>
                         <Typography variant="h6" sx={{textAlign: 'center'}}>
                             {data?.shipType}
                         </Typography>
@@ -204,6 +216,11 @@ const Ship: NextPage = () => {
                 handleClose={() => setCreateTankModalOpen(false)}
                 wastes={wasteRes.data}
                 shipId={id}
+            />
+            <EditShip
+                createOpen={editShipModalOpen}
+                handleClose={() => setEditShipModalOpen(false)}
+                ship={data}
             />
 
         </Dashboard>

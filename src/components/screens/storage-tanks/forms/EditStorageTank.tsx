@@ -29,7 +29,7 @@ interface CreateStorageTankProps {
     storageTank?: IStorageTank
 }
 
-const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
+const EditStorageTank: React.FC<CreateStorageTankProps> = ({
                                                                  createOpen,
                                                                  handleClose,
                                                                  storageTank
@@ -158,4 +158,4 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
         ;
 };
 
-export default CreateStorageTank;
+export default EditStorageTank;

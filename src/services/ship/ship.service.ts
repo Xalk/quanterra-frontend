@@ -2,6 +2,7 @@ import {instance} from "@/api/api.interceptor";
 import {IMain, IReqShip, IShip} from "@/types/ship.interface";
 import {IReqUser} from "@/types/user.interface";
 import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
+import {IStorageTank} from "@/types/storage-tank.interface";
 
 const SHIPS = 'ships'
 
@@ -28,7 +29,7 @@ export const ShipService = {
         })
     },
 
-    async update(id: string | number, data: Partial<IShip>) {
+    async update({id, data}: { id: string | number, data: Partial<IShip> }) {
         return instance<IShip>({
             url: `${SHIPS}/${id}`,
             method: 'PATCH',

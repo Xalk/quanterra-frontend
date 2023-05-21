@@ -129,7 +129,7 @@ const StorageTank: NextPage = () => {
                                 : <Typography
                                     sx={{display: 'flex', alignItems: 'center'}}>
                                     <CloseRoundedIcon style={{color: '#F44336', fontSize: '32px'}}/>
-                                    Sensor is not connected
+                                    Sensor is not created
                                 </Typography>
                         }
                     </Box>
