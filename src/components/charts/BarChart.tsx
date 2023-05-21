@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     BarChart,
     Bar,
@@ -9,53 +9,38 @@ import {
     Legend
 } from "recharts";
 import {IAmountByMonth} from "@/types/collection-record.interface";
+import {toPng} from "html-to-image";
 
-const data = [
-    {
-        name: "Page A",
-        uv: 4000,
-        pv: 2400,
-        amt: 2400
-    },
-    {
-        name: "Page B",
-        uv: 3000,
-        pv: 1398,
-        amt: 2210
-    },
-    {
-        name: "Page C",
-        uv: 2000,
-        pv: 9800,
-        amt: 2290
-    },
-    {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
-        amt: 2000
-    },
-    {
-        name: "Page E",
-        uv: 1890,
-        pv: 4800,
-        amt: 2181
-    },
-    {
-        name: "Page F",
-        uv: 2390,
-        pv: 3800,
-        amt: 2500
-    },
-];
 
 export interface AmountBarChartProps {
-    amounts?: IAmountByMonth[]
+    amounts?: IAmountByMonth[],
+    setBarChartUrl: (url: string) => void
 }
 
-export default function AmountBarChart({amounts}: AmountBarChartProps) {
+export default function AmountBarChart({amounts, setBarChartUrl}: AmountBarChartProps) {
+
+    useEffect(() => {
+        const generateChartUrl = async () => {
+            const el = document.querySelector('.bar-chart');
+            console.log(el)
+            if (el) {
+                try {
+                    const url = await toPng(el as HTMLElement);
+                    setBarChartUrl(url);
+                } catch (error) {
+                    console.error('Error generating chart URL:', error);
+                }
+            }
+
+        };
+
+        generateChartUrl();
+    }, []);
+
+
     return (
         <BarChart
+            className='bar-chart'
             width={500}
             height={300}
             data={amounts}
@@ -71,8 +56,8 @@ export default function AmountBarChart({amounts}: AmountBarChartProps) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="kg" fill="#8884d8" />
-            <Bar dataKey="liters" fill="#82ca9d" />
+            <Bar dataKey="kg" fill="#8884d8"  isAnimationActive={false}/>
+            <Bar dataKey="liters" fill="#82ca9d"  isAnimationActive={false}/>
         </BarChart>
     );
 }

@@ -1,19 +1,10 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
 import {IconButton} from '@mui/material';
 import dynamic from "next/dynamic";
-
-const ShipPieChartWithoutSSR = dynamic(
-    import("@/components/charts/PieChart"),
-    {ssr: false}
-);
-const ShipBarChartWithoutSSR = dynamic(
-    import("@/components/charts/BarChart"),
-    {ssr: false}
-);
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import s from '@/components/screens/ships/ships.module.scss'
 import Dashboard from "@/components/layout/Dashboard";
@@ -33,8 +24,17 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import Button from "@mui/material/Button";
 import {AxiosError} from "axios";
 import Report from "@/components/ui/Report";
+import {BlobProvider} from '@react-pdf/renderer';
 
-const PDFViewer = dynamic(import('@/components/ui/PDFViewer'), {ssr: false});
+const ShipPieChartWithoutSSR = dynamic(
+    import("@/components/charts/PieChart"),
+    {ssr: false}
+);
+const ShipBarChartWithoutSSR = dynamic(
+    import("@/components/charts/BarChart"),
+    {ssr: false}
+);
+
 
 const Ship: NextPage = () => {
     const router = useRouter()
@@ -42,7 +42,8 @@ const Ship: NextPage = () => {
 
     const [createCrewModalOpen, setCreateCrewModalOpen] = React.useState(false);
     const [createTankModalOpen, setCreateTankModalOpen] = React.useState(false);
-    const [isReportCreated, setIsReportCreated] = React.useState(false);
+    const [pieChartUrl, setPieChartUrl] = useState<string | null>(null);
+    const [barChartUrl, setBarChartUrl] = useState<string | null>(null);
 
     const {data, isLoading} = useQuery(
         ['get ship', id],
@@ -108,102 +109,102 @@ const Ship: NextPage = () => {
         }
     }
 
-    const handleReport = () => {
-        setIsReportCreated(true)
+    const handleReport = (downloadURL: string) => {
+        let link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = `Report_Ship_Id_${id}_${new Date().toString().slice(0, 24)}.pdf`;
+        link.click();
     }
 
-    const handleBack = () => {
-        setIsReportCreated(false)
-    }
 
     return (
         <Dashboard>
-            {
-                isReportCreated ? <>
-                    <Typography onClick={handleBack} sx={{
-                        cursor: 'pointer',
-                        width: '100px',
-                        textDecoration: 'underline'
-                    }} mb={2}>
-                        ← back
-                    </Typography>
-                    <PDFViewer>
-                        <Report/>
-                    </PDFViewer>
-                </> : <>
-                    <Box sx={{position: 'relative'}}>
-                        <Box className={s.charts}>
-                            <ShipBarChartWithoutSSR amounts={avgAmountRes?.data}/>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                maxWidth: "120px",
-                                marginLeft: '35px'
-                            }}>
-                                <Typography variant="h6" sx={{textAlign: 'center'}}>
-                                    {data?.shipName}
-                                </Typography>
-                                <Typography variant="h6" sx={{textAlign: 'center'}}>
-                                    {data?.shipType}
-                                </Typography>
-                                <Typography variant="h6">
-                                    {data?.buildYear}
-                                </Typography>
-                            </Box>
-                            <ShipPieChartWithoutSSR types={typesCount}/>
-                        </Box>
-                        <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
-                            Crew members
-                            <IconButton onClick={handleAddCrewMember}>
-                                <AddCircleOutlineRoundedIcon/>
-                            </IconButton>
+            <Box sx={{position: 'relative'}}>
+                <Box className={s.charts}>
+                    <ShipBarChartWithoutSSR amounts={avgAmountRes?.data} setBarChartUrl={setBarChartUrl}/>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        maxWidth: "120px",
+                        marginLeft: '35px'
+                    }}>
+                        <Typography variant="h6" sx={{textAlign: 'center'}}>
+                            {data?.shipName}
                         </Typography>
-                        <CrewTable members={data?.crewMember}/>
-                        <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
-                            Storage tanks
-                            <IconButton onClick={handleAddStorageTank}>
-                                <AddCircleOutlineRoundedIcon/>
-                            </IconButton>
+                        <Typography variant="h6" sx={{textAlign: 'center'}}>
+                            {data?.shipType}
                         </Typography>
-                        <Grid container spacing={3} mt={1}>
-                            {renderStorageTanks}
-                        </Grid>
-                        <Button variant="contained"
-                                endIcon={<SummarizeIcon/>}
-                                sx={{position: 'absolute', top: -20, left: 0}}
-                                style={{
-                                    backgroundColor: "#080B16",
-                                }}
-                                onClick={handleReport}
-                        >
-                            Generate report
-                        </Button>
-                        <Button variant="contained"
-                                endIcon={<DeleteForeverRoundedIcon/>}
-                                sx={{position: 'absolute', top: -20, right: 0}}
-                                style={{
-                                    backgroundColor: "#F44336",
-                                }}
-                                onClick={handleDelete}
-                        >
-                            Delete
-                        </Button>
+                        <Typography variant="h6">
+                            {data?.buildYear}
+                        </Typography>
                     </Box>
-                    <CreateCrewMember
-                        createOpen={createCrewModalOpen}
-                        handleClose={() => setCreateCrewModalOpen(false)}
-                        shipId={id}
-                    />
-                    <CreateStorageTank
-                        createOpen={createTankModalOpen}
-                        handleClose={() => setCreateTankModalOpen(false)}
-                        wastes={wasteRes.data}
-                        shipId={id}
-                    />
-                </>
-            }
+                    <ShipPieChartWithoutSSR types={typesCount} setPieChartUrl={setPieChartUrl}/>
+                </Box>
+                <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
+                    Crew members
+                    <IconButton onClick={handleAddCrewMember}>
+                        <AddCircleOutlineRoundedIcon/>
+                    </IconButton>
+                </Typography>
+                <CrewTable members={data?.crewMember}/>
+                <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
+                    Storage tanks
+                    <IconButton onClick={handleAddStorageTank}>
+                        <AddCircleOutlineRoundedIcon/>
+                    </IconButton>
+                </Typography>
+                <Grid container spacing={3} mt={1}>
+                    {renderStorageTanks}
+                </Grid>
+                {
+                    (pieChartUrl && barChartUrl) &&
+                    <BlobProvider document={<Report pieChartUrl={pieChartUrl}
+                                                    barChartUrl={barChartUrl}
+                                                    ship={data}
+                    />}>
+                        {({blob, url}) => {
+                            const downloadURL = URL.createObjectURL(
+                                new Blob([blob || ""], {type: "text/plain"}),
+                            );
+                            return (
+                                <Button variant="contained"
+                                        endIcon={<SummarizeIcon/>}
+                                        sx={{position: 'absolute', top: -20, left: 0}}
+                                        style={{
+                                            backgroundColor: "#080B16",
+                                        }}
+                                        onClick={() => handleReport(downloadURL)}
+                                >
+                                    Generate report
+                                </Button>
+                            )
 
+                        }}</BlobProvider>
+                }
+
+                <Button variant="contained"
+                        endIcon={<DeleteForeverRoundedIcon/>}
+                        sx={{position: 'absolute', top: -20, right: 0}}
+                        style={{
+                            backgroundColor: "#F44336",
+                        }}
+                        onClick={handleDelete}
+                >
+                    Delete
+                </Button>
+            </Box>
+            <CreateCrewMember
+                createOpen={createCrewModalOpen}
+                handleClose={() => setCreateCrewModalOpen(false)}
+                shipId={id}
+            />
+            <CreateStorageTank
+                createOpen={createTankModalOpen}
+                handleClose={() => setCreateTankModalOpen(false)}
+                wastes={wasteRes.data}
+                shipId={id}
+            />
 
         </Dashboard>
 

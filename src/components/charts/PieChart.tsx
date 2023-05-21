@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {PieChart, Pie, Sector, Cell, Tooltip} from "recharts";
+import {toPng} from "html-to-image";
 
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "Red"];
@@ -80,13 +81,37 @@ const renderCustomizedLabel = (props: any) => {
 
 interface ShipPieChartProps {
     types:  {type: string, count: number}[]
+    isAnimationActive?: boolean
+    setPieChartUrl: (url: string) => void
 }
 
-export default function ShipPieChart({types}: ShipPieChartProps) {
+export default function ShipPieChart({types, isAnimationActive, setPieChartUrl}: ShipPieChartProps) {
     if(!types.length) types = [{type: " ", count: 1}];
 
+
+
+
+    useEffect(() => {
+        const generateChartUrl = async () => {
+            const el = document.querySelector('.pie-chart');
+            console.log(el)
+            if (el) {
+                try {
+                    const url = await toPng(el as HTMLElement);
+                    setPieChartUrl(url);
+                } catch (error) {
+                    console.error('Error generating chart URL:', error);
+                }
+            }
+
+        };
+
+        generateChartUrl();
+    }, []);
+
+
     return (
-        <PieChart width={600} height={400} id={'pie-chart'}>
+        <PieChart width={600} height={400} className='pie-chart'>
             <Pie
                 data={types}
                 cx={250}
@@ -96,6 +121,7 @@ export default function ShipPieChart({types}: ShipPieChartProps) {
                 dataKey="count"
                 label={renderCustomizedLabel}
                 labelLine
+                isAnimationActive={false}
             >
                 {types.map((entry, index) => (
                     <Cell key={`cell-${entry.type}`} fill={COLORS[index % COLORS.length]}/>

@@ -1,8 +1,8 @@
-import React, {FC, ReactNode} from 'react';
-import ReactPDF, { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import React, {FC, ReactNode, useEffect, useState} from 'react';
+import ReactPDF, {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import Font = ReactPDF.Font;
-import {Box} from "@mui/material";
-import s from "@/components/screens/storage-tanks/storage-tank.module.scss";
+import {toPng} from 'html-to-image';
+import {IShip} from "@/types/ship.interface";
 
 
 // Create styles
@@ -30,13 +30,14 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 18,
         margin: 12,
-        fontFamily: 'Oswald'
+        fontFamily: 'Oswald',
+        marginBottom: 10,
     },
     text: {
-        margin: 12,
+        // margin: 5,
         fontSize: 14,
         textAlign: 'justify',
-        fontFamily: 'Times-Roman'
+        fontFamily: 'Oswald'
     },
     image: {
         marginVertical: 15,
@@ -57,17 +58,30 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'grey',
     },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: 'space-between',
+    },
+    column: {
+        display: "flex",
+        flexDirection: "column",
+    }
 });
 
 
 interface ReportProps {
-    children?: ReactNode
+    pieChartUrl?: string
+    barChartUrl?: string
+    ship?: IShip
 }
 
 // Create Document Component
-const Report: FC<ReportProps> = ({children}) => {
-
-
+const Report: FC<ReportProps> = ({
+                                     pieChartUrl,
+                                     barChartUrl,
+                                     ship
+                                 }) => {
 
     return (
         <Document>
@@ -75,46 +89,31 @@ const Report: FC<ReportProps> = ({children}) => {
                 <Text style={styles.header} fixed>
                     Quanterra
                 </Text>
-                <Text style={styles.title}>Report</Text>
+                <Text style={styles.title}>Summary Report - Ship {ship?.id}</Text>
+                <View style={styles.row}>
+                    <View style={styles.column}>
+                        <Text style={styles.text}>Ship name: {ship?.shipName}</Text>
+                        <Text style={styles.text}>Type: {ship?.shipType}</Text>
+                        <Text style={styles.text}>Build year: {ship?.buildYear}</Text>
+                    </View>
+                    <View style={styles.column}>
+                        <Text style={styles.text}>Total crew members: {ship?.crewMember.length}</Text>
+                        <Text style={styles.text}>Total storage tanks: {ship?.storageTanks.length}</Text>
+                    </View>
+                </View>
 
-                <Box className={s.tableBox}>
-                 <View>
-                     <table>
-                         <tbody>
-                         <tr>
-                             <th>Storage tank ID</th>
-                             <td>Storage tank ID</td>
-                         </tr>
-                         <tr>
-                             <th>Unit</th>
-                             <td>Unit</td>
-                         </tr>
-                         <tr>
-                             <th>Capacity</th>
-                             <td>Unit</td>
-                         </tr>
-                         <tr>
-                             <th>Waste type</th>
-                             <td>Unit</td>
-                         </tr>
-                         <tr>
-                             <th>Description</th>
-                             <td>Unit</td>
-                         </tr>
-                         </tbody>
-                     </table>
-                 </View>
+                <Text style={styles.subtitle}>Total treated waste for the last 6 months</Text>
+                {barChartUrl && <Image src={barChartUrl} style={styles.image}/>}
+                <Text style={styles.subtitle}>Waste types</Text>
+                {pieChartUrl && <Image src={pieChartUrl} style={styles.image}/>}
 
-                </Box>
-
-                <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+                <Text style={styles.pageNumber} render={({pageNumber, totalPages}) => (
                     `${pageNumber} / ${totalPages}`
-                )} fixed />
+                )} fixed/>
             </Page>
         </Document>
     );
 }
-
 
 
 export default Report;
