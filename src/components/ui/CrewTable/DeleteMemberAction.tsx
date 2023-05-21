@@ -3,7 +3,7 @@ import {FC, useEffect, useState} from 'react';
 import {Check} from '@mui/icons-material';
 import {green} from '@mui/material/colors';
 import {IUser} from "@/types/user.interface";
-import {GridRenderCellParams, GridRowId} from "@mui/x-data-grid";
+import {GridRenderCellParams} from "@mui/x-data-grid";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 import {AxiosError} from "axios";
@@ -14,16 +14,25 @@ interface CrewProps {
     params: GridRenderCellParams<IUser>,
     deletedRow: IUser | null,
     setDeletedRow: (id: IUser | null) => void
+    isShipPage: boolean
 }
 
-const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) => {
+const DeleteMemberAction: FC<CrewProps> = ({
+                                               params,
+                                               deletedRow,
+                                               setDeletedRow,
+                                               isShipPage
+                                           }) => {
         const [success, setSuccess] = useState(false);
 
+        const delMethod = isShipPage ? CrewService.deleteFromShip : CrewService.delete;
         const queryClient = useQueryClient();
-        const {mutate, isLoading} = useMutation(CrewService.deleteFromShip, {
+        const {mutate, isLoading} = useMutation(delMethod, {
             onSuccess: () => {
                 queryClient.invalidateQueries(['get ship']);
+                queryClient.invalidateQueries(['ships']);
                 queryClient.invalidateQueries(['crew-members']);
+                queryClient.invalidateQueries(['all crew-members']);
                 setSuccess(true);
                 setDeletedRow(null);
             },
@@ -32,9 +41,9 @@ const DeleteMemberAction: FC<CrewProps> = ({params, deletedRow, setDeletedRow}) 
 
 
         const handleSubmit = async () => {
-
-            confirm('Are you sure you want to remove a member from this ship?') &&
-            mutate(`${deletedRow?.crewId}`)
+            console.log(isShipPage)
+            const msg = isShipPage ? 'Are you sure you want to remove a member from this ship?' : 'Are you sure you want to remove this member?'
+            confirm(msg) && mutate(`${deletedRow?.crewId}`)
 
 
         };

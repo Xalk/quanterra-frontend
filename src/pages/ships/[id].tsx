@@ -147,7 +147,7 @@ const Ship: NextPage = () => {
                         <AddCircleOutlineRoundedIcon/>
                     </IconButton>
                 </Typography>
-                <CrewTable members={data?.crewMember}/>
+                <CrewTable members={data?.crewMember} isShipPage={true}/>
                 <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
                     Storage tanks
                     <IconButton onClick={handleAddStorageTank}>

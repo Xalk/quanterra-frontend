@@ -21,6 +21,7 @@ const SaveMemberAction: FC<CrewProps> = ({params, updatedRow, setUpdatedRow}) =>
         const {mutate, isLoading} = useMutation(UserService.update, {
             onSuccess: () => {
                 queryClient.invalidateQueries(['get ship']);
+                queryClient.invalidateQueries(['all crew-members']);
                 setSuccess(true);
                 setUpdatedRow(null);
             },

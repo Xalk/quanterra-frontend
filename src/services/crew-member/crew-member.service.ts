@@ -23,7 +23,7 @@ export const CrewService = {
     },
 
     async deleteFromShip(id: string | number) {
-        return instance<IShip>({
+        return instance<ICrewMember>({
             url: `${CREW}/from-ship/${id}`,
             method: 'DELETE'
         })

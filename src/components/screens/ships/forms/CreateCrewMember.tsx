@@ -29,18 +29,24 @@ interface CreateShipProps {
     createOpen: boolean,
     handleClose: () => void
     shipId?: string | string[]
+    isShipPage?: boolean
 }
 
-const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, shipId}) => {
+const CreateCrewMember: React.FC<CreateShipProps> = ({
+                                                         createOpen,
+                                                         handleClose,
+                                                         shipId,
+                                                         isShipPage = true
+                                                     }) => {
 
     const [isCreateForm, setIsCreateForm] = React.useState(true)
-    const [crewMembers, setCrewMembers] = React.useState<ICrewMember[]>([])
     const [selectedCrewMemberId, setSelectedCrewMemberId] = React.useState<string | number>('')
 
     const queryClient = useQueryClient();
     const crewAssign = useMutation(ShipService.assign, {
         onSuccess: () => {
             queryClient.invalidateQueries(['get ship']);
+            queryClient.invalidateQueries(['all crew-members']);
             handleClose()
             setIsCreateForm(true)
         },
@@ -53,7 +59,6 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
         () => CrewService.getAll(),
         {
             select: ({data}) => data,
-            // onSuccess: ({data}) => setCrewMembers(data.filter(c => c.ship === null)),
         }
     )
 
@@ -80,7 +85,8 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
     });
 
     const onSubmit: SubmitHandler<IReqCrew> = async formData => {
-        crewAssign.mutate({id: `${shipId}`, data: formData})
+        const ship = isShipPage ? `${shipId}` : `${-1}`
+        crewAssign.mutate({id: ship, data: formData})
     }
 
     const handleSelectSubmit = (e: React.FormEvent) => {
@@ -88,6 +94,12 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
         if (selectedCrewMemberId) {
             crewUpdate.mutate({id: selectedCrewMemberId, data: {shipId: Number(shipId)}})
         }
+    }
+
+    const getFormTitle = () => {
+        const createTitle = isShipPage ? 'Create and assign new crew member to this ship' : 'Create crew member'
+        const selectTitle = 'Select existing crew member'
+        return isCreateForm ? createTitle : selectTitle
     }
 
     return (
@@ -104,7 +116,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
 
                 >
                     <Typography component="h1" variant="h5" mb={2}>
-                        {isCreateForm ? ' Create and assign new crew member to this ship' : 'Select existing crew member'}
+                        {getFormTitle()}
                     </Typography>
                     {
                         isCreateForm ? (
@@ -194,7 +206,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
                 </Box>
 
 
-                <Typography
+                {isShipPage && <Typography
                     sx={{
                         position: 'absolute',
                         top: '10px',
@@ -208,6 +220,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({createOpen, handleClose, s
                     <small
                         onClick={handleToggleForm}>{isCreateForm ? 'select existing crew member →' : '← create crew member'}</small>
                 </Typography>
+                }
             </Container>
         </BasicModal>
 

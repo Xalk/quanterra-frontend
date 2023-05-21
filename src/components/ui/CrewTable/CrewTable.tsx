@@ -12,10 +12,11 @@ import {Typography} from "@mui/material";
 
 
 interface CrewProps {
-    members?: ICrewMember[]
+    members?: ICrewMember[],
+    isShipPage?: boolean
 }
 
-const Crew: FC<CrewProps> = ({members}) => {
+const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
 
     const [updatedRow, setUpdatedRow] = useState<null | IUser>(null);
     const [deletedRow, setDeletedRow] = useState<null | IUser>(null);
@@ -40,6 +41,7 @@ const Crew: FC<CrewProps> = ({members}) => {
             valueOptions: ['admin', 'operator', 'crew member'],
             editable: true,
         },
+
         {
             field: 'createdAt',
             headerName: 'Created At',
@@ -72,7 +74,8 @@ const Crew: FC<CrewProps> = ({members}) => {
             headerName: 'Remove',
             type: 'actions',
             renderCell: (params: GridRenderCellParams<IUser>) => (
-                <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}/>
+                <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}
+                                    isShipPage={isShipPage}/>
             )
         },
         {
@@ -87,6 +90,20 @@ const Crew: FC<CrewProps> = ({members}) => {
         },
     ]
 
+    if (!isShipPage) {
+
+        let field = {
+            field: 'ship',
+            headerName: 'Assigned',
+            width: 200,
+            renderCell: (params: GridRenderCellParams<ICrewMember>) => {
+                return params.row.ship ? 'Yes' : 'No'
+            }
+        }
+
+        columns.splice(5, 0, field)
+    }
+
     const modifiedMembers = members?.map((member) => {
         const {firstName, lastName, email, role, id} = member.user
         return {
@@ -96,6 +113,7 @@ const Crew: FC<CrewProps> = ({members}) => {
             email,
             role,
             id,
+            ship: member.ship,
             crewId: member.id,
         }
     })
