@@ -40,7 +40,7 @@ interface CreateShipProps {
 const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
 
     const queryClient = useQueryClient();
-    const {error, isError, mutate} = useMutation(ShipService.create, {
+    const {error, mutate} = useMutation(ShipService.create, {
         onSuccess: () => {
             queryClient.invalidateQueries(['ships']);
             handleClose()

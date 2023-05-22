@@ -12,8 +12,6 @@ const renderCustomizedLabel = (props: any) => {
         midAngle,
         innerRadius,
         outerRadius,
-        startAngle,
-        endAngle,
         fill,
         percent,
         count,
@@ -85,7 +83,7 @@ interface ShipPieChartProps {
     setPieChartUrl: (url: string) => void
 }
 
-export default function ShipPieChart({types, isAnimationActive, setPieChartUrl}: ShipPieChartProps) {
+export default function ShipPieChart({types,  setPieChartUrl}: ShipPieChartProps) {
     if(!types.length) types = [{type: " ", count: 1}];
 
 

@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
 import logo from "@/assets/logo.svg";
 import {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
