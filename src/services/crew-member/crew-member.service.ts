@@ -1,7 +1,5 @@
 import {instance} from "@/api/api.interceptor";
 import {ICrewMember} from "@/types/crew-member.interface";
-import {IStorageTank} from "@/types/storage-tank.interface";
-import {IShip} from "@/types/ship.interface";
 
 const CREW = 'crew-members'
 

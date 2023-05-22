@@ -1,8 +1,7 @@
 import {instance} from "@/api/api.interceptor";
 import {IMain, IReqShip, IShip} from "@/types/ship.interface";
-import {IReqUser} from "@/types/user.interface";
 import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
-import {IStorageTank} from "@/types/storage-tank.interface";
+
 
 const SHIPS = 'ships'
 

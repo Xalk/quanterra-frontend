@@ -29,7 +29,6 @@ export default function SelectExistingCrew({
                                                selectedCrewMemberId,
                                                setSelectedCrewMemberId
                                            }: SelectExistingCrewProps) {
-    // const [selectedOption, setSelectedOption] = useState(allOptions[0]);
 
     const [searchText, setSearchText] = useState("");
     const displayedOptions = useMemo(
@@ -41,7 +40,6 @@ export default function SelectExistingCrew({
         <FormControl fullWidth>
             <InputLabel id="search-select-label">Options</InputLabel>
             <Select
-                // Disables auto focus on MenuItems and allows TextField to be in focus
                 MenuProps={{autoFocus: false}}
                 labelId="search-select-label"
                 id="search-select"
@@ -49,8 +47,6 @@ export default function SelectExistingCrew({
                 label="Options"
                 onChange={(e) => setSelectedCrewMemberId(e.target.value)}
                 onClose={() => setSearchText("")}
-                // This prevents rendering empty string in Select's value
-                // if search text would exclude currently selected option.
                 renderValue={() => {
                     const crew = crewMembers?.find((member) => member.id === selectedCrewMemberId)?.user
 
@@ -60,13 +56,9 @@ export default function SelectExistingCrew({
                     </Box>
                 }}
             >
-                {/* TextField is put into ListSubheader so that it doesn't
-              act as a selectable item in the menu
-              i.e. we can click the TextField without triggering any selection.*/}
                 <ListSubheader>
                     <TextField
                         size="small"
-                        // Autofocus on textfield
                         autoFocus
                         placeholder="Type to search..."
                         fullWidth
@@ -80,14 +72,13 @@ export default function SelectExistingCrew({
                         onChange={(e) => setSearchText(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key !== "Escape") {
-                                // Prevents autoselecting item while typing (default Select behaviour)
                                 e.stopPropagation();
                             }
                         }}
                     />
                 </ListSubheader>
                 {displayedOptions?.map((member, i) => (
-                    <MenuItem key={i} value={member.id}>
+                    <MenuItem key={member.id} value={member.id}>
                         <Image src={avatarImg} alt={'avatar img'} width={24}/>
                         <Typography ml={1}>{member.user.firstName}&nbsp;{member.user.lastName}</Typography>
                     </MenuItem>

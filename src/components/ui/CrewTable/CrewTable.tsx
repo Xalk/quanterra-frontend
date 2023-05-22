@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {FC, useState} from 'react';
-import {DataGrid, gridClasses, GridColDef, GridRenderCellParams, GridRowId, GridRowsProp} from '@mui/x-data-grid';
+import {DataGrid, gridClasses, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import {grey} from "@mui/material/colors";
 import {ICrewMember} from "@/types/crew-member.interface";
 import {Role} from "@/enums/role.enum";
@@ -64,7 +64,6 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         {
             field: 'save',
             headerName: 'Save',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <SaveMemberAction params={params} updatedRow={updatedRow} setUpdatedRow={setUpdatedRow}/>
             )
@@ -72,7 +71,6 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         {
             field: 'remove',
             headerName: 'Remove',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}
                                     isShipPage={isShipPage}/>
@@ -81,7 +79,6 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         {
             field: 'profile',
             headerName: 'Profile',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <Link href={`/profile/${params.row.crewId}`}>
                     <Typography sx={{textDecoration: 'underline'}}>profile →</Typography>
@@ -117,8 +114,6 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
             crewId: member.id,
         }
     })
-
-    console.log(modifiedMembers)
 
     return (
         <div style={{height: 400, width: '100%'}}>

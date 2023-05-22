@@ -30,13 +30,6 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
         return null;
     }
 
-    // console.log(hasUserRole)
-    //
-    // if (hasUserRole) {
-    //     return <>{children}</>
-    // } else {
-    //     return <div>No access</div>
-    // }
 }
 
 export default CheckRole

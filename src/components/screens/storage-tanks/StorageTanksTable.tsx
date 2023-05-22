@@ -60,7 +60,6 @@ const StorageTanksTable: FC<StorageTanksTableProps> = ({storageTanks}) => {
             width: 200,
             field: 'storage-tank',
             headerName: 'Link',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IStorageTank>) => (
                 <Link href={`/ships/storage-tank/${params.row.id}`}>
                     <Typography sx={{textDecoration: 'underline'}}>storage tank →</Typography>

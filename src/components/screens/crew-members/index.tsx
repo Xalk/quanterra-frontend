@@ -1,10 +1,7 @@
 import React from 'react';
 import {Box, IconButton, Typography} from "@mui/material";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import WastesTable from "@/components/screens/wastes/WastesTable";
-import CreateWaste from "@/components/screens/wastes/forms/CreateWaste";
 import {useQuery} from "@tanstack/react-query";
-import {WasteService} from "@/services/waste/waste.service";
 import {CrewService} from "@/services/crew-member/crew-member.service";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
 import CreateCrewMember from "@/components/screens/ships/forms/CreateCrewMember";

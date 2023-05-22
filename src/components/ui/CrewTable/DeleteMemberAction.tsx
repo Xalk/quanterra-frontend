@@ -41,7 +41,6 @@ const DeleteMemberAction: FC<CrewProps> = ({
 
 
         const handleSubmit = async () => {
-            console.log(isShipPage)
             const msg = isShipPage ? 'Are you sure you want to remove a member from this ship?' : 'Are you sure you want to remove this member?'
             confirm(msg) && mutate(`${deletedRow?.crewId}`)
 

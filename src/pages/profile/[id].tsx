@@ -3,7 +3,6 @@ import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Dashboard from "@/components/layout/Dashboard";
 import {useQuery} from "@tanstack/react-query";
-import {ShipService} from "@/services/ship/ship.service";
 import {CrewService} from "@/services/crew-member/crew-member.service";
 import {Box, Typography} from "@mui/material";
 import Image from "next/image";

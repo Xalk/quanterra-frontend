@@ -1,10 +1,6 @@
-import * as React from 'react';
-import {FC, useState} from 'react';
-import {DataGrid, gridClasses, GridColDef, GridRenderCellParams, GridRowId, GridRowsProp} from '@mui/x-data-grid';
+import {FC} from 'react';
+import {DataGrid, gridClasses, GridColDef} from '@mui/x-data-grid';
 import {grey} from "@mui/material/colors";
-import Link from "next/link";
-import {Typography} from "@mui/material";
-import {IStorageTank} from "@/types/storage-tank.interface";
 import {ICollectionRecord} from "@/types/collection-record.interface";
 
 
@@ -56,9 +52,6 @@ const CollectionRecordsTable: FC<CollectionRecordsTableProps> = ({collectionReco
             type: record.storageTank?.waste?.type
         }
     })
-
-    console.log(modifiedTanks)
-
 
     return (
         <div style={{height: '100%', width: '100%'}}>

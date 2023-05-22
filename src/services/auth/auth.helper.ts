@@ -1,4 +1,3 @@
-import {  } from "@/store/user/user.interface"
 import Cookies from "js-cookie"
 import {IAuthResponse, ITokens} from "@/types/user.interface";
 

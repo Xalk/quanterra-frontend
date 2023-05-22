@@ -59,7 +59,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onOpenSignIn}) => {
 
 
         } catch (err: any | AxiosError) {
-            console.log(err)
             setResponseError(err.response.data.message)
         }
     };

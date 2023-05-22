@@ -22,7 +22,6 @@ export default function AmountBarChart({amounts, setBarChartUrl}: AmountBarChart
     useEffect(() => {
         const generateChartUrl = async () => {
             const el = document.querySelector('.bar-chart');
-            console.log(el)
             if (el) {
                 try {
                     const url = await toPng(el as HTMLElement);

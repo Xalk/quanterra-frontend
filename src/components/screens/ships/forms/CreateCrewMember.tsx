@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {Alert, FormHelperText, MenuItem} from "@mui/material";
+import {Alert, MenuItem} from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
@@ -13,7 +13,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ShipService} from "@/services/ship/ship.service";
 import {AxiosError} from "axios";
 import {Role} from "@/enums/role.enum";
-import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
+import {IReqCrew} from "@/types/crew-member.interface";
 import {CreateCrewSchema} from "@/validations/crew-member.validation";
 import SelectExistingCrew from "@/components/ui/SelectExistingCrew";
 import {CrewService} from "@/services/crew-member/crew-member.service";
@@ -170,7 +170,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     helperText={errors.role ? errors.role.message : " "}
                                 >
                                     {roles.map((role, index) => (
-                                        <MenuItem key={index} value={role}>{role}</MenuItem>
+                                        <MenuItem key={role} value={role}>{role}</MenuItem>
                                     ))}
                                 </TextField>
                                 {crewAssign.error &&

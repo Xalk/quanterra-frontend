@@ -1,11 +1,9 @@
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import ReactPDF, {Page, Text, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import Font = ReactPDF.Font;
-import {toPng} from 'html-to-image';
 import {IShip} from "@/types/ship.interface";
 
 
-// Create styles
 Font.register({
     family: 'Oswald',
     src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
@@ -34,7 +32,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     text: {
-        // margin: 5,
         fontSize: 14,
         textAlign: 'justify',
         fontFamily: 'Oswald'
@@ -76,7 +73,6 @@ interface ReportProps {
     ship?: IShip
 }
 
-// Create Document Component
 const Report: FC<ReportProps> = ({
                                      pieChartUrl,
                                      barChartUrl,

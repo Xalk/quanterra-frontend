@@ -8,9 +8,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import PublicIcon from '@mui/icons-material/Public';
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
@@ -90,7 +87,6 @@ function Index(props: DrawerProps) {
                         width: "100%",
                         justifyContent: 'start',
                         alignItems: 'end',
-                        // gap: '5px',
                         py: '10px'
                     }}>
                         <Image src={logo} alt={'logo'} width={48}/>
@@ -105,7 +101,7 @@ function Index(props: DrawerProps) {
                             <ListItemText sx={{color: '#fff'}}>{id}</ListItemText>
                         </ListItem>
                         {children.map(({id: childId, icon, targetUrl}) => (
-                            <Link key={id} href={targetUrl}>
+                            <Link key={childId} href={targetUrl}>
                                 <ListItem disablePadding key={childId}>
                                     <ListItemButton sx={item} className={s.MuiListItemButton}
                                                     selected={isActive(targetUrl)}>

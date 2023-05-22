@@ -4,13 +4,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {Alert, FormHelperText, MenuItem} from "@mui/material";
+import {Alert, MenuItem} from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {ShipService} from "@/services/ship/ship.service";
 import {AxiosError} from "axios";
 import {IReqStorageTank} from "@/types/storage-tank.interface";
 import {IWaste} from "@/types/waste.interface";
@@ -94,7 +93,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                             helperText={errors.unit ? errors.unit.message : " "}
                         >
                             {units.map((unit, index) => (
-                                <MenuItem key={index} value={unit}>{unit}</MenuItem>
+                                <MenuItem key={unit} value={unit}>{unit}</MenuItem>
                             ))}
                         </TextField>
 

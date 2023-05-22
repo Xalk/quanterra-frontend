@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {PieChart, Pie, Sector, Cell, Tooltip} from "recharts";
+import React, {useEffect} from "react";
+import {PieChart, Pie, Cell, Tooltip} from "recharts";
 import {toPng} from "html-to-image";
 
 
@@ -94,7 +94,6 @@ export default function ShipPieChart({types, isAnimationActive, setPieChartUrl}:
     useEffect(() => {
         const generateChartUrl = async () => {
             const el = document.querySelector('.pie-chart');
-            console.log(el)
             if (el) {
                 try {
                     const url = await toPng(el as HTMLElement);

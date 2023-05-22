@@ -71,7 +71,6 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
         {
             field: 'save',
             headerName: 'Save',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IWaste>) => (
                 <SaveWasteAction params={params} updatedRow={updatedRow} setUpdatedRow={setUpdatedRow}/>
             )
@@ -79,7 +78,6 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
         {
             field: 'remove',
             headerName: 'Remove',
-            type: 'actions',
             renderCell: (params: GridRenderCellParams<IWaste>) => (
                 <DeleteWasteAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}/>
             )

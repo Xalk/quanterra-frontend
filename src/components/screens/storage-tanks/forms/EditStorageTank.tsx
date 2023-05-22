@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import BasicModal from "@/components/ui/Modal";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {Alert, FormHelperText, MenuItem} from "@mui/material";
+import {Alert, MenuItem} from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
@@ -100,7 +100,7 @@ const EditStorageTank: React.FC<CreateStorageTankProps> = ({
                             helperText={errors.unit ? errors.unit.message : " "}
                         >
                             {units.map((unit, index) => (
-                                <MenuItem key={index} value={unit}>{unit}</MenuItem>
+                                <MenuItem key={unit} value={unit}>{unit}</MenuItem>
                             ))}
                         </TextField>
 

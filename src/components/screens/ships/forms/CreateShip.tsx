@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import BasicModal from "@/components/ui/Modal";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {Alert, FormHelperText, MenuItem} from "@mui/material";
+import {Alert, MenuItem} from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
@@ -106,7 +106,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             helperText={errors.shipType ? errors.shipType.message : " "}
                         >
                             {shipTypes.map((type, index) => (
-                                <MenuItem key={index} value={type}>{type}</MenuItem>
+                                <MenuItem key={type} value={type}>{type}</MenuItem>
                             ))}
                         </TextField>
                         <TextField

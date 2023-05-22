@@ -3,8 +3,8 @@ import {FC, useEffect, useState} from 'react';
 import {Check, Save} from '@mui/icons-material';
 import {green} from '@mui/material/colors';
 import {IUser} from "@/types/user.interface";
-import {GridRenderCellParams, GridRowId} from "@mui/x-data-grid";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {GridRenderCellParams} from "@mui/x-data-grid";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {UserService} from "@/services/user/user.service";
 import {AxiosError} from "axios";
 
