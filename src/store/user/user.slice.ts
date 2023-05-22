@@ -15,6 +15,9 @@ export const userSlice = createSlice({
     reducers: {
         setError: (state, action) => {
             state.error = action.payload
+        },
+        setProfile: (state, action) => {
+            state.user = action.payload
         }
     },
     extraReducers: (builder) => {

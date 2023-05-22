@@ -8,9 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
-import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 import Link from "next/link";
 import s from './navigator.module.scss'
 import {useRouter} from "next/router";
@@ -27,7 +25,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 
 let categories = [
     {
-        id: 'Build',
+        id: 'Main',
         children: [
             {
                 id: 'Home',
@@ -45,11 +43,9 @@ let categories = [
         ],
     },
     {
-        id: 'Quality',
+        id: 'Additional',
         children: [
-            {id: 'Analytics', icon: <SettingsIcon/>, targetUrl: '/personal'},
-            {id: 'Performance', icon: <TimerIcon/>, targetUrl: '/personal'},
-            {id: 'Test Lab', icon: <PhonelinkSetupIcon/>, targetUrl: '/personal'},
+            {id: 'Settings', icon: <SettingsIcon/>, targetUrl: '/settings'},
         ],
     },
 ];

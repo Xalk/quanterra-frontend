@@ -1,6 +1,6 @@
 import {saveToStorage} from "./auth.helper";
-import { instanceClassic } from "@/api/api.interceptor";
-import {IEmailPassword, IReqUser, IAuthResponse} from "@/types/user.interface";
+import {instance, instanceClassic} from "@/api/api.interceptor";
+import {IEmailPassword, IReqUser, IAuthResponse, IUser} from "@/types/user.interface";
 import Cookies from "js-cookie";
 
 export const AuthService = {
@@ -49,6 +49,15 @@ export const AuthService = {
         }
 
         return response
-    }
+    },
+
+
+    async updateProfile(data: Partial<IUser>) {
+        return instance<IUser>({
+            url: 'auth/profile',
+            method: 'PATCH',
+            data
+        })
+    },
 }
 

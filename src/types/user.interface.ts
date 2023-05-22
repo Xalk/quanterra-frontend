@@ -38,3 +38,8 @@ export interface IUserLogs {
     route: string,
     user: IUser
 }
+
+export interface IReqProfile {
+    firstName: string,
+    lastName: string,
+}
