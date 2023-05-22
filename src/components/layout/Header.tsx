@@ -3,70 +3,58 @@ import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import {useActions} from "@/hooks/useActions";
 
-
-const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 interface HeaderProps {
     onDrawerToggle: () => void;
 }
 
 export default function Header(props: HeaderProps) {
-    const { onDrawerToggle } = props;
+    const {onDrawerToggle} = props;
 
+    const {logout} = useActions()
+
+    const handleLogout = () => {
+        confirm('Are you sure you want to logout?') && logout()
+    }
     return (
         <React.Fragment>
             <AppBar color="primary" position="sticky" elevation={0}>
                 <Toolbar>
                     <Grid container spacing={1} alignItems="center">
-                        <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
+                        <Grid sx={{display: {sm: 'none', xs: 'block'}}} item>
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
                                 onClick={onDrawerToggle}
                                 edge="start"
                             >
-                                <MenuIcon />
+                                <MenuIcon/>
                             </IconButton>
                         </Grid>
-                        <Grid item xs />
+                        <Grid item xs/>
                         <Grid item>
-                            <Link
-                                href="/"
-                                variant="body2"
-                                sx={{
-                                    textDecoration: 'none',
-                                    color: lightColor,
-                                    '&:hover': {
-                                        color: 'common.white',
-                                    },
-                                }}
-                                rel="noopener noreferrer"
-                                target="_blank"
+                            <Button variant="contained"
+                                    endIcon={<LogoutRoundedIcon/>}
+                                    style={{
+                                        backgroundColor: "#080B16",
+                                        border: '1px solid #707070',
+                                        padding: '3px 8px',
+                                    }}
+                                    onClick={handleLogout}
                             >
-                                Go to docs
-                            </Link>
+                                Logout
+                            </Button>
                         </Grid>
                         <Grid item>
-                            <Tooltip title="Alerts • No alerts">
-                                <IconButton color="inherit">
-                                    <NotificationsIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                        <Grid item>
-                            <IconButton color="inherit" sx={{ p: 0.5 }}>
-                                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+                            <IconButton color="inherit" sx={{p: 0.5}}>
+                                <Avatar alt="My Avatar"/>
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -77,7 +65,7 @@ export default function Header(props: HeaderProps) {
                 color="primary"
                 position="static"
                 elevation={0}
-                sx={{ zIndex: 0 }}
+                sx={{zIndex: 0}}
             >
                 <Toolbar>
                     <Grid container alignItems="center" spacing={1}>
@@ -85,23 +73,6 @@ export default function Header(props: HeaderProps) {
                             <Typography color="inherit" variant="h5" component="h1">
                                 Authentication
                             </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Button
-                                sx={{ borderColor: lightColor }}
-                                variant="outlined"
-                                color="inherit"
-                                size="small"
-                            >
-                                Web setup
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Tooltip title="Help">
-                                <IconButton color="inherit">
-                                    <HelpIcon />
-                                </IconButton>
-                            </Tooltip>
                         </Grid>
                     </Grid>
                 </Toolbar>
