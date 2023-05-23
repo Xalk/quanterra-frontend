@@ -36,6 +36,7 @@
   "ships.type": "Type",
   "ships.build_year": "Build Year",
   "ships.create": "Add new ship",
+  "ships.header_text": "Welcome to the Ship Waste Management System! This platform allows you to efficiently manage waste on ships. Use the search bar above to find specific ships by their names and access their waste management information. Explore detailed ship cards. With our system, you can ensure proper waste handling and contribute to a cleaner marine environment. Start managing ship waste effectively today. Together, let's make a difference!",
 
   "ship.report": "Generate report",
   "ship.delete": "Delete",
@@ -86,6 +87,14 @@
   "settings.profile": "Profile",
   "settings.title": "Settings",
   "settings.save_btn": "Save",
+
+  "profile.info": "Profile info",
+  "profile.crew": "Crew",
+  "profile.assignment": "Ship Work Assignment",
+  "profile.ship": "Ship",
+  "profile.ship_name": "Ship name",
+  "profile.assigned_from": "Assigned From",
+  "profile.no_ship_assigned": "No ship assigned",
 
   "locale": "en-US",
   "submit_btn": "Submit",

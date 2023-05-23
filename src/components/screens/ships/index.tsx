@@ -73,13 +73,7 @@ const Ships = () => {
                     minWidth: '450px',
                 }}>
                     <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias beatae doloremque
-                        expedita
-                        impedit neque placeat reprehenderit sapiente sequi tempora. Alias maiores non
-                        reiciendis
-                        sint
-                        voluptas?
-                        Aperiam mollitia ratione reprehenderit.
+                        {t('ships.header_text')}
                     </Typography>
                     <Toolbar
                         sx={{

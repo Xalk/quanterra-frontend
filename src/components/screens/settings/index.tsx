@@ -100,7 +100,7 @@ const Settings: React.FC<SettingsProps> = () => {
                                 fullWidth
                                 defaultValue={user?.firstName}
                                 id="firstName"
-                                label="firstName"
+                                label={t('crew_members.first_name')}
                                 autoComplete="firstName"
                                 autoFocus
                                 inputProps={{onChange: handleTextFieldChange}}
@@ -114,7 +114,7 @@ const Settings: React.FC<SettingsProps> = () => {
                                 fullWidth
                                 defaultValue={user?.lastName}
                                 id="lastName"
-                                label="lastName"
+                                label={t('crew_members.last_name')}
                                 autoComplete="lastName"
                                 autoFocus
                                 inputProps={{onChange: handleTextFieldChange}}

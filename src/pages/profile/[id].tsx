@@ -7,6 +7,7 @@ import {CrewService} from "@/services/crew-member/crew-member.service";
 import {Box, Typography} from "@mui/material";
 import Image from "next/image";
 import avatarImg from "@/assets/profile.svg"
+import {useTranslate} from "@/contexts/TranslateContext";
 
 interface ProfileProps {
 
@@ -14,6 +15,7 @@ interface ProfileProps {
 
 
 const Profile: NextPage<ProfileProps> = () => {
+    const t = useTranslate()
     const router = useRouter()
     const {id} = router.query
 
@@ -25,6 +27,20 @@ const Profile: NextPage<ProfileProps> = () => {
             enabled: !!id
         }
     )
+
+    const handleDate = (updatedDate: string): string => {
+        const date = new Date(updatedDate);
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        } as const
+        const locale = t('locale')
+        return new Intl.DateTimeFormat(locale, options).format(date)
+    }
 
     return (
         <Dashboard>
@@ -44,23 +60,24 @@ const Profile: NextPage<ProfileProps> = () => {
                         padding: 2
                     }}
                 >
-                    <Typography mb={2} align='center' fontSize={22}><strong>Profile info</strong></Typography>
-                    <Typography><strong>Crew ID: </strong>{data?.id}</Typography>
-                    <Typography><strong>First name: </strong>{data?.user.firstName}</Typography>
-                    <Typography><strong>Last name: </strong>{data?.user.lastName}</Typography>
-                    <Typography><strong>Role: </strong>{data?.user.role}</Typography>
+                    <Typography mb={2} align='center' fontSize={22}><strong>{t('profile.info')}</strong></Typography>
+                    <Typography><strong>{t('profile.crew')} ID: </strong>{data?.id}</Typography>
+                    <Typography><strong>{t('crew_members.first_name')}: </strong>{data?.user.firstName}</Typography>
+                    <Typography><strong>{t('crew_members.last_name')}: </strong>{data?.user.lastName}</Typography>
+                    <Typography><strong>{t('crew_members.role')}: </strong>{data?.user.role}</Typography>
                 </Box>
                 <Box sx={{flex: "2 1 0", padding: 2}}>
-                    <Typography mb={2} align='center' fontSize={22}><strong>Ship Work Assignment</strong></Typography>
+                    <Typography mb={2} align='center'
+                                fontSize={22}><strong>{t('profile.assignment')}</strong></Typography>
                     {
                         data?.ship ? <>
-                            <Typography><strong>Ship ID: </strong>{data?.ship.id}</Typography>
-                            <Typography><strong>Ship name: </strong>{data?.ship.shipName}</Typography>
-                            <Typography><strong>Type: </strong>{data?.ship.shipType}</Typography>
-                            <Typography><strong>Build year: </strong>{data?.ship.buildYear}</Typography>
-                            <Typography><strong>Assigned From: </strong>{`${new Date(`${data?.updatedAt}`)}`.slice(0, 24)}
+                            <Typography><strong>{t('profile.ship')} ID: </strong>{data?.ship.id}</Typography>
+                            <Typography><strong>{t('profile.ship_name')}: </strong>{data?.ship.shipName}</Typography>
+                            <Typography><strong>{t('ships.type')}: </strong>{data?.ship.shipType}</Typography>
+                            <Typography><strong>{t('ships.build_year')}: </strong>{data?.ship.buildYear}</Typography>
+                            <Typography><strong>{t('profile.assigned_from')}: </strong>{`${handleDate(data?.updatedAt)}`.slice(0, 24)}
                             </Typography>
-                        </>: <Typography>No ship assigned</Typography>
+                        </> : <Typography>{t('profile.no_ship_assigned')}</Typography>
                     }
                 </Box>
             </Box>

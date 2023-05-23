@@ -32,7 +32,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
 
         },
         {field: 'firstName', headerName: t('crew_members.first_name'), width: 120},
-        {field: 'lastName', headerName: t('crew_members.last_name'), width: 170},
+        {field: 'lastName', headerName: t('crew_members.last_name'), width: 120},
         {field: 'email', headerName: t('crew_members.email'), width: 200},
         {
             field: 'role',
@@ -46,7 +46,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         {
             field: 'createdAt',
             headerName: t('crew_members.created_at'),
-            width: 200,
+            width: 150,
             renderCell: (params) => {
                 const date = new Date(params.value);
                 const options = {

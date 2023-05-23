@@ -53,7 +53,8 @@ const StorageTanksTable: FC<StorageTanksTableProps> = ({storageTanks}) => {
                     minute: '2-digit',
                     second: '2-digit',
                 } as const
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+                const locale = t('locale')
+                const formattedDate = new Intl.DateTimeFormat(locale, options).format(date)
                 return formattedDate.slice(0, 10)
             }
 

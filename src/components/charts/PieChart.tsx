@@ -106,7 +106,7 @@ export default function ShipPieChart({types,  setPieChartUrl}: ShipPieChartProps
 
 
     return (
-        <PieChart width={600} height={400} className='pie-chart'>
+        <PieChart width={500} height={400} className='pie-chart'>
             <Pie
                 data={types}
                 cx={250}
