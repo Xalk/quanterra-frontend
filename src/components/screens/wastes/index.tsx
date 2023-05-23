@@ -6,6 +6,7 @@ import {WasteService} from "@/services/waste/waste.service";
 import CreateWaste from "@/components/screens/wastes/forms/CreateWaste";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import {useTranslate} from "@/contexts/TranslateContext";
+import Loader from '@/components/ui/Loader';
 
 interface WastesProps {
 
@@ -30,15 +31,21 @@ const Wastes: React.FC<WastesProps> = () => {
     }
 
     return (
-        <Box>
-            <Typography mb={2} align='center' fontSize={22}><strong>{t('navigator.wastes')}</strong>
-                <IconButton onClick={handleAddWaste}>
-                    <AddCircleOutlineRoundedIcon/>
-                </IconButton>
-            </Typography>
-            <WastesTable wastes={wasteRes?.data}/>
-            <CreateWaste createOpen={createWasteModalOpen} handleClose={()=>setCreateWasteModalOpen(false)}/>
-        </Box>
+        <>
+            {
+                wasteRes.isLoading ? <Loader/> :(
+                    <Box>
+                        <Typography mb={2} align='center' fontSize={22}><strong>{t('navigator.wastes')}</strong>
+                            <IconButton onClick={handleAddWaste}>
+                                <AddCircleOutlineRoundedIcon/>
+                            </IconButton>
+                        </Typography>
+                        <WastesTable wastes={wasteRes?.data}/>
+                        <CreateWaste createOpen={createWasteModalOpen} handleClose={()=>setCreateWasteModalOpen(false)}/>
+                    </Box>
+                )
+            }
+        </>
     );
 };
 

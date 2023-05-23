@@ -90,6 +90,7 @@
   "locale": "en-US",
   "submit_btn": "Submit",
   "logout_btn": "Logout",
+  "details_btn": "Details",
 
   "auth.valid.email.format": "Incorrect format",
   "auth.valid.email.required": "E-mail is required",

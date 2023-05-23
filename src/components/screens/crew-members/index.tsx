@@ -6,6 +6,7 @@ import {CrewService} from "@/services/crew-member/crew-member.service";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
 import CreateCrewMember from "@/components/screens/ships/forms/CreateCrewMember";
 import {useIntl} from "react-intl";
+import Loader from "@/components/ui/Loader";
 
 interface CrewMembersProps {
 
@@ -30,24 +31,30 @@ const CrewMembers: React.FC<CrewMembersProps> = () => {
 
 
     return (
-        <Box>
-            <Typography mb={2}
-                        align='center'
-                        fontSize={22}>
-                <strong>
-                    {intl.formatMessage({id: 'crew_members.title'})}
-                </strong>
-                <IconButton onClick={handleAddCrew}>
-                    <AddCircleOutlineRoundedIcon/>
-                </IconButton>
-            </Typography>
-            <CrewTable members={crew?.data} isShipPage={false}/>
-            <CreateCrewMember
-                createOpen={createCrewModalOpen}
-                handleClose={() => setCreateCrewModalOpen(false)}
-                isShipPage={false}
-            />
-        </Box>
+        <>
+            {
+                crew.isLoading ? <Loader/> :(
+                    <Box>
+                        <Typography mb={2}
+                                    align='center'
+                                    fontSize={22}>
+                            <strong>
+                                {intl.formatMessage({id: 'crew_members.title'})}
+                            </strong>
+                            <IconButton onClick={handleAddCrew}>
+                                <AddCircleOutlineRoundedIcon/>
+                            </IconButton>
+                        </Typography>
+                        <CrewTable members={crew?.data} isShipPage={false}/>
+                        <CreateCrewMember
+                            createOpen={createCrewModalOpen}
+                            handleClose={() => setCreateCrewModalOpen(false)}
+                            isShipPage={false}
+                        />
+                    </Box>
+                )
+            }
+        </>
     );
 };
 

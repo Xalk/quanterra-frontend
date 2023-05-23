@@ -3,7 +3,7 @@ import {NextPage} from "next";
 import {useRouter} from "next/router";
 import Box from "@mui/material/Box";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
-import {IconButton} from '@mui/material';
+import {CircularProgress, IconButton} from '@mui/material';
 import dynamic from "next/dynamic";
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import s from '@/components/screens/ships/ships.module.scss'
@@ -28,6 +28,7 @@ import {BlobProvider} from '@react-pdf/renderer';
 import EditShip from "@/components/screens/ships/forms/EditShip";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import {useTranslate} from "@/contexts/TranslateContext";
+import Loader from "@/components/ui/Loader";
 
 const ShipPieChartWithoutSSR = dynamic(
     import("@/components/charts/PieChart"),
@@ -101,9 +102,6 @@ const Ship: NextPage = () => {
         setCreateTankModalOpen(true)
     }
 
-    if (isLoading) return <div>Loading...</div>
-
-
     const typesCount = wasteTypeCount(data?.storageTanks)
 
 
@@ -128,102 +126,111 @@ const Ship: NextPage = () => {
 
     return (
         <Dashboard>
-            <Box sx={{position: 'relative'}}>
-                <Box className={s.charts}>
-                    <ShipBarChartWithoutSSR amounts={avgAmountRes?.data} setBarChartUrl={setBarChartUrl}/>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        maxWidth: "120px",
-                        marginLeft: '35px'
-                    }}>
-                        <Box sx={{display: 'flex', alignItems: 'center', pl: '30px'}}>
-                            <Typography variant="h6" sx={{textAlign: 'center'}}>
-                                {data?.shipName}
+            {
+                isLoading ? (
+                    <Loader/>
+                ) : (
+                    <>
+                        <Box sx={{position: 'relative'}}>
+                            <Box className={s.charts}>
+                                <ShipBarChartWithoutSSR amounts={avgAmountRes?.data} setBarChartUrl={setBarChartUrl}/>
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    maxWidth: "120px",
+                                    marginLeft: '35px'
+                                }}>
+                                    <Box sx={{display: 'flex', alignItems: 'center', pl: '30px'}}>
+                                        <Typography variant="h6" sx={{textAlign: 'center'}}>
+                                            {data?.shipName}
+                                        </Typography>
+                                        <IconButton onClick={handleShipEdit}>
+                                            <EditRoundedIcon/>
+                                        </IconButton>
+                                    </Box>
+                                    <Typography variant="h6" sx={{textAlign: 'center'}}>
+                                        {data?.shipType}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {data?.buildYear}
+                                    </Typography>
+                                </Box>
+                                <ShipPieChartWithoutSSR types={typesCount} setPieChartUrl={setPieChartUrl}/>
+                            </Box>
+                            <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
+                                {t('navigator.crew_members')}
+                                <IconButton onClick={handleAddCrewMember}>
+                                    <AddCircleOutlineRoundedIcon/>
+                                </IconButton>
                             </Typography>
-                            <IconButton onClick={handleShipEdit}>
-                                <EditRoundedIcon/>
-                            </IconButton>
+                            <CrewTable members={data?.crewMember} isShipPage={true}/>
+                            <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
+                                {t('navigator.storage_tanks')}
+                                <IconButton onClick={handleAddStorageTank}>
+                                    <AddCircleOutlineRoundedIcon/>
+                                </IconButton>
+                            </Typography>
+                            <Grid container spacing={3} mt={1}>
+                                {renderStorageTanks}
+                            </Grid>
+                            {
+                                (pieChartUrl && barChartUrl) &&
+                                <BlobProvider document={<Report pieChartUrl={pieChartUrl}
+                                                                barChartUrl={barChartUrl}
+                                                                ship={data}
+                                />}>
+                                    {({blob, url}) => {
+                                        const downloadURL = URL.createObjectURL(
+                                            new Blob([blob || ""], {type: "text/plain"}),
+                                        );
+                                        return (
+                                            <Button variant="contained"
+                                                    endIcon={<SummarizeIcon/>}
+                                                    sx={{position: 'absolute', top: -20, left: 0}}
+                                                    style={{
+                                                        backgroundColor: "#080B16",
+                                                    }}
+                                                    onClick={() => handleReport(downloadURL)}
+                                            >
+                                                {t('ship.report')}
+                                            </Button>
+                                        )
+
+                                    }}</BlobProvider>
+                            }
+
+                            <Button variant="contained"
+                                    endIcon={<DeleteForeverRoundedIcon/>}
+                                    sx={{position: 'absolute', top: -20, right: 0}}
+                                    style={{
+                                        backgroundColor: "#F44336",
+                                    }}
+                                    onClick={handleDelete}
+                            >
+                                {t('ship.delete')}
+                            </Button>
                         </Box>
-                        <Typography variant="h6" sx={{textAlign: 'center'}}>
-                            {data?.shipType}
-                        </Typography>
-                        <Typography variant="h6">
-                            {data?.buildYear}
-                        </Typography>
-                    </Box>
-                    <ShipPieChartWithoutSSR types={typesCount} setPieChartUrl={setPieChartUrl}/>
-                </Box>
-                <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
-                    {t('navigator.crew_members')}
-                    <IconButton onClick={handleAddCrewMember}>
-                        <AddCircleOutlineRoundedIcon/>
-                    </IconButton>
-                </Typography>
-                <CrewTable members={data?.crewMember} isShipPage={true}/>
-                <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
-                    {t('navigator.storage_tanks')}
-                    <IconButton onClick={handleAddStorageTank}>
-                        <AddCircleOutlineRoundedIcon/>
-                    </IconButton>
-                </Typography>
-                <Grid container spacing={3} mt={1}>
-                    {renderStorageTanks}
-                </Grid>
-                {
-                    (pieChartUrl && barChartUrl) &&
-                    <BlobProvider document={<Report pieChartUrl={pieChartUrl}
-                                                    barChartUrl={barChartUrl}
-                                                    ship={data}
-                    />}>
-                        {({blob, url}) => {
-                            const downloadURL = URL.createObjectURL(
-                                new Blob([blob || ""], {type: "text/plain"}),
-                            );
-                            return (
-                                <Button variant="contained"
-                                        endIcon={<SummarizeIcon/>}
-                                        sx={{position: 'absolute', top: -20, left: 0}}
-                                        style={{
-                                            backgroundColor: "#080B16",
-                                        }}
-                                        onClick={() => handleReport(downloadURL)}
-                                >
-                                    {t('ship.report')}
-                                </Button>
-                            )
+                        <CreateCrewMember
+                            createOpen={createCrewModalOpen}
+                            handleClose={() => setCreateCrewModalOpen(false)}
+                            shipId={id}
+                        />
+                        <CreateStorageTank
+                            createOpen={createTankModalOpen}
+                            handleClose={() => setCreateTankModalOpen(false)}
+                            wastes={wasteRes.data}
+                            shipId={id}
+                        />
+                        <EditShip
+                            createOpen={editShipModalOpen}
+                            handleClose={() => setEditShipModalOpen(false)}
+                            ship={data}
+                        />
+                    </>
+                )
 
-                        }}</BlobProvider>
-                }
-
-                <Button variant="contained"
-                        endIcon={<DeleteForeverRoundedIcon/>}
-                        sx={{position: 'absolute', top: -20, right: 0}}
-                        style={{
-                            backgroundColor: "#F44336",
-                        }}
-                        onClick={handleDelete}
-                >
-                    {t('ship.delete')}
-                </Button>
-            </Box>
-            <CreateCrewMember
-                createOpen={createCrewModalOpen}
-                handleClose={() => setCreateCrewModalOpen(false)}
-                shipId={id}
-            />
-            <CreateStorageTank
-                createOpen={createTankModalOpen}
-                handleClose={() => setCreateTankModalOpen(false)}
-                wastes={wasteRes.data}
-                shipId={id}
-            />
-            <EditShip
-                createOpen={editShipModalOpen}
-                handleClose={() => setEditShipModalOpen(false)}
-                ship={data}
-            />
+            }
 
         </Dashboard>
 

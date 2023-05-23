@@ -6,7 +6,9 @@ import {IShip} from "@/types/ship.interface";
 import MoreButton from "@/components/ui/MoreButton";
 import {Group, PropaneTank} from "@mui/icons-material";
 import tank from "@/assets/storagetank_img.svg";
+import shipImg from "@/assets/ship_icon.svg";
 import Image from "next/image";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 interface ShipCardProps {
     ship: IShip
@@ -14,23 +16,27 @@ interface ShipCardProps {
 
 
 const ShipCard: React.FC<ShipCardProps> = ({ship}) => {
+    const t = useTranslate();
     const {shipName, shipType, buildYear, crewMember, storageTanks} = ship
 
     return (
-        <Card sx={{backgroundColor: 'rgba(31,24,164,0.38)'}}
+        <Card sx={{backgroundColor: '#d2d2d2'}}
               className={`${s.card}`}
         >
             <CardContent sx={{color: "#282936"}}>
-                <Typography variant="h6" sx={{fontWeight: 'bold', mb: 1}}>
-                    {shipName}
-                </Typography>
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Typography variant="h6" sx={{fontWeight: 'bold', mb: 1}}>
+                        {shipName}
+                    </Typography>
+                    <Image src={shipImg} alt={'ship'} width={36}/>
+                </Box>
                 <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <div>
                         <Typography variant="body1" sx={{mb: 1}}>
-                            <strong>Type:</strong> {shipType}
+                            <strong>{t('ships.type')}:</strong> {shipType}
                         </Typography>
                         <Typography variant="body1" sx={{mb: 1}}>
-                            <strong>Build Year:</strong> {buildYear}
+                            <strong>{t('ships.build_year')}:</strong> {buildYear}
                         </Typography>
                     </div>
                     <div>

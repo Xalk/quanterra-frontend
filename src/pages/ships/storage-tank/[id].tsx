@@ -20,6 +20,7 @@ import CreateSensor from "@/components/screens/storage-tanks/forms/CreateSensor"
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import EditSensor from "@/components/screens/storage-tanks/forms/EditSensor";
 import {useTranslate} from "@/contexts/TranslateContext";
+import Loader from "@/components/ui/Loader";
 
 const StorageTank: NextPage = () => {
     const t = useTranslate();
@@ -64,129 +65,141 @@ const StorageTank: NextPage = () => {
 
     return (
         <Dashboard>
-            <Box sx={{
-                display: 'flex',
-                gap: '80px',
-                flexDirection: 'row',
-                alignItems: 'stretch',
-                justifyContent: 'space-between',
-                position: 'relative',
-            }}>
-                <Box sx={{marginTop: '20px'}}>
-                    <Typography variant="h5" sx={{textAlign: 'center'}}>
-                        {t('storage_tank.title')}
-                        <IconButton onClick={handleStorageTankEdit}>
-                            <EditRoundedIcon/>
-                        </IconButton>
-                    </Typography>
-                    <Box sx={{display: 'flex', gap: '20px', flexDirection: 'row'}}>
-                        <Image src={tankImg} alt={"tank image"} width={220}/>
-                        <Box className={s.tableBox}>
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <th>{t('storage_tank.title')} ID</th>
-                                    <td>{data?.id}</td>
-                                </tr>
-                                <tr>
-                                    <th>{t('storage_tanks.unit')}</th>
-                                    <td>{data?.unit}</td>
-                                </tr>
-                                <tr>
-                                    <th>{t('storage_tanks.capacity')}</th>
-                                    <td>{data?.capacity}</td>
-                                </tr>
-                                <tr>
-                                    <th>{t('storage_tanks.waste_type')}</th>
-                                    <td>{data?.waste.type}</td>
-                                </tr>
-                                <tr>
-                                    <th>{t('storage_tanks.description')}</th>
-                                    <td>{data?.waste.description}</td>
-                                </tr>
-                                </tbody>
-                            </table>
 
-                        </Box>
-                    </Box>
-                    <Typography variant="h5" sx={{textAlign: 'center'}}>
-                        {t('sensor.title')}
-                        {
-                            data?.sensor ? (
-                                <IconButton onClick={handleSensorEdit}>
-                                    <EditRoundedIcon/>
-                                </IconButton>
-                            ) : (
-                                <IconButton onClick={handleSensorCreate}>
-                                    <AddCircleOutlineRoundedIcon/>
-                                </IconButton>
-                            )
-                        }
-                    </Typography>
-                    <Box sx={{display: 'flex', gap: '20px', flexDirection: 'row'}}>
-                        <Image src={sensorImg} alt={"tank image"} width={220}/>
-                        {
-                            data?.sensor
-                                ? <Box className={s.tableBox}>
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <th>{t('sensor.title')} ID</th>
-                                            <td>{data?.sensor.id}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{t('sensor.name')}</th>
-                                            <td>{data?.sensor.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{t('sensor.connection_key')}</th>
-                                            <td>{data?.sensor.connectionKey}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>{t('sensor.status')}</th>
-                                            <td>{data?.sensor.status}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                </Box>
-                                : <Typography
-                                    sx={{display: 'flex', alignItems: 'center'}}>
-                                    <CloseRoundedIcon style={{color: '#F44336', fontSize: '32px'}}/>
-                                    {t('sensor.not_created')}
+            {
+                isLoading ? (
+                    <Loader/>
+                ) : (
+                    <>
+                        <Box sx={{
+                            display: 'flex',
+                            gap: '80px',
+                            flexDirection: 'row',
+                            alignItems: 'stretch',
+                            justifyContent: 'space-between',
+                            position: 'relative',
+                        }}>
+                            <Box sx={{marginTop: '20px'}}>
+                                <Typography variant="h5" sx={{textAlign: 'center'}}>
+                                    {t('storage_tank.title')}
+                                    <IconButton onClick={handleStorageTankEdit}>
+                                        <EditRoundedIcon/>
+                                    </IconButton>
                                 </Typography>
-                        }
-                    </Box>
-                </Box>
+                                <Box sx={{display: 'flex', gap: '20px', flexDirection: 'row'}}>
+                                    <Image src={tankImg} alt={"tank image"} width={220}/>
+                                    <Box className={s.tableBox}>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <th>{t('storage_tank.title')} ID</th>
+                                                <td>{data?.id}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{t('storage_tanks.unit')}</th>
+                                                <td>{data?.unit}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{t('storage_tanks.capacity')}</th>
+                                                <td>{data?.capacity}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{t('storage_tanks.waste_type')}</th>
+                                                <td>{data?.waste.type}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>{t('storage_tanks.description')}</th>
+                                                <td>{data?.waste.description}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
 
-                <CollectionRecordsTable records={data?.collectionRecords.slice(-10)}/>
-                <Button variant="contained"
-                        endIcon={<DeleteForeverRoundedIcon/>}
-                        sx={{position: 'absolute', top: -10, right: 0}}
-                        style={{
-                            backgroundColor: "#F44336",
-                        }}
-                        onClick={handleDelete}
-                >
-                    {t('ship.delete')}
-                </Button>
-            </Box>
-            <EditStorageTank createOpen={editStorageTankModalOpen}
-                             handleClose={() => setEditStorageTankModalOpen(false)}
-                             storageTank={data}
-            />
-            <CreateSensor
-                createOpen={createSensorModalOpen}
-                handleClose={() => setCreateSensorModalOpen(false)}
-                storageTankId={data?.id}
-            />
-            <EditSensor
-                createOpen={editSensorModalOpen}
-                handleClose={() => setEditSensorModalOpen(false)}
-                sensor={data?.sensor}
-            />
+                                    </Box>
+                                </Box>
+                                <Typography variant="h5" sx={{textAlign: 'center'}}>
+                                    {t('sensor.title')}
+                                    {
+                                        data?.sensor ? (
+                                            <IconButton onClick={handleSensorEdit}>
+                                                <EditRoundedIcon/>
+                                            </IconButton>
+                                        ) : (
+                                            <IconButton onClick={handleSensorCreate}>
+                                                <AddCircleOutlineRoundedIcon/>
+                                            </IconButton>
+                                        )
+                                    }
+                                </Typography>
+                                <Box sx={{display: 'flex', gap: '20px', flexDirection: 'row'}}>
+                                    <Image src={sensorImg} alt={"tank image"} width={220}/>
+                                    {
+                                        data?.sensor
+                                            ? <Box className={s.tableBox}>
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>{t('sensor.title')} ID</th>
+                                                        <td>{data?.sensor.id}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{t('sensor.name')}</th>
+                                                        <td>{data?.sensor.name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{t('sensor.connection_key')}</th>
+                                                        <td>{data?.sensor.connectionKey}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>{t('sensor.status')}</th>
+                                                        <td>{data?.sensor.status}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </Box>
+                                            : <Typography
+                                                sx={{display: 'flex', alignItems: 'center'}}>
+                                                <CloseRoundedIcon style={{color: '#F44336', fontSize: '32px'}}/>
+                                                {t('sensor.not_created')}
+                                            </Typography>
+                                    }
+                                </Box>
+                            </Box>
+
+                            <CollectionRecordsTable records={data?.collectionRecords.slice(-10)}/>
+                            <Button variant="contained"
+                                    endIcon={<DeleteForeverRoundedIcon/>}
+                                    sx={{position: 'absolute', top: -10, right: 0}}
+                                    style={{
+                                        backgroundColor: "#F44336",
+                                    }}
+                                    onClick={handleDelete}
+                            >
+                                {t('ship.delete')}
+                            </Button>
+                        </Box>
+                        <EditStorageTank createOpen={editStorageTankModalOpen}
+                                         handleClose={() => setEditStorageTankModalOpen(false)}
+                                         storageTank={data}
+                        />
+                        <CreateSensor
+                            createOpen={createSensorModalOpen}
+                            handleClose={() => setCreateSensorModalOpen(false)}
+                            storageTankId={data?.id}
+                        />
+                        <EditSensor
+                            createOpen={editSensorModalOpen}
+                            handleClose={() => setEditSensorModalOpen(false)}
+                            sensor={data?.sensor}
+                        />
+                    </>
+                )
+
+            }
+
         </Dashboard>
-    );
+    )
+        ;
 };
 
 export default StorageTank;
