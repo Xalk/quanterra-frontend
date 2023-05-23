@@ -6,9 +6,9 @@ import {ICrewMember, IReqCrew} from "@/types/crew-member.interface";
 const SHIPS = 'ships'
 
 export const ShipService = {
-    async getAll() {
+    async getAll(searchTerm?: string) {
         return instance<IShip[]>({
-            url: SHIPS,
+            url: `${SHIPS}?search=${searchTerm}`,
             method: 'GET'
         })
     },

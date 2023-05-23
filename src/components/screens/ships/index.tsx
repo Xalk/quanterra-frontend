@@ -15,11 +15,19 @@ import {useRouter} from "next/router";
 import CreateShip from "@/components/screens/ships/forms/CreateShip";
 import {useTranslate} from "@/contexts/TranslateContext";
 import Loader from "@/components/ui/Loader";
+import Toolbar from "@mui/material/Toolbar";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import useDebounce from "@/hooks/useDebounce";
 
 
 const Ships = () => {
     const t = useTranslate();
     const router = useRouter()
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 600);
+
 
     const [createOpen, setCreateOpen] = useState(false);
     const handleCreateClose = () => {
@@ -32,12 +40,17 @@ const Ships = () => {
 
 
     const {data, isLoading} = useQuery(
-        ['ships'],
-        () => ShipService.getAll(),
+        ['ships', debouncedSearchTerm],
+        () => ShipService.getAll(debouncedSearchTerm),
         {
             select: ({data}) => data,
+            // enabled: !!debouncedSearchTerm
         }
     )
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value)
+    }
 
 
     const renderShips = data?.map(sh => (
@@ -49,38 +62,78 @@ const Ships = () => {
     ))
 
     return (
-       <>
-           {
-               isLoading ? <Loader/> :(
-                   <Box>
-                       <Box className={s.top}>
-                           <Typography>
-                               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias beatae doloremque expedita
-                               impedit neque placeat reprehenderit sapiente sequi tempora. Alias maiores non reiciendis sint
-                               voluptas?
-                               Aperiam mollitia ratione reprehenderit.
-                           </Typography>
-                           <Box className={s.imageBlock}>
-                               <Image src={shipImgSVG} alt={'ship'}/>
-                           </Box>
+        <Box>
+            <Box className={s.top}>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-around',
+                    paddingRight: '50px',
+                    maxWidth: '800px',
+                    minWidth: '450px',
+                }}>
+                    <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias beatae doloremque
+                        expedita
+                        impedit neque placeat reprehenderit sapiente sequi tempora. Alias maiores non
+                        reiciendis
+                        sint
+                        voluptas?
+                        Aperiam mollitia ratione reprehenderit.
+                    </Typography>
+                    <Toolbar
+                        sx={{
+                            borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+                            backgroundColor: '#fafafa',
+                            borderRadius: '5px',
+                        }}
+                    >
+                        <Grid container spacing={2} alignItems="center">
+                            <Grid item>
+                                <SearchIcon color="inherit" sx={{display: 'block'}}/>
+                            </Grid>
+                            <Grid item xs>
+                                <TextField
+                                    fullWidth
+                                    placeholder="Search by name"
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        sx: {fontSize: 'default'},
+                                    }}
+                                    variant="standard"
+                                    value={searchTerm}
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained"
+                                        endIcon={<AddCircleOutlineRoundedIcon/>}
+                                        onClick={handleAddShip}
+                                >
+                                    {t('ships.add_ship_btn')}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Toolbar>
+                </Box>
+                <Box className={s.imageBlock}>
+                    <Image src={shipImgSVG} alt={'ship'}/>
+                </Box>
 
-                       </Box>
-                       <Box>
-                           <Button variant="contained"
-                                   endIcon={<AddCircleOutlineRoundedIcon/>}
-                                   onClick={handleAddShip}
-                           >
-                               {t('ships.add_ship_btn')}
-                           </Button>
-                       </Box>
-                       <Grid container spacing={3} mt={1}>
-                           {renderShips}
-                       </Grid>
-                       <CreateShip createOpen={createOpen} handleClose={handleCreateClose}/>
-                   </Box>
-               )
-           }
-       </>
+            </Box>
+            <Box>
+
+            </Box>
+            {
+                isLoading ? <Loader/> : (
+                    <Grid container spacing={3} mt={1}>
+                        {renderShips}
+                    </Grid>
+                )
+            }
+
+            <CreateShip createOpen={createOpen} handleClose={handleCreateClose}/>
+        </Box>
     )
         ;
 };
