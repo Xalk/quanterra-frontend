@@ -27,6 +27,7 @@ import Report from "@/components/ui/Report";
 import {BlobProvider} from '@react-pdf/renderer';
 import EditShip from "@/components/screens/ships/forms/EditShip";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 const ShipPieChartWithoutSSR = dynamic(
     import("@/components/charts/PieChart"),
@@ -39,6 +40,7 @@ const ShipBarChartWithoutSSR = dynamic(
 
 
 const Ship: NextPage = () => {
+    const t = useTranslate();
     const router = useRouter()
     const {id} = router.query
 
@@ -154,14 +156,14 @@ const Ship: NextPage = () => {
                     <ShipPieChartWithoutSSR types={typesCount} setPieChartUrl={setPieChartUrl}/>
                 </Box>
                 <Typography variant='h6' sx={{fontWeight: 'bold', marginBottom: '10px'}}>
-                    Crew members
+                    {t('navigator.crew_members')}
                     <IconButton onClick={handleAddCrewMember}>
                         <AddCircleOutlineRoundedIcon/>
                     </IconButton>
                 </Typography>
                 <CrewTable members={data?.crewMember} isShipPage={true}/>
                 <Typography variant='h6' sx={{fontWeight: 'bold', marginTop: '10px'}}>
-                    Storage tanks
+                    {t('navigator.storage_tanks')}
                     <IconButton onClick={handleAddStorageTank}>
                         <AddCircleOutlineRoundedIcon/>
                     </IconButton>
@@ -188,7 +190,7 @@ const Ship: NextPage = () => {
                                         }}
                                         onClick={() => handleReport(downloadURL)}
                                 >
-                                    Generate report
+                                    {t('ship.report')}
                                 </Button>
                             )
 
@@ -203,7 +205,7 @@ const Ship: NextPage = () => {
                         }}
                         onClick={handleDelete}
                 >
-                    Delete
+                    {t('ship.delete')}
                 </Button>
             </Box>
             <CreateCrewMember

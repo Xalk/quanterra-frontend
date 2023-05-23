@@ -14,8 +14,10 @@ import {
 import AreaTreatedWaste from "@/components/screens/main/AreaTreatedWaste";
 import {useQuery} from "@tanstack/react-query";
 import {ShipService} from "@/services/ship/ship.service";
+import {useIntl} from "react-intl";
 
 export default function Main() {
+    const intl = useIntl();
 
     const {data} = useQuery(
         ['main'],
@@ -37,7 +39,7 @@ export default function Main() {
             }}
         >
             <Paper elevation={3} sx={{p: 3}}>
-                <Typography variant="h4">Total Crew</Typography>
+                <Typography variant="h4">{intl.formatMessage({id: 'home.total_crew'})}</Typography>
                 <Box
                     sx={{
                         display: 'flex',
@@ -50,7 +52,7 @@ export default function Main() {
                 </Box>
             </Paper>
             <Paper elevation={3} sx={{p: 3}}>
-                <Typography variant="h4">Total Ships</Typography>
+                <Typography variant="h4">{intl.formatMessage({id: 'home.total_ships'})}</Typography>
                 <Box
                     sx={{
                         display: 'flex',
@@ -64,7 +66,7 @@ export default function Main() {
             </Paper>
             <Paper elevation={3} sx={{p: 2, gridColumn: 3, gridRow: '1/4'}}>
                 <Box>
-                    <Typography>Recently added crew members</Typography>
+                    <Typography>{intl.formatMessage({id: 'home.recently_added_crew_members'})}</Typography>
                     <List>
                         {
                             data?.last10Members.map((crew, i) => (

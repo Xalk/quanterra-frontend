@@ -8,6 +8,7 @@ import {AxiosError} from "axios";
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import {IWaste} from "@/types/waste.interface";
 import {WasteService} from "@/services/waste/waste.service";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 interface DeleteWasteActionProps {
     params: GridRenderCellParams<IWaste>,
@@ -16,7 +17,8 @@ interface DeleteWasteActionProps {
 }
 
 const DeleteWasteAction: FC<DeleteWasteActionProps> = ({params, deletedRow, setDeletedRow}) => {
-        const [success, setSuccess] = useState(false);
+    const t = useTranslate()
+    const [success, setSuccess] = useState(false);
 
         const queryClient = useQueryClient();
         const {mutate, isLoading} = useMutation(WasteService.delete, {

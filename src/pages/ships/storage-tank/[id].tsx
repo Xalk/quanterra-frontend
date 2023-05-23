@@ -19,8 +19,10 @@ import {AxiosError} from "axios";
 import CreateSensor from "@/components/screens/storage-tanks/forms/CreateSensor";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import EditSensor from "@/components/screens/storage-tanks/forms/EditSensor";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 const StorageTank: NextPage = () => {
+    const t = useTranslate();
     const router = useRouter()
     const {id} = router.query
 
@@ -72,7 +74,7 @@ const StorageTank: NextPage = () => {
             }}>
                 <Box sx={{marginTop: '20px'}}>
                     <Typography variant="h5" sx={{textAlign: 'center'}}>
-                        Storage tank
+                        {t('storage_tank.title')}
                         <IconButton onClick={handleStorageTankEdit}>
                             <EditRoundedIcon/>
                         </IconButton>
@@ -83,23 +85,23 @@ const StorageTank: NextPage = () => {
                             <table>
                                 <tbody>
                                 <tr>
-                                    <th>Storage tank ID</th>
+                                    <th>{t('storage_tank.title')} ID</th>
                                     <td>{data?.id}</td>
                                 </tr>
                                 <tr>
-                                    <th>Unit</th>
+                                    <th>{t('storage_tanks.unit')}</th>
                                     <td>{data?.unit}</td>
                                 </tr>
                                 <tr>
-                                    <th>Capacity</th>
+                                    <th>{t('storage_tanks.capacity')}</th>
                                     <td>{data?.capacity}</td>
                                 </tr>
                                 <tr>
-                                    <th>Waste type</th>
+                                    <th>{t('storage_tanks.waste_type')}</th>
                                     <td>{data?.waste.type}</td>
                                 </tr>
                                 <tr>
-                                    <th>Description</th>
+                                    <th>{t('storage_tanks.description')}</th>
                                     <td>{data?.waste.description}</td>
                                 </tr>
                                 </tbody>
@@ -108,7 +110,7 @@ const StorageTank: NextPage = () => {
                         </Box>
                     </Box>
                     <Typography variant="h5" sx={{textAlign: 'center'}}>
-                        Sensor
+                        {t('sensor.title')}
                         {
                             data?.sensor ? (
                                 <IconButton onClick={handleSensorEdit}>
@@ -129,19 +131,19 @@ const StorageTank: NextPage = () => {
                                     <table>
                                         <tbody>
                                         <tr>
-                                            <th>Sensor ID</th>
+                                            <th>{t('sensor.title')} ID</th>
                                             <td>{data?.sensor.id}</td>
                                         </tr>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>{t('sensor.name')}</th>
                                             <td>{data?.sensor.name}</td>
                                         </tr>
                                         <tr>
-                                            <th>Connection key</th>
+                                            <th>{t('sensor.connection_key')}</th>
                                             <td>{data?.sensor.connectionKey}</td>
                                         </tr>
                                         <tr>
-                                            <th>Status</th>
+                                            <th>{t('sensor.status')}</th>
                                             <td>{data?.sensor.status}</td>
                                         </tr>
                                         </tbody>
@@ -151,7 +153,7 @@ const StorageTank: NextPage = () => {
                                 : <Typography
                                     sx={{display: 'flex', alignItems: 'center'}}>
                                     <CloseRoundedIcon style={{color: '#F44336', fontSize: '32px'}}/>
-                                    Sensor is not created
+                                    {t('sensor.not_created')}
                                 </Typography>
                         }
                     </Box>
@@ -166,7 +168,7 @@ const StorageTank: NextPage = () => {
                         }}
                         onClick={handleDelete}
                 >
-                    Delete
+                    {t('ship.delete')}
                 </Button>
             </Box>
             <EditStorageTank createOpen={editStorageTankModalOpen}

@@ -14,6 +14,7 @@ import {AxiosError} from "axios";
 import {WasteService} from "@/services/waste/waste.service";
 import {createWasteSchema} from "@/validations/waste.validation";
 import {IReqWaste} from "@/types/waste.interface";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CreateWasteProps {
@@ -22,6 +23,7 @@ interface CreateWasteProps {
 }
 
 const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
+    const t = useTranslate();
 
     const queryClient = useQueryClient();
     const {error, isError, mutate} = useMutation(WasteService.create, {
@@ -33,7 +35,7 @@ const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqWaste>({
-        resolver: yupResolver(createWasteSchema),
+        resolver: yupResolver(createWasteSchema()),
     });
 
 
@@ -59,7 +61,7 @@ const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
 
                 >
                     <Typography component="h1" variant="h5">
-                        Add new waste
+                        {t('wastes.create')}
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -67,7 +69,7 @@ const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
                             required
                             fullWidth
                             id="type"
-                            label="Type"
+                            label={t('wastes.waste_type')}
                             autoComplete="type"
                             autoFocus
                             {...register("type", {required: "This field is required"})}
@@ -81,7 +83,7 @@ const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
                             multiline
                             rows={2}
                             id="description"
-                            label="Description"
+                            label={t('wastes.description')}
                             autoComplete="description"
                             autoFocus
                             {...register("description", {required: "This field is required"})}
@@ -95,7 +97,7 @@ const CreateWaste: React.FC<CreateWasteProps> = ({createOpen, handleClose}) => {
                             variant="contained"
                             sx={{mt: 3, mb: 2, color: 'white'}}
                         >
-                            Submit
+                            {t('submit_btn')}
                         </Button>
                     </Box>
                 </Box>

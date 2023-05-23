@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {Alert} from "@mui/material";
+import {Alert, FormControl, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {SubmitHandler, useForm} from "react-hook-form";
@@ -17,6 +17,9 @@ import {IReqProfile, IUser} from "@/types/user.interface";
 import {useActions} from "@/hooks/useActions";
 import {useAuth} from "@/hooks/useAuth";
 import {AuthService} from "@/services/auth/auth.service";
+import {useRouter} from "next/router";
+import LanguageIcon from '@mui/icons-material/Language';
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface SettingsProps {
@@ -24,12 +27,16 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = () => {
+    const t = useTranslate();
+
+    const {locale, push} = useRouter()
 
     const {user} = useAuth()
     const {setProfile} = useActions()
 
     const [isDirty, setIsDirty] = useState(false);
     const [isChangesSuccess, setIsChangesSuccess] = useState(false);
+    const [selectedLang, setSelectedLang] = useState(locale);
 
 
     const updateProfile = useMutation(AuthService.updateProfile, {
@@ -40,7 +47,7 @@ const Settings: React.FC<SettingsProps> = () => {
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqProfile>({
-        resolver: yupResolver(profileSchema),
+        resolver: yupResolver(profileSchema()),
     });
 
 
@@ -57,12 +64,17 @@ const Settings: React.FC<SettingsProps> = () => {
         setIsChangesSuccess(false)
     }
 
+
+    const handleLangChange = (e: SelectChangeEvent<string>) => {
+        setSelectedLang(e.target.value)
+        push(`/settings`, undefined, {locale: e.target.value})
+    }
+
     return (
         <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Box
                 sx={{
                     borderRight: "2px solid #E0E0E0",
-                    borderLeft: "2px solid #E0E0E0",
                     flex: "1 1 0",
                     padding: 2
                 }}
@@ -78,7 +90,7 @@ const Settings: React.FC<SettingsProps> = () => {
 
                     >
                         <Typography component="h1" variant="h5">
-                            Profile
+                            {t('settings.profile')}
                         </Typography>
                         <Image src={avatarImg} alt={'avatar img'} width={200}/>
                         <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
@@ -122,17 +134,32 @@ const Settings: React.FC<SettingsProps> = () => {
                                 sx={{mt: 3, mb: 2, color: 'white'}}
                                 disabled={!isDirty}
                             >
-                                Save
+                                {t('settings.save_btn')}
                             </Button>
                         </Box>
                     </Box>
                 </Container>
             </Box>
             <Box sx={{flex: "1 1 0", padding: 2}}>
-                <Typography component="h1" variant="h5" align='center'>Settings</Typography>
-                {
-                    "Language: ua"
-                }
+                <Typography component="h1" variant="h5" align='center'>
+                    {t('settings.title')}
+                </Typography>
+                <Box sx={{display: "flex", alignItems: 'center', gap: '20px'}}>
+                    <LanguageIcon style={{fontSize: '32px'}}/>
+                    <FormControl>
+                        <Select
+                            sx={{'& legend': {display: 'none'}, '& fieldset': {top: 0},}}
+                            id="lang"
+                            value={selectedLang}
+                            label="lang"
+                            onChange={handleLangChange}
+                        >
+                            <MenuItem value={'en'}>English</MenuItem>
+                            <MenuItem value={'ua'}>Ukrainian</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
             </Box>
         </Box>
     );

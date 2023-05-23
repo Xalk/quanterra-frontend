@@ -14,6 +14,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ShipService} from "@/services/ship/ship.service";
 import {AxiosError} from "axios";
 import {createShipSchema} from "@/validations/ship.validation";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const shipTypes = [
@@ -38,6 +39,7 @@ interface CreateShipProps {
 }
 
 const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
+    const t = useTranslate();
 
     const queryClient = useQueryClient();
     const {error, mutate} = useMutation(ShipService.create, {
@@ -49,7 +51,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqShip>({
-        resolver: yupResolver(createShipSchema),
+        resolver: yupResolver(createShipSchema()),
     });
 
 
@@ -63,6 +65,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
         })
 
     };
+
 
     return (
         <BasicModal createOpen={createOpen} handleClose={handleClose}>
@@ -79,7 +82,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
 
                 >
                     <Typography component="h1" variant="h5">
-                        Add new ship
+                        {t('ships.create')}
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -87,7 +90,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             required
                             fullWidth
                             id="shipName"
-                            label="Name"
+                            label={t('ships.name')}
                             autoComplete="name"
                             autoFocus
                             {...register("shipName", {required: "This field is required"})}
@@ -100,7 +103,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             fullWidth
                             defaultValue=''
                             id="shipType"
-                            label="Type"
+                            label={t('ships.type')}
                             {...register("shipType", {required: "This field is required"})}
                             error={Boolean(errors.shipType)}
                             helperText={errors.shipType ? errors.shipType.message : " "}
@@ -114,13 +117,8 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             required
                             fullWidth
                             type="number"
-                            InputProps={{
-                                inputProps: {
-                                    min: 1800
-                                }
-                            }}
                             id="buildYear"
-                            label="Build Year"
+                            label={t('ships.build_year')}
                             autoComplete="year"
                             autoFocus
                             {...register("buildYear", {required: "This field is required"})}
@@ -134,7 +132,7 @@ const CreateShip: React.FC<CreateShipProps> = ({createOpen, handleClose}) => {
                             variant="contained"
                             sx={{mt: 3, mb: 2, color: 'white'}}
                         >
-                            Submit
+                            {t('submit_btn')}
                         </Button>
                     </Box>
                 </Box>

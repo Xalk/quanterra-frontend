@@ -5,6 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import {CrewService} from "@/services/crew-member/crew-member.service";
 import CrewTable from "@/components/ui/CrewTable/CrewTable";
 import CreateCrewMember from "@/components/screens/ships/forms/CreateCrewMember";
+import {useIntl} from "react-intl";
 
 interface CrewMembersProps {
 
@@ -12,6 +13,7 @@ interface CrewMembersProps {
 
 
 const CrewMembers: React.FC<CrewMembersProps> = () => {
+    const intl = useIntl();
     const [createCrewModalOpen, setCreateCrewModalOpen] = React.useState(false);
 
     const crew = useQuery(
@@ -29,7 +31,12 @@ const CrewMembers: React.FC<CrewMembersProps> = () => {
 
     return (
         <Box>
-            <Typography mb={2} align='center' fontSize={22}><strong>Crew members</strong>
+            <Typography mb={2}
+                        align='center'
+                        fontSize={22}>
+                <strong>
+                    {intl.formatMessage({id: 'crew_members.title'})}
+                </strong>
                 <IconButton onClick={handleAddCrew}>
                     <AddCircleOutlineRoundedIcon/>
                 </IconButton>

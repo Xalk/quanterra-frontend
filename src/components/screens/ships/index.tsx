@@ -13,9 +13,11 @@ import Button from "@mui/material/Button";
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import {useRouter} from "next/router";
 import CreateShip from "@/components/screens/ships/forms/CreateShip";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const Ships = () => {
+    const t = useTranslate();
     const router = useRouter()
 
     const [createOpen, setCreateOpen] = useState(false);
@@ -64,7 +66,7 @@ const Ships = () => {
                         endIcon={<AddCircleOutlineRoundedIcon/>}
                         onClick={handleAddShip}
                 >
-                    Add ship
+                    {t('ships.add_ship_btn')}
                 </Button>
             </Box>
             <Grid container spacing={3} mt={1}>

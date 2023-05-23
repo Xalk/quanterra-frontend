@@ -17,6 +17,7 @@ import {IReqCrew} from "@/types/crew-member.interface";
 import {CreateCrewSchema} from "@/validations/crew-member.validation";
 import SelectExistingCrew from "@/components/ui/SelectExistingCrew";
 import {CrewService} from "@/services/crew-member/crew-member.service";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const roles = [
@@ -38,6 +39,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                                          shipId,
                                                          isShipPage = true
                                                      }) => {
+    const t = useTranslate();
 
     const [isCreateForm, setIsCreateForm] = React.useState(true)
     const [selectedCrewMemberId, setSelectedCrewMemberId] = React.useState<string | number>('')
@@ -81,7 +83,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
 
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqCrew>({
-        resolver: yupResolver(CreateCrewSchema),
+        resolver: yupResolver(CreateCrewSchema()),
     });
 
     const onSubmit: SubmitHandler<IReqCrew> = async formData => {
@@ -97,8 +99,8 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
     }
 
     const getFormTitle = () => {
-        const createTitle = isShipPage ? 'Create and assign new crew member to this ship' : 'Create crew member'
-        const selectTitle = 'Select existing crew member'
+        const createTitle = isShipPage ? t('crew_members.create_assign') : t('crew_members.create')
+        const selectTitle = t('crew_members.select')
         return isCreateForm ? createTitle : selectTitle
     }
 
@@ -126,7 +128,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     required
                                     fullWidth
                                     id="firstName"
-                                    label="First name"
+                                    label={t('crew_members.first_name')}
                                     autoComplete="name"
                                     autoFocus
                                     {...register("firstName", {required: "This field is required"})}
@@ -138,7 +140,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     required
                                     fullWidth
                                     id="lastName"
-                                    label="Last name"
+                                    label={t('crew_members.last_name')}
                                     autoComplete="last name"
                                     autoFocus
                                     {...register("lastName", {required: "This field is required"})}
@@ -151,7 +153,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email"
+                                    label={t('crew_members.email')}
                                     autoComplete="email"
                                     autoFocus
                                     {...register("email", {required: "This field is required"})}
@@ -164,7 +166,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     fullWidth
                                     defaultValue=''
                                     id="role"
-                                    label="Role"
+                                    label={t('crew_members.role')}
                                     {...register("role", {required: "This field is required"})}
                                     error={Boolean(errors.role)}
                                     helperText={errors.role ? errors.role.message : " "}
@@ -181,7 +183,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     variant="contained"
                                     sx={{mt: 3, mb: 2, color: 'white'}}
                                 >
-                                    Submit
+                                    {t('submit_btn')}
                                 </Button>
                             </Box>
                         ) : (
@@ -197,7 +199,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                                     variant="contained"
                                     sx={{mt: 3, mb: 2, color: 'white'}}
                                 >
-                                    Submit
+                                    {t('submit_btn')}
                                 </Button>
                             </Box>
                         )
@@ -218,7 +220,7 @@ const CreateCrewMember: React.FC<CreateShipProps> = ({
                     }}
                 >
                     <small
-                        onClick={handleToggleForm}>{isCreateForm ? 'select existing crew member →' : '← create crew member'}</small>
+                        onClick={handleToggleForm}>{isCreateForm ? t('crew_members.select_link') : t('crew_members.create_link')}</small>
                 </Typography>
                 }
             </Container>

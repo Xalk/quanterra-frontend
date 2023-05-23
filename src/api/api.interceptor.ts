@@ -9,6 +9,7 @@ const axiosOptions = {
     baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
     headers: {
         "Content-Type": "application/json",
+        // "Accept-Language": "ua",
     }
 }
 
@@ -18,8 +19,9 @@ export const instanceClassic = axios.create(axiosOptions)
 instance.interceptors.request.use(config => {
     const accessToken = getAccessToken()
 
-    if (config && config.headers && accessToken)
+    if (config && config.headers && accessToken){
         config.headers.Authorization = `Bearer ${accessToken}`
+    }
 
     return config
 })

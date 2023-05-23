@@ -10,6 +10,7 @@ import {
 import {Typography} from "@mui/material";
 import * as React from "react";
 import {ITotalTreatedAmount} from "@/types/ship.interface";
+import {useIntl} from "react-intl";
 
 
 interface AreaTreatedWasteProps {
@@ -17,11 +18,11 @@ interface AreaTreatedWasteProps {
 }
 
 export default function AreaTreatedWaste({data}: AreaTreatedWasteProps) {
-
+    const intl = useIntl();
 
     return (
         <div style={{width: '100%', height: 400, minWidth: 250}}>
-            <Typography variant="h4" mb={2}>Total amount of treated waste</Typography>
+            <Typography variant="h4" mb={2}>{intl.formatMessage({id: 'home.total_amount_of_treated_waste'})}</Typography>
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                     width={500}

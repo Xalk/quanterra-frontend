@@ -9,25 +9,28 @@ import Paper from '@mui/material/Paper';
 import {Typography} from "@mui/material";
 import {FC} from "react";
 import {ICollectionRecord} from "@/types/collection-record.interface";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 interface CollectionRecordsTableProps {
     records?: ICollectionRecord[]
 }
 
  const CollectionRecordsTable: FC<CollectionRecordsTableProps> = ({records}) => {
+     const t = useTranslate();
+
     return (
         <TableContainer component={Paper} sx={{width: '50%', marginTop: '50px'}}>
                 <Typography variant="h5" sx={{textAlign: 'center', marginTop: '20px'}}>
-                    Collection records (last 10)
+                    {t('storage_tank.collection_records')}
                 </Typography>
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Created&nbsp;at</TableCell>
+                        <TableCell>{t('collection_records.created_at')}</TableCell>
                         <TableCell align="right">Id</TableCell>
-                        <TableCell align="right">Treated&nbsp;amount</TableCell>
-                        <TableCell align="right">Unit&nbsp;</TableCell>
-                        <TableCell align="right">Description&nbsp;</TableCell>
+                        <TableCell align="right">{t('collection_records.treated_amount')}</TableCell>
+                        <TableCell align="right">{t('storage_tanks.unit')}</TableCell>
+                        <TableCell align="right">{t('collection_records.description')}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

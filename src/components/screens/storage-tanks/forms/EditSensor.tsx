@@ -14,6 +14,7 @@ import {AxiosError} from "axios";
 import {createSensorSchema} from "@/validations/sensor.validation";
 import {SensorService} from "@/services/sensor/sensor.service";
 import {IReqSensor, ISensor} from "@/types/sensor.interface";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CreateWasteProps {
@@ -23,6 +24,7 @@ interface CreateWasteProps {
 }
 
 const EditSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, sensor}) => {
+    const t = useTranslate();
 
     const queryClient = useQueryClient();
     const {error, isError, mutate} = useMutation(SensorService.update, {
@@ -34,7 +36,7 @@ const EditSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, sensor
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqSensor>({
-        resolver: yupResolver(createSensorSchema),
+        resolver: yupResolver(createSensorSchema()),
     });
 
 
@@ -59,7 +61,7 @@ const EditSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, sensor
 
                 >
                     <Typography component="h1" variant="h5">
-                        Add sensor
+                        {t('sensor.edit')}
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -68,7 +70,7 @@ const EditSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, sensor
                             fullWidth
                             defaultValue={sensor?.name}
                             id="name"
-                            label="name"
+                            label={t('sensor.name')}
                             autoComplete="name"
                             autoFocus
                             {...register("name", {required: "This field is required"})}
@@ -82,7 +84,7 @@ const EditSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, sensor
                             variant="contained"
                             sx={{mt: 3, mb: 2, color: 'white'}}
                         >
-                            Submit
+                            {t('submit_btn')}
                         </Button>
                     </Box>
                 </Box>

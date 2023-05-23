@@ -5,6 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import {WasteService} from "@/services/waste/waste.service";
 import CreateWaste from "@/components/screens/wastes/forms/CreateWaste";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 interface WastesProps {
 
@@ -12,10 +13,9 @@ interface WastesProps {
 
 
 const Wastes: React.FC<WastesProps> = () => {
+    const t = useTranslate();
 
     const [createWasteModalOpen, setCreateWasteModalOpen] = React.useState(false);
-
-
 
     const wasteRes = useQuery(
         ['wastes'],
@@ -31,7 +31,7 @@ const Wastes: React.FC<WastesProps> = () => {
 
     return (
         <Box>
-            <Typography mb={2} align='center' fontSize={22}><strong>Wastes</strong>
+            <Typography mb={2} align='center' fontSize={22}><strong>{t('navigator.wastes')}</strong>
                 <IconButton onClick={handleAddWaste}>
                     <AddCircleOutlineRoundedIcon/>
                 </IconButton>

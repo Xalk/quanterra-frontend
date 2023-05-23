@@ -2,6 +2,7 @@ import {FC} from 'react';
 import {DataGrid, gridClasses, GridColDef} from '@mui/x-data-grid';
 import {grey} from "@mui/material/colors";
 import {ICollectionRecord} from "@/types/collection-record.interface";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CollectionRecordsTableProps {
@@ -9,7 +10,7 @@ interface CollectionRecordsTableProps {
 }
 
 const CollectionRecordsTable: FC<CollectionRecordsTableProps> = ({collectionRecords}) => {
-
+    const t = useTranslate();
 
     const columns: GridColDef[] = [
         {
@@ -20,13 +21,13 @@ const CollectionRecordsTable: FC<CollectionRecordsTableProps> = ({collectionReco
             filterable: false,
 
         },
-        {field: 'treatedAmount', headerName: 'Treated amount', width: 80},
-        {field: 'unit', headerName: 'Unit', width: 80},
-        {field: 'type', headerName: 'Waste type', width: 100},
-        {field: 'description', headerName: 'Description', width: 220},
+        {field: 'treatedAmount', headerName: t('collection_records.treated_amount'), width: 80},
+        {field: 'unit', headerName: t('storage_tanks.unit'), width: 80},
+        {field: 'type', headerName: t('collection_records.waste_type'), width: 100},
+        {field: 'description', headerName: t('collection_records.description'), width: 220},
         {
             field: 'createdAt',
-            headerName: 'Created At',
+            headerName: t('collection_records.created_at'),
             width: 100,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -38,7 +39,8 @@ const CollectionRecordsTable: FC<CollectionRecordsTableProps> = ({collectionReco
                     minute: '2-digit',
                     second: '2-digit',
                 } as const
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+                const locale = t('locale')
+                const formattedDate = new Intl.DateTimeFormat(locale, options).format(date)
                 return formattedDate.slice(0, 10)
             }
 

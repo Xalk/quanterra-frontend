@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import {useActions} from "@/hooks/useActions";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface HeaderProps {
@@ -16,6 +17,7 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
+    const t = useTranslate();
     const {onDrawerToggle} = props;
 
     const {logout} = useActions()
@@ -49,7 +51,7 @@ export default function Header(props: HeaderProps) {
                                     }}
                                     onClick={handleLogout}
                             >
-                                Logout
+                                {t('logout_btn')}
                             </Button>
                         </Grid>
                         <Grid item>

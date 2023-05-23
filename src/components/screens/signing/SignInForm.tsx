@@ -44,7 +44,7 @@ const SignInForm: React.FC<SignInFormProps> = ({onOpenSignUp}) => {
     const {error} = useTypedSelector(state => state.auth)
 
     const {register, handleSubmit, formState: {errors}} = useForm<IEmailPassword>({
-        resolver: yupResolver(loginSchema),
+        resolver: yupResolver(loginSchema()),
     });
 
 

@@ -3,9 +3,11 @@ import {Box, Typography} from "@mui/material";
 import UserLogsTable from "@/components/screens/logs/UserLogsTable";
 import {useQuery} from "@tanstack/react-query";
 import {UserService} from "@/services/user/user.service";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const Logs: React.FC = () => {
+    const t = useTranslate();
 
     const {data} = useQuery(
         ['logs'],
@@ -17,7 +19,7 @@ const Logs: React.FC = () => {
 
     return (
         <Box>
-            <Typography mb={2} align='center' fontSize={22}><strong>Users logs</strong></Typography>
+            <Typography mb={2} align='center' fontSize={22}><strong>{t('navigator.logs')}</strong></Typography>
             <UserLogsTable logs={data}/>
         </Box>
     );

@@ -21,34 +21,8 @@ import tank from "@/assets/storagetank_icon.svg";
 import waste from "@/assets/waste.svg";
 import logs from "@/assets/logs.svg";
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import {useTranslate} from "@/contexts/TranslateContext";
 
-
-let categories = [
-    {
-        id: 'Main',
-        children: [
-            {
-                id: 'Home',
-                icon: <HomeRoundedIcon/>,
-                targetUrl: '/',
-                active: true
-                ,
-            },
-            {id: 'Crew members', icon: <PeopleIcon/>, targetUrl: '/crew-members'},
-            {id: 'Ships', icon: <DirectionsBoatIcon/>, targetUrl: '/ships'},
-            {id: 'Storage tanks', icon: <Image src={tank} alt={'tank'} width={18}/>, targetUrl: '/tanks'},
-            {id: 'Collection records', icon: <ListAltIcon/>, targetUrl: '/collection-records'},
-            {id: 'Wastes', icon: <Image src={waste} alt={'waste'} width={18}/>, targetUrl: '/wastes'},
-            {id: 'Logs', icon: <Image src={logs} alt={'waste'} width={18}/>, targetUrl: '/logs'},
-        ],
-    },
-    {
-        id: 'Additional',
-        children: [
-            {id: 'Settings', icon: <SettingsIcon/>, targetUrl: '/settings'},
-        ],
-    },
-];
 
 const item = {
     py: '2px',
@@ -70,9 +44,57 @@ const isActive = (route: string) => {
     return route === useRouter().pathname
 }
 
-function Index(props: DrawerProps) {
-    const {...other} = props;
+function Navigator(props: DrawerProps) {
+    const t = useTranslate();
 
+    let categories = [
+        {
+            id: 'Main',
+            children: [
+                {
+                    id: t('navigator.home'),
+                    icon: <HomeRoundedIcon/>,
+                    targetUrl: '/',
+                    active: true
+                    ,
+                },
+                {
+                    id: t('navigator.crew_members'),
+                    icon: <PeopleIcon/>,
+                    targetUrl: '/crew-members'
+                },
+                {id: t('navigator.ships'), icon: <DirectionsBoatIcon/>, targetUrl: '/ships'},
+                {
+                    id: t('navigator.storage_tanks'),
+                    icon: <Image src={tank} alt={'tank'} width={18}/>,
+                    targetUrl: '/tanks'
+                },
+                {
+                    id: t('navigator.collection_records'),
+                    icon: <ListAltIcon/>,
+                    targetUrl: '/collection-records'
+                },
+                {
+                    id: t('navigator.wastes'),
+                    icon: <Image src={waste} alt={'waste'} width={18}/>,
+                    targetUrl: '/wastes'
+                },
+                {
+                    id: t('navigator.logs'),
+                    icon: <Image src={logs} alt={'waste'} width={18}/>,
+                    targetUrl: '/logs'
+                },
+            ],
+        },
+        {
+            id: 'Additional',
+            children: [
+                {id: t('navigator.settings'), icon: <SettingsIcon/>, targetUrl: '/settings'},
+            ],
+        },
+    ];
+
+    const {...other} = props;
 
     return (
         <Drawer variant="permanent" {...other} className={s.root}>
@@ -115,4 +137,4 @@ function Index(props: DrawerProps) {
     );
 }
 
-export default Index;
+export default Navigator;

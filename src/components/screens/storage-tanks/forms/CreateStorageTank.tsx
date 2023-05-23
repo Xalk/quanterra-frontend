@@ -15,6 +15,7 @@ import {IReqStorageTank} from "@/types/storage-tank.interface";
 import {IWaste} from "@/types/waste.interface";
 import {CreateStorageTankSchema} from "@/validations/storage-tank.validation";
 import {StorageTankService} from "@/services/storage-tank/storage-tank.service";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const units = [
@@ -36,6 +37,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                                                                  shipId,
                                                                  wastes
                                                              }) => {
+    const t = useTranslate();
 
     const queryClient = useQueryClient();
     const {error, isError, mutate} = useMutation(StorageTankService.create, {
@@ -47,7 +49,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqStorageTank>({
-        resolver: yupResolver(CreateStorageTankSchema),
+        resolver: yupResolver(CreateStorageTankSchema()),
     });
 
 
@@ -78,7 +80,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
 
                 >
                     <Typography component="h1" variant="h6">
-                        Create storage tank
+                        {t('storage_tanks.create')}
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -87,7 +89,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                             fullWidth
                             defaultValue=''
                             id="unit"
-                            label="Unit"
+                            label={t('storage_tanks.unit')}
                             {...register("unit", {required: "This field is required"})}
                             error={Boolean(errors.unit)}
                             helperText={errors.unit ? errors.unit.message : " "}
@@ -108,7 +110,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                                 }
                             }}
                             id="capacity"
-                            label="Capacity"
+                            label={t('storage_tanks.capacity')}
                             autoComplete="capacity"
                             autoFocus
                             {...register("capacity", {required: "This field is required"})}
@@ -122,7 +124,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                             fullWidth
                             defaultValue=''
                             id="wasteId"
-                            label="Waste"
+                            label={t('storage_tanks.waste_type')}
                             {...register("wasteId", {required: "This field is required"})}
                             error={Boolean(errors.wasteId)}
                             helperText={errors.wasteId ? errors.wasteId.message : " "}
@@ -139,7 +141,7 @@ const CreateStorageTank: React.FC<CreateStorageTankProps> = ({
                             variant="contained"
                             sx={{mt: 3, mb: 2, color: 'white'}}
                         >
-                            Submit
+                            {t('submit_btn')}
                         </Button>
                     </Box>
                 </Box>

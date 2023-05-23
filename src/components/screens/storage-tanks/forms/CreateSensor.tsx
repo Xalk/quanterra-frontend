@@ -14,6 +14,7 @@ import {AxiosError} from "axios";
 import {createSensorSchema} from "@/validations/sensor.validation";
 import {SensorService} from "@/services/sensor/sensor.service";
 import {IReqSensor} from "@/types/sensor.interface";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CreateWasteProps {
@@ -23,6 +24,7 @@ interface CreateWasteProps {
 }
 
 const CreateSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, storageTankId}) => {
+    const t = useTranslate();
 
     const queryClient = useQueryClient();
     const {error, isError, mutate} = useMutation(SensorService.create, {
@@ -34,7 +36,7 @@ const CreateSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, stor
     });
 
     const {register, handleSubmit, formState: {errors}} = useForm<IReqSensor>({
-        resolver: yupResolver(createSensorSchema),
+        resolver: yupResolver(createSensorSchema()),
     });
 
 
@@ -59,7 +61,7 @@ const CreateSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, stor
 
                 >
                     <Typography component="h1" variant="h5">
-                        Add sensor
+                        {t('sensor.create')}
                     </Typography>
                     <Box component="form" noValidate sx={{mt: 1}} onSubmit={handleSubmit(onSubmit)}>
                         <TextField
@@ -67,7 +69,7 @@ const CreateSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, stor
                             required
                             fullWidth
                             id="name"
-                            label="name"
+                            label={t('sensor.name')}
                             autoComplete="name"
                             autoFocus
                             {...register("name", {required: "This field is required"})}
@@ -81,7 +83,7 @@ const CreateSensor: React.FC<CreateWasteProps> = ({createOpen, handleClose, stor
                             variant="contained"
                             sx={{mt: 3, mb: 2, color: 'white'}}
                         >
-                            Submit
+                            {t('submit_btn')}
                         </Button>
                     </Box>
                 </Box>

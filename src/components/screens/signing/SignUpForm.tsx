@@ -49,7 +49,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({onOpenSignIn}) => {
     const [responseError, setResponseError] = useState('')
 
     const {register, handleSubmit, formState: {errors}} = useForm<SignUpFields>({
-        resolver: yupResolver(registerSchema),
+        resolver: yupResolver(registerSchema()),
     });
 
     const onSubmit: SubmitHandler<SignUpFields> = async formData => {

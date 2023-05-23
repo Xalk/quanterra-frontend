@@ -1,20 +1,27 @@
 import * as yup from "yup";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 const currentYear = new Date().getFullYear();
 
-export const createShipSchema = yup.object().shape({
-    shipName: yup
-        .string()
-        .required("Ship name is required")
-        .min(3, "Ship name must be at least 3 characters"),
-    shipType: yup
-        .string()
-        .required("Ship type is required")
-    ,
-    buildYear: yup
-        .number()
-        .required("Build year is required")
-        .moreThan(1800, "Build year must be more than 1800")
-        .max(currentYear + 1)
-});
+export const createShipSchema = () => {
+    const t = useTranslate();
+
+    return yup.object().shape({
+        shipName: yup
+            .string()
+            .required(t('ship.valid.ship_name.required'))
+            .min(3, t('ship.valid.ship_name.min')),
+        shipType: yup
+            .string()
+            .required(t('ship.valid.ship_type.required'))
+        ,
+        buildYear: yup
+            .number().typeError(t('ship.valid.build_year.number'))
+            .required(t('ship.valid.build_year.required'))
+            .moreThan(1800, t('ship.valid.build_year.more'))
+            .max(currentYear + 1, t('ship.valid.build_year.max'))
+    });
+}
+
+

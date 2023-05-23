@@ -1,15 +1,21 @@
 import * as yup from "yup";
+import {useTranslate} from "@/contexts/TranslateContext";
 
-export const CreateStorageTankSchema = yup.object().shape({
-    unit: yup
-        .string()
-        .required("Unit name is required"),
-    capacity: yup
-        .number()
-        .required("Capacity is required")
-        .moreThan(0, "Capacity must be more than 0"),
-    wasteId: yup
-        .string()
-        .required("Waste is required")
+export const CreateStorageTankSchema = () => {
+    const t = useTranslate();
 
-});
+    return  yup.object().shape({
+        unit: yup
+            .string()
+            .required(t('storage_tank.valid.unit.required')),
+        capacity: yup
+            .number()
+            .required(t('storage_tank.valid.capacity.required'))
+            .moreThan(0, t('storage_tank.valid.capacity.more')),
+        wasteId: yup
+            .string()
+            .required(t('storage_tank.valid.waste_type.required'))
+
+    });
+}
+

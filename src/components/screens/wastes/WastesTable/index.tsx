@@ -5,6 +5,7 @@ import {grey} from "@mui/material/colors";
 import {IWaste} from "@/types/waste.interface";
 import SaveWasteAction from "@/components/screens/wastes/WastesTable/SaveWasteAction";
 import DeleteWasteAction from "@/components/screens/wastes/WastesTable/DeleteWasteAction";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CrewProps {
@@ -12,6 +13,7 @@ interface CrewProps {
 }
 
 const WastesTable: FC<CrewProps> = ({wastes}) => {
+    const t = useTranslate();
 
     const [updatedRow, setUpdatedRow] = useState<null | IWaste>(null);
     const [deletedRow, setDeletedRow] = useState<null | IWaste>(null);
@@ -25,16 +27,16 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
             filterable: false,
 
         },
-        {field: 'type', headerName: 'Waste type', width: 120, editable: true },
+        {field: 'type', headerName: t('wastes.waste_type'), width: 120, editable: true },
         {
             field: 'description',
-            headerName: 'Description',
+            headerName: t('wastes.description'),
             width: 300,
             editable: true
         },
         {
             field: 'createdAt',
-            headerName: 'Created At',
+            headerName: t('wastes.created_at'),
             width: 200,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -46,13 +48,14 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
                     minute: '2-digit',
                     second: '2-digit',
                 } as const
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+                const locale =t('locale')
+                const formattedDate = new Intl.DateTimeFormat(locale, options).format(date)
                 return formattedDate
             }
         },
         {
             field: 'updatedAt',
-            headerName: 'Updated At',
+            headerName: t('wastes.updated_at'),
             width: 200,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -64,20 +67,21 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
                     minute: '2-digit',
                     second: '2-digit',
                 } as const
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+                const locale =t('locale')
+                const formattedDate = new Intl.DateTimeFormat(locale, options).format(date)
                 return formattedDate
             }
         },
         {
             field: 'save',
-            headerName: 'Save',
+            headerName: t('wastes.save'),
             renderCell: (params: GridRenderCellParams<IWaste>) => (
                 <SaveWasteAction params={params} updatedRow={updatedRow} setUpdatedRow={setUpdatedRow}/>
             )
         },
         {
             field: 'remove',
-            headerName: 'Remove',
+            headerName: t('wastes.remove'),
             renderCell: (params: GridRenderCellParams<IWaste>) => (
                 <DeleteWasteAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}/>
             )
@@ -91,7 +95,6 @@ const WastesTable: FC<CrewProps> = ({wastes}) => {
         <div style={{height: 400, width: '100%'}}>
             <DataGrid rows={wastes || []}
                       columns={columns}
-                      // getRowId={row => row.id}
                       sx={{
                           [`& .${gridClasses.row}`]: {
                               bgcolor: (theme) =>

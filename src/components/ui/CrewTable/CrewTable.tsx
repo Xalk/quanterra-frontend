@@ -3,12 +3,12 @@ import {FC, useState} from 'react';
 import {DataGrid, gridClasses, GridColDef, GridRenderCellParams} from '@mui/x-data-grid';
 import {grey} from "@mui/material/colors";
 import {ICrewMember} from "@/types/crew-member.interface";
-import {Role} from "@/enums/role.enum";
 import {IUser} from "@/types/user.interface";
 import SaveMemberAction from "@/components/ui/CrewTable/SaveMemberAction";
 import DeleteMemberAction from "@/components/ui/CrewTable/DeleteMemberAction";
 import Link from "next/link";
 import {Typography} from "@mui/material";
+import {useTranslate} from "@/contexts/TranslateContext";
 
 
 interface CrewProps {
@@ -17,6 +17,7 @@ interface CrewProps {
 }
 
 const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
+    const t = useTranslate();
 
     const [updatedRow, setUpdatedRow] = useState<null | IUser>(null);
     const [deletedRow, setDeletedRow] = useState<null | IUser>(null);
@@ -30,12 +31,12 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
             filterable: false,
 
         },
-        {field: 'firstName', headerName: 'First name', width: 120},
-        {field: 'lastName', headerName: 'Last name', width: 170},
-        {field: 'email', headerName: 'Email', width: 200},
+        {field: 'firstName', headerName: t('crew_members.first_name'), width: 120},
+        {field: 'lastName', headerName: t('crew_members.last_name'), width: 170},
+        {field: 'email', headerName: t('crew_members.email'), width: 200},
         {
             field: 'role',
-            headerName: 'Role',
+            headerName: t('crew_members.role'),
             width: 130,
             type: 'singleSelect',
             valueOptions: ['admin', 'operator', 'crew member'],
@@ -44,7 +45,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
 
         {
             field: 'createdAt',
-            headerName: 'Created At',
+            headerName: t('crew_members.created_at'),
             width: 200,
             renderCell: (params) => {
                 const date = new Date(params.value);
@@ -56,21 +57,22 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
                     minute: '2-digit',
                     second: '2-digit',
                 } as const
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+                const locale = t('locale')
+                const formattedDate = new Intl.DateTimeFormat(locale, options).format(date)
                 return formattedDate
             }
 
         },
         {
             field: 'save',
-            headerName: 'Save',
+            headerName: t('crew_members.save'),
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <SaveMemberAction params={params} updatedRow={updatedRow} setUpdatedRow={setUpdatedRow}/>
             )
         },
         {
             field: 'remove',
-            headerName: 'Remove',
+            headerName: t('crew_members.remove'),
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <DeleteMemberAction params={params} deletedRow={deletedRow} setDeletedRow={setDeletedRow}
                                     isShipPage={isShipPage}/>
@@ -78,7 +80,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
         },
         {
             field: 'profile',
-            headerName: 'Profile',
+            headerName: t('crew_members.profile'),
             renderCell: (params: GridRenderCellParams<IUser>) => (
                 <Link href={`/profile/${params.row.crewId}`}>
                     <Typography sx={{textDecoration: 'underline'}}>profile →</Typography>
@@ -91,7 +93,7 @@ const Crew: FC<CrewProps> = ({members, isShipPage = true}) => {
 
         let field = {
             field: 'ship',
-            headerName: 'Assigned',
+            headerName: t('crew_members.assigned'),
             width: 100,
             renderCell: (params: GridRenderCellParams<ICrewMember>) => {
                 return params.row.ship ? 'Yes' : 'No'

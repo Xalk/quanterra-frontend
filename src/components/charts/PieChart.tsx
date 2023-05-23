@@ -84,10 +84,8 @@ interface ShipPieChartProps {
 }
 
 export default function ShipPieChart({types,  setPieChartUrl}: ShipPieChartProps) {
+
     if(!types.length) types = [{type: " ", count: 1}];
-
-
-
 
     useEffect(() => {
         const generateChartUrl = async () => {

@@ -1,17 +1,22 @@
 import * as yup from "yup";
+import {useTranslate} from "@/contexts/TranslateContext";
 
-export const CreateCrewSchema = yup.object().shape({
-    firstName: yup
-        .string()
-        .required("First name is required")
-        .min(2, "First name must be at least 2 characters"),
-    lastName: yup
-        .string()
-        .required("Last name is required")
-        .min(2, "Last name must be at least 2 characters"),
-    email: yup.string().email("Incorrect format").required("E-mail is required"),
-    role: yup
-        .string()
-        .required("Role is required")
+export const CreateCrewSchema = () => {
+    const t = useTranslate();
 
-});
+    return yup.object().shape({
+        firstName: yup
+            .string()
+            .required(t('auth.valid.first_name.required'))
+            .min(2, t('auth.valid.first_name.min')),
+        lastName: yup
+            .string()
+            .required(t('auth.valid.last_name.required'))
+            .min(2, t('auth.valid.last_name.min')),
+        email: yup.string().email(t('auth.valid.email.format')).required(t('auth.valid.email.required')),
+        role: yup
+            .string()
+            .required(t('auth.valid.role.required'))
+
+    });
+}
