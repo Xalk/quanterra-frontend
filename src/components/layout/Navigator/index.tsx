@@ -22,6 +22,9 @@ import waste from "@/assets/waste.svg";
 import logs from "@/assets/logs.svg";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import {useTranslate} from "@/contexts/TranslateContext";
+import {useAuth} from "@/hooks/useAuth";
+import {Role} from "@/enums/role.enum";
+import LockIcon from '@mui/icons-material/Lock';
 
 
 const item = {
@@ -46,6 +49,8 @@ const isActive = (route: string) => {
 
 function Navigator(props: DrawerProps) {
     const t = useTranslate();
+
+    const {user} = useAuth()
 
     let categories = [
         {
@@ -125,6 +130,9 @@ function Navigator(props: DrawerProps) {
                                                     selected={isActive(targetUrl)}>
                                         <ListItemIcon>{icon}</ListItemIcon>
                                         <ListItemText>{childId}</ListItemText>
+                                        {
+                                            (user?.role === Role.OPERATOR && targetUrl === '/logs') && <LockIcon/>
+                                        }
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
